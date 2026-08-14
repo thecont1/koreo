@@ -10,3 +10,8 @@
 - [x] Link caption scrolling and keyboard controls to camera movement and focus-region highlights.
 - [x] Restore focus to the specimen trigger and support reduced-motion and responsive layouts.
 - [x] Re-run type checking, production build, and browser verification before checkpointing.
+- [x] Add a blank white single-column Humahuaca article page while preserving the koreo Field Manual page.
+- [x] Add the supplied 2048 × 1536 photograph as a web asset outside the project and reference its managed storage URL.
+- [x] Define provisional normalized focus coordinates for the five geology captions and label them as editorial estimates.
+- [x] Add a visible path to the new article page and keep the existing Try koreo specimen unchanged.
+- [x] Verify the Humahuaca page and its koreo reader on desktop and mobile before checkpointing.
