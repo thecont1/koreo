@@ -86,6 +86,12 @@ export default function Humahuaca() {
   useEffect(() => {
     const updateActiveStep = () => {
       if (!storyRef.current) return;
+      const activationMargin = window.innerWidth < 768 ? 28 : 72;
+      const storyRect = storyRef.current.getBoundingClientRect();
+      if (storyRect.top > activationMargin) {
+        setActiveStep((current) => current === 0 ? current : 0);
+        return;
+      }
       const viewportCenter = window.innerHeight * 0.5;
       let nearestIndex = 0;
       let nearestDistance = Number.POSITIVE_INFINITY;

@@ -26,3 +26,5 @@
 - [x] Show exactly one caption at a time, beginning with the supplied intro caption and then five geology beats.
 - [x] Advance the active caption from page scroll on desktop and from any page scroll position on mobile.
 - [x] Preserve keyboard and reduced-motion access while removing the multi-caption list from the article surface.
+- [x] Delay the Humahuaca scrolly activation until the image reaches a healthy top-of-viewport margin.
+- [x] Keep the sticky stage aligned to that margin on desktop and mobile, then verify the first transition timing.

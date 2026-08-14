@@ -470,7 +470,7 @@ body.koreo-reader-open { overflow: hidden; }
   .article-figure figcaption { align-items: flex-start; flex-direction: column; gap: .35rem; font-size: .49rem; }
   .article-lede { font-size: 1.1rem; margin-top: 2.5rem; }
   .article-story { height: calc(6 * 68vh); margin-top: 3.2rem; }
-  .article-story-sticky { position: sticky; top: 0; display: block; min-height: 0; padding: 0 0 1.6rem; }
+  .article-story-sticky { position: sticky; top: 1.25rem; display: block; min-height: 0; padding: 0 0 1.6rem; }
   .article-story-image-trigger { height: min(66vh, 31rem); min-height: 20rem; }
   .article-story-caption { max-width: none; margin-top: 1.15rem; padding: .1rem 0 0 1rem; border-left-width: 2px; }
   .article-story-caption h2 { margin: .8rem 0 .6rem; font-size: clamp(1.7rem, 8vw, 2.6rem); }
