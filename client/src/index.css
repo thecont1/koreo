@@ -284,13 +284,8 @@ body.koreo-reader-open { overflow: hidden; }
 .reader-stage-vignette { position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 80px rgba(0,0,0,.26); }
 .reader-stage-coordinate { position: absolute; right: .8rem; bottom: .72rem; color: rgba(243,239,230,.8); }
 .reader-stage-label { position: absolute; left: .75rem; top: .7rem; display: inline-flex; align-items: center; gap: .45rem; padding: .42rem .55rem; background: rgba(29,33,30,.72); color: rgba(243,239,230,.82); font: .55rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .09em; }
-.reader-stage-caption { display: flex; justify-content: space-between; gap: 1rem; padding: .65rem .05rem 0; color: rgba(243,239,230,.46); font: .53rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .08em; }
-.koreo-reader-copy { min-width: 0; min-height: 0; display: flex; flex-direction: column; padding: .4rem .4rem .1rem 1rem; }
-.reader-copy-intro { padding-bottom: .85rem; }
-.reader-copy-intro .section-kicker { color: var(--saffron); }
-.reader-copy-intro h2 { max-width: none; color: #f3efe6; font-size: clamp(2.2rem, 4vw, 4.2rem); margin-bottom: .7rem; }
-.reader-copy-intro p { max-width: 25rem; color: rgba(243,239,230,.64); line-height: 1.46; margin-bottom: 0; }
-.reader-caption-scroller { min-height: 0; flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 1rem .4rem .8rem 0; scrollbar-color: rgba(243,239,230,.28) transparent; scrollbar-width: thin; }
+.koreo-reader-copy { min-width: 0; min-height: 0; display: flex; flex-direction: column; padding: .1rem .4rem .1rem 1rem; }
+.reader-caption-scroller { min-height: 0; flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: .1rem .4rem .8rem 0; scrollbar-color: rgba(243,239,230,.28) transparent; scrollbar-width: thin; }
 .reader-caption-step { display: grid; grid-template-columns: 2rem 1fr; gap: .75rem; min-height: 16rem; padding: 2rem 0; border-top: 1px solid rgba(243,239,230,.14); opacity: .42; transition: opacity .3s ease; }
 .reader-caption-step.active { opacity: 1; }
 .reader-caption-marker { display: flex; flex-direction: column; align-items: center; gap: .65rem; }
@@ -420,12 +415,7 @@ body.koreo-reader-open { overflow: hidden; }
   .koreo-reader-body { display: flex; flex-direction: column; gap: .7rem; padding: .8rem; }
   .koreo-reader-stage-column { flex: 0 0 40%; min-height: 12rem; }
   .koreo-reader-stage { height: 100%; max-height: none; }
-  .reader-stage-caption { font-size: .47rem; }
-  .reader-stage-caption span:last-child { display: none; }
   .koreo-reader-copy { flex: 1; padding: .1rem 0 0; }
-  .reader-copy-intro { padding-bottom: .55rem; }
-  .reader-copy-intro h2 { font-size: 2.35rem; margin-bottom: .4rem; }
-  .reader-copy-intro p { font-size: .83rem; }
   .reader-caption-step { min-height: 12rem; padding: 1.25rem 0; }
   .reader-caption-step h3 { font-size: 1.25rem; }
   .reader-caption-step p { font-size: .86rem; }

@@ -138,7 +138,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose }: K
 
   return (
     <div className="koreo-reader-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
-      <section className="koreo-reader" role="dialog" aria-modal="true" aria-labelledby="koreo-reader-title" aria-describedby="koreo-reader-description">
+      <section className="koreo-reader" role="dialog" aria-modal="true" aria-label="koreo guided reader">
         <header className="koreo-reader-header">
           <div className="reader-brand"><span className="reader-brand-mark"><Crosshair size={15} /></span><span>koreo / reader</span></div>
           <div className="reader-header-meta"><span className="reader-live"><span /> live demonstration</span><span className="mono-label">{String(activeIndex + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}</span></div>
@@ -156,11 +156,9 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose }: K
               <span className="reader-stage-coordinate mono-label">x {String(Math.round(activeStep.x)).padStart(2, "0")} / y {String(Math.round(activeStep.y)).padStart(2, "0")} / z {activeStep.zoom.toFixed(2)}</span>
               <span className="reader-stage-label"><span className="live-dot" /> fixed view window</span>
             </div>
-            <div className="reader-stage-caption"><span className="mono-label">source image / 3200 × 2133</span><span>the highlight travels with the camera</span></div>
           </div>
 
           <div className="koreo-reader-copy">
-            <div className="reader-copy-intro"><span className="section-kicker">guided reading</span><h2 id="koreo-reader-title">Look closer.</h2><p id="koreo-reader-description">Scroll the caption rail. koreo keeps the photograph steady while the camera settles on the next deliberate reading.</p></div>
             <div className="reader-caption-scroller" ref={captionScrollerRef} tabIndex={0} aria-label="koreo caption beats">
               {steps.map((step, index) => (
                 <article key={step.label} className={index === activeIndex ? "reader-caption-step active" : "reader-caption-step"} ref={(node) => { stepRefs.current[index] = node; }}>

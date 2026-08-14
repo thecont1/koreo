@@ -17,3 +17,5 @@
 - [x] Verify the Humahuaca page and its koreo reader on desktop and mobile before checkpointing.
 - [x] Remove the Humahuaca article’s “Look closer” intro block so captions start directly under the image.
 - [x] Rebalance mobile spacing and verify that the article remains naturally scrollable without bottom-edge gesture interference.
+- [x] Remove the reader’s source-image metadata and guided-reading intro block.
+- [x] Rebalance the simplified reader columns and verify image, captions, and controls remain usable.
