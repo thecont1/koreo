@@ -412,11 +412,12 @@ body.koreo-reader-open { overflow: hidden; }
   .koreo-reader-header { min-height: 3.55rem; padding: 0 .8rem; }
   .reader-header-meta { display: none; }
   .reader-close span { display: none; }
-  .koreo-reader-body { display: flex; flex-direction: column; gap: .7rem; padding: .8rem; }
-  .koreo-reader-stage-column { flex: 0 0 40%; min-height: 12rem; }
+  .koreo-reader-body { display: block; overflow-y: auto; overscroll-behavior: contain; padding: .8rem; }
+  .koreo-reader-stage-column { height: 15rem; min-height: 0; }
   .koreo-reader-stage { height: 100%; max-height: none; }
   .koreo-reader-copy { flex: 1; padding: .1rem 0 0; }
-  .reader-caption-step { min-height: 12rem; padding: 1.25rem 0; }
+  .reader-caption-scroller { overflow: visible; padding: .1rem 0 .8rem; }
+  .reader-caption-step { min-height: auto; padding: 1.25rem 0; }
   .reader-caption-step h3 { font-size: 1.25rem; }
   .reader-caption-step p { font-size: .86rem; }
   .koreo-reader-footer { padding: 0 .8rem; font-size: .45rem; }

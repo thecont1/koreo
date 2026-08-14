@@ -19,3 +19,6 @@
 - [x] Rebalance mobile spacing and verify that the article remains naturally scrollable without bottom-edge gesture interference.
 - [x] Remove the reader’s source-image metadata and guided-reading intro block.
 - [x] Rebalance the simplified reader columns and verify image, captions, and controls remain usable.
+- [x] Confirm the Humahuaca reader exposes the overview plus all five geology captions.
+- [x] Prevent the reader from hiding captions behind the fixed stage or viewport on desktop and mobile.
+- [x] Verify each geology caption is reachable by scroll and next/previous controls.

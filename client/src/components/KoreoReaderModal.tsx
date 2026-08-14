@@ -28,6 +28,7 @@ type KoreoReaderModalProps = {
 export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose }: KoreoReaderModalProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const readerBodyRef = useRef<HTMLDivElement | null>(null);
   const captionScrollerRef = useRef<HTMLDivElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const stepRefs = useRef<Array<HTMLElement | null>>([]);
@@ -90,11 +91,13 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose }: K
   useEffect(() => {
     if (!open) return;
     const scroller = captionScrollerRef.current;
-    if (!scroller) return;
+    const readerBody = readerBodyRef.current;
+    if (!scroller || !readerBody) return;
 
     const syncFromScroll = () => {
       scrollRafRef.current = null;
-      const readingLine = scroller.getBoundingClientRect().top + scroller.clientHeight * 0.34;
+      const scrollSurface = scroller.scrollHeight > scroller.clientHeight + 4 ? scroller : readerBody;
+      const readingLine = scrollSurface.getBoundingClientRect().top + scrollSurface.clientHeight * 0.34;
       let candidate = 0;
       stepRefs.current.forEach((node, index) => {
         if (node && node.getBoundingClientRect().top <= readingLine) candidate = index;
@@ -107,8 +110,10 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose }: K
       scrollRafRef.current = window.requestAnimationFrame(syncFromScroll);
     };
     scroller.addEventListener("scroll", onScroll, { passive: true });
+    readerBody.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       scroller.removeEventListener("scroll", onScroll);
+      readerBody.removeEventListener("scroll", onScroll);
       if (scrollRafRef.current) window.cancelAnimationFrame(scrollRafRef.current);
       scrollRafRef.current = null;
     };
@@ -145,7 +150,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose }: K
           <button ref={closeButtonRef} className="reader-close" type="button" onClick={onClose} aria-label="Close koreo reader"><X size={19} /><span>close</span></button>
         </header>
 
-        <div className="koreo-reader-body">
+        <div className="koreo-reader-body" ref={readerBodyRef}>
           <div className="koreo-reader-stage-column">
             <div className="koreo-reader-stage" aria-label="koreo camera stage">
               <div className="reader-camera-plane" style={cameraStyle}>
