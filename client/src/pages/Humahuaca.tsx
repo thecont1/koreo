@@ -3,8 +3,8 @@
  * white single-column reading surface, restrained typography, and provisional
  * image coordinates that are explicitly marked for later editorial correction.
  */
-import { useState } from "react";
-import { ArrowLeft, ArrowUpRight, Crosshair, MapPin } from "lucide-react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { ArrowLeft, ArrowUpRight, Crosshair } from "lucide-react";
 import { KoreoReaderModal, type KoreoReaderStep } from "@/components/KoreoReaderModal";
 
 const HUMAHUACA_IMAGE = "/manus-storage/humahuaca-geology_811657ed.webp";
@@ -79,6 +79,41 @@ const humahuacaSteps: KoreoReaderStep[] = [
 
 export default function Humahuaca() {
   const [readerOpen, setReaderOpen] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+  const storyRef = useRef<HTMLElement | null>(null);
+  const stepRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+  useEffect(() => {
+    const updateActiveStep = () => {
+      if (!storyRef.current) return;
+      const viewportCenter = window.innerHeight * 0.5;
+      let nearestIndex = 0;
+      let nearestDistance = Number.POSITIVE_INFINITY;
+
+      stepRefs.current.forEach((stepNode, index) => {
+        if (!stepNode) return;
+        const rect = stepNode.getBoundingClientRect();
+        const distance = Math.abs(rect.top + rect.height / 2 - viewportCenter);
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestIndex = index;
+        }
+      });
+
+      setActiveStep((current) => current === nearestIndex ? current : nearestIndex);
+    };
+
+    updateActiveStep();
+    window.addEventListener("scroll", updateActiveStep, { passive: true });
+    window.addEventListener("resize", updateActiveStep);
+    return () => {
+      window.removeEventListener("scroll", updateActiveStep);
+      window.removeEventListener("resize", updateActiveStep);
+    };
+  }, []);
+
+  const active = humahuacaSteps[activeStep];
+  const activeSize = active.size ?? 24;
 
   return (
     <div className="humahuaca-page">
@@ -93,26 +128,54 @@ export default function Humahuaca() {
         <p className="article-dek">A provisional reading of colour, sediment, and water across one Andean valley.</p>
         <div className="article-byline"><span>18 FEB 2020</span><span className="article-byline-dot" /><span>JUJUY, ARGENTINA</span></div>
 
-        <figure className="article-figure">
-          <button className="article-image-trigger" type="button" onClick={() => setReaderOpen(true)} aria-label="Open koreo guided reading of the Quebrada de Humahuaca photograph">
-            <img src={HUMAHUACA_IMAGE} alt="A dry channel leading through the multi-coloured mountains of Quebrada de Humahuaca" />
-            <span className="article-image-action"><Crosshair size={15} /> Try koreo <ArrowUpRight size={14} /></span>
-          </button>
-          <figcaption><span>Quebrada de Humahuaca, Jujuy, Argentina</span><span>image / 2048 × 1536</span></figcaption>
-        </figure>
+        <section className="article-story" ref={storyRef} aria-label="Six-step guided reading of the photograph">
+          <div className="article-story-sticky">
+            <figure className="article-story-figure">
+              <button className="article-story-image-trigger" type="button" onClick={() => setReaderOpen(true)} aria-label="Open koreo guided reading of the Quebrada de Humahuaca photograph">
+                <img
+                  src={HUMAHUACA_IMAGE}
+                  alt="A dry channel leading through the multi-coloured mountains of Quebrada de Humahuaca"
+                  style={{
+                    objectPosition: `${active.x}% ${active.y}%`,
+                    transform: `scale(${active.zoom})`,
+                    transformOrigin: `${active.x}% ${active.y}%`,
+                  }}
+                />
+                {active.shape !== "none" && (
+                  <span
+                    className={`article-story-focus article-story-focus-${active.shape}`}
+                    style={{
+                      left: `${active.x}%`,
+                      top: `${active.y}%`,
+                      width: `${activeSize}%`,
+                      height: active.shape === "circle" ? `${activeSize}%` : `${Math.max(12, activeSize * .68)}%`,
+                      borderColor: active.accent,
+                    }}
+                  />
+                )}
+                <span className="article-image-action"><Crosshair size={15} /> Try koreo <ArrowUpRight size={14} /></span>
+              </button>
+              <figcaption><span>Quebrada de Humahuaca, Jujuy, Argentina</span><span>0{activeStep + 1} / 06</span></figcaption>
+            </figure>
 
-        <p className="article-lede">Quebrada de Humahuaca follows the line of a major cultural route, the Camino Inca, along the spectacular valley of the Rio Grande, from its source in the cold high desert plateau of the High Andean lands to its confluence with the Rio Leone some 150 km to the south. This UNESCO World Heritage Site features dramatic multi-coloured rock formations, pre-Incan and Incan history, and vibrant Andean culture spanning 10,000 years.</p>
+            <article
+              key={active.label}
+              className="article-story-caption"
+              style={{ "--caption-accent": active.accent } as CSSProperties}
+              aria-live="polite"
+            >
+              <div className="article-story-caption-meta"><span>0{activeStep + 1}</span><span>{active.label}</span></div>
+              <h2>{active.title}</h2>
+              <p>{active.body}</p>
+            </article>
+          </div>
 
-        <div className="annotation-list">
-          {humahuacaSteps.slice(1).map((step, index) => (
-            <button className="annotation-row" type="button" key={step.label} onClick={() => setReaderOpen(true)}>
-              <span className="annotation-row-index">0{index + 2}</span>
-              <span className="annotation-row-marker" style={{ background: step.accent }}><MapPin size={13} /></span>
-              <span className="annotation-row-copy"><strong>{step.title}</strong><span>{step.body}</span></span>
-              <ArrowUpRight className="annotation-row-arrow" size={15} />
-            </button>
-          ))}
-        </div>
+          <div className="article-story-scroll-track" aria-hidden="true">
+            {humahuacaSteps.map((step, index) => (
+              <div className="article-story-sentinel" key={step.label} ref={(node) => { stepRefs.current[index] = node; }} />
+            ))}
+          </div>
+        </section>
 
         <div className="article-correction-note"><span className="correction-icon">?</span><p><strong>Coordinates are provisional.</strong> The focus points are editorial estimates for this first pass. Open the reader, inspect each location, and adjust them when the koreo authoring studio is connected.</p></div>
       </main>

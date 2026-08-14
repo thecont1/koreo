@@ -22,3 +22,7 @@
 - [x] Confirm the Humahuaca reader exposes the overview plus all five geology captions.
 - [x] Prevent the reader from hiding captions behind the fixed stage or viewport on desktop and mobile.
 - [x] Verify each geology caption is reachable by scroll and next/previous controls.
+- [x] Restore a vertically cropped/sticky Humahuaca image with ample visual real estate.
+- [x] Show exactly one caption at a time, beginning with the supplied intro caption and then five geology beats.
+- [x] Advance the active caption from page scroll on desktop and from any page scroll position on mobile.
+- [x] Preserve keyboard and reduced-motion access while removing the multi-caption list from the article surface.
