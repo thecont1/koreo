@@ -160,6 +160,10 @@ h2 { font-size: clamp(2.35rem, 4.2vw, 4.65rem); line-height: .98; margin-bottom:
 .specimen-topline { justify-content: space-between; gap: 1rem; padding: .8rem .95rem; border-bottom: 1px solid rgba(243, 239, 230, .16); font: .6rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .12em; }
 .specimen-ref { margin-left: auto; color: rgba(243,239,230,.42); font-size: .52rem; }
 .specimen-stage { height: 25rem; position: relative; overflow: hidden; background: #282a23; }
+.specimen-launch-area { display: block; width: 100%; padding: 0; border: 0; color: inherit; text-align: left; cursor: zoom-in; }
+.specimen-launch-area::after { content: ""; position: absolute; inset: 0; background: rgba(29,33,30,0); transition: background .25s ease; pointer-events: none; }
+.specimen-launch-area:hover::after, .specimen-launch-area:focus-visible::after { background: rgba(29,33,30,.12); }
+.specimen-launch-area:focus-visible { outline: 2px solid var(--saffron); outline-offset: -4px; }
 .specimen-image { position: absolute; width: 100%; height: 100%; transition: transform .7s var(--ease-in-out); transform-origin: center; }
 .specimen-image img { width: 100%; height: 100%; display: block; object-fit: cover; }
 .focus-ring { position: absolute; width: 5rem; height: 5rem; transform: translate(-50%, -50%); border: 1px solid; border-radius: 50%; box-shadow: 0 0 0 999px rgba(9, 12, 10, .1); transition: left .7s var(--ease-in-out), top .7s var(--ease-in-out), border-color .35s ease; }
@@ -168,6 +172,8 @@ h2 { font-size: clamp(2.35rem, 4.2vw, 4.65rem); line-height: .98; margin-bottom:
 .stage-crosshair span:first-child { position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: rgba(243,239,230,.75); }
 .stage-crosshair span:last-child { position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: rgba(243,239,230,.75); }
 .stage-coordinate { position: absolute; right: .8rem; bottom: .75rem; color: rgba(243, 239, 230, .82); font-size: .56rem; }
+.try-koreo-badge { position: absolute; left: .8rem; bottom: .7rem; z-index: 2; display: inline-flex; align-items: center; gap: .35rem; color: #f3efe6; background: rgba(29,33,30,.84); padding: .48rem .6rem; font: .59rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .09em; border: 1px solid rgba(243,239,230,.24); transition: background .2s ease, color .2s ease, transform .2s var(--ease-out); }
+.specimen-launch-area:hover .try-koreo-badge, .specimen-launch-area:focus-visible .try-koreo-badge { background: var(--oxide); color: #fffaf1; transform: translateY(-2px); }
 .specimen-copy { padding: 1.4rem 1.35rem 1.1rem; max-width: 38rem; }
 .specimen-kicker { font: .6rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .16em; margin-bottom: .7rem; transition: color .3s ease; }
 .specimen-copy h3 { font-size: 2rem; margin-bottom: .45rem; color: #f3efe6; }
@@ -252,6 +258,54 @@ h2 { font-size: clamp(2.35rem, 4.2vw, 4.65rem); line-height: .98; margin-bottom:
 .schema-note strong { font: 600 1.12rem "Fraunces", serif; }
 .schema-note p { color: var(--ink-soft); font-size: .88rem; line-height: 1.45; margin: .35rem 0 0; }
 
+/* Live koreo reader overlay: the image is a fixed stage, the caption rail is the reading surface. */
+body.koreo-reader-open { overflow: hidden; }
+.koreo-reader-backdrop { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 1.25rem; background: rgba(16, 18, 16, .8); backdrop-filter: blur(12px); animation: reader-fade-in .26s var(--ease-out) both; }
+.koreo-reader { width: min(1180px, 100%); height: min(760px, calc(100vh - 2.5rem)); display: flex; flex-direction: column; background: #1d211e; color: #f3efe6; border: 1px solid rgba(243,239,230,.2); box-shadow: 0 30px 100px rgba(0,0,0,.35); animation: reader-rise-in .42s var(--ease-out) both; }
+.koreo-reader-header, .koreo-reader-footer { min-height: 3.3rem; display: flex; align-items: center; gap: 1rem; padding: 0 1rem; border-color: rgba(243,239,230,.16); font: .59rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .11em; }
+.koreo-reader-header { justify-content: space-between; border-bottom: 1px solid rgba(243,239,230,.16); }
+.reader-brand, .reader-header-meta, .reader-close, .reader-live, .reader-controls button, .reader-footer-rule { display: flex; align-items: center; }
+.reader-brand { gap: .45rem; color: #f3efe6; }
+.reader-brand-mark { width: 1.55rem; height: 1.55rem; display: grid; place-items: center; border: 1px solid var(--oxide); color: var(--oxide); }
+.reader-header-meta { gap: 1rem; color: rgba(243,239,230,.54); }
+.reader-live { gap: .4rem; color: #a8c699; }
+.reader-live span { width: .38rem; height: .38rem; border-radius: 50%; background: #9bc29b; box-shadow: 0 0 0 3px rgba(155,194,155,.1); }
+.reader-close { gap: .45rem; border: 0; background: transparent; color: rgba(243,239,230,.72); cursor: pointer; font: inherit; text-transform: uppercase; letter-spacing: .11em; }
+.reader-close:hover { color: #f3efe6; }
+.koreo-reader-body { min-height: 0; flex: 1; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(18rem, .85fr); gap: 1.2rem; padding: 1.2rem; }
+.koreo-reader-stage-column { min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+.koreo-reader-stage { min-height: 0; height: 100%; max-height: 34rem; position: relative; overflow: hidden; background: #272c27; border: 1px solid rgba(243,239,230,.2); }
+.reader-camera-plane { position: absolute; inset: 0; transform-origin: 0 0; transition: transform .68s var(--ease-in-out); will-change: transform; }
+.reader-camera-plane img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.reader-highlight { position: absolute; transform: translate(-50%, -50%); border: 1px solid; box-shadow: 0 0 0 999px rgba(12,15,12,.26); transition: left .68s var(--ease-in-out), top .68s var(--ease-in-out), width .68s var(--ease-in-out), height .68s var(--ease-in-out), border-color .3s ease, border-radius .3s ease, opacity .3s ease; }
+.reader-highlight::after { content: ""; position: absolute; inset: -.45rem; border: 1px dashed currentColor; border-radius: inherit; opacity: .5; }
+.reader-stage-vignette { position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 80px rgba(0,0,0,.26); }
+.reader-stage-coordinate { position: absolute; right: .8rem; bottom: .72rem; color: rgba(243,239,230,.8); }
+.reader-stage-label { position: absolute; left: .75rem; top: .7rem; display: inline-flex; align-items: center; gap: .45rem; padding: .42rem .55rem; background: rgba(29,33,30,.72); color: rgba(243,239,230,.82); font: .55rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .09em; }
+.reader-stage-caption { display: flex; justify-content: space-between; gap: 1rem; padding: .65rem .05rem 0; color: rgba(243,239,230,.46); font: .53rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .08em; }
+.koreo-reader-copy { min-width: 0; min-height: 0; display: flex; flex-direction: column; padding: .4rem .4rem .1rem 1rem; }
+.reader-copy-intro { padding-bottom: .85rem; }
+.reader-copy-intro .section-kicker { color: var(--saffron); }
+.reader-copy-intro h2 { max-width: none; color: #f3efe6; font-size: clamp(2.2rem, 4vw, 4.2rem); margin-bottom: .7rem; }
+.reader-copy-intro p { max-width: 25rem; color: rgba(243,239,230,.64); line-height: 1.46; margin-bottom: 0; }
+.reader-caption-scroller { min-height: 0; flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 1rem .4rem .8rem 0; scrollbar-color: rgba(243,239,230,.28) transparent; scrollbar-width: thin; }
+.reader-caption-step { display: grid; grid-template-columns: 2rem 1fr; gap: .75rem; min-height: 16rem; padding: 2rem 0; border-top: 1px solid rgba(243,239,230,.14); opacity: .42; transition: opacity .3s ease; }
+.reader-caption-step.active { opacity: 1; }
+.reader-caption-marker { display: flex; flex-direction: column; align-items: center; gap: .65rem; }
+.reader-caption-marker .mono-label { color: rgba(243,239,230,.45); }
+.caption-marker-line { width: 1px; height: 100%; min-height: 3.5rem; background: rgba(243,239,230,.17); transition: background .3s ease; }
+.reader-caption-label { display: block; font: .58rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .15em; color: rgba(243,239,230,.58); margin-bottom: .72rem; transition: color .25s ease; }
+.reader-caption-step h3 { color: #f3efe6; font-size: 1.55rem; line-height: 1.04; letter-spacing: -.03em; margin-bottom: .55rem; }
+.reader-caption-step p { color: rgba(243,239,230,.68); max-width: 24rem; line-height: 1.5; margin: 0; }
+.reader-controls { display: flex; justify-content: space-between; gap: 1rem; padding-top: .8rem; border-top: 1px solid rgba(243,239,230,.16); }
+.reader-controls button { gap: .4rem; border: 0; background: transparent; color: #f3efe6; cursor: pointer; padding: .35rem 0; font: .58rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .12em; }
+.reader-controls button:disabled { color: rgba(243,239,230,.25); cursor: not-allowed; }
+.reader-controls button:not(:disabled):hover { color: var(--saffron); }
+.koreo-reader-footer { min-height: 2.75rem; justify-content: space-between; color: rgba(243,239,230,.4); border-top: 1px solid rgba(243,239,230,.16); font-size: .52rem; }
+.reader-footer-rule { flex: 1; max-width: 10rem; height: 1px; background: rgba(243,239,230,.16); }
+@keyframes reader-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes reader-rise-in { from { opacity: 0; transform: translateY(1rem) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
 .roadmap-list { border-top: 1px solid var(--border); margin-top: 2.2rem; }
 .roadmap-row { display: grid; grid-template-columns: 3rem 1fr auto; gap: 1rem; align-items: center; padding: 1.15rem .3rem; border-bottom: 1px solid var(--border); transition: background .2s ease, padding .2s var(--ease-out); }
 .roadmap-row:hover { background: rgba(225,218,205,.5); padding-left: .7rem; padding-right: .7rem; }
@@ -310,6 +364,25 @@ h2 { font-size: clamp(2.35rem, 4.2vw, 4.65rem); line-height: .98; margin-bottom:
   .premise-note p { margin: .65rem 0 0; }
   .note-code { margin-top: .8rem; }
   .specimen-stage { height: 19rem; }
+  .koreo-reader-backdrop { padding: 0; align-items: stretch; }
+  .koreo-reader { width: 100%; height: 100%; max-height: none; border: 0; }
+  .koreo-reader-header { min-height: 3.55rem; padding: 0 .8rem; }
+  .reader-header-meta { display: none; }
+  .reader-close span { display: none; }
+  .koreo-reader-body { display: flex; flex-direction: column; gap: .7rem; padding: .8rem; }
+  .koreo-reader-stage-column { flex: 0 0 40%; min-height: 12rem; }
+  .koreo-reader-stage { height: 100%; max-height: none; }
+  .reader-stage-caption { font-size: .47rem; }
+  .reader-stage-caption span:last-child { display: none; }
+  .koreo-reader-copy { flex: 1; padding: .1rem 0 0; }
+  .reader-copy-intro { padding-bottom: .55rem; }
+  .reader-copy-intro h2 { font-size: 2.35rem; margin-bottom: .4rem; }
+  .reader-copy-intro p { font-size: .83rem; }
+  .reader-caption-step { min-height: 12rem; padding: 1.25rem 0; }
+  .reader-caption-step h3 { font-size: 1.25rem; }
+  .reader-caption-step p { font-size: .86rem; }
+  .koreo-reader-footer { padding: 0 .8rem; font-size: .45rem; }
+  .reader-footer-rule { max-width: 3rem; }
   .install-layout, .schema-layout { grid-template-columns: 1fr; }
   .architecture-map { grid-template-columns: 1fr; padding: 1rem; }
   .architecture-branch { padding-top: 0; grid-template-columns: repeat(3, 1fr); }

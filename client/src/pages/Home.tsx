@@ -20,6 +20,7 @@ import {
   X,
   Zap,
 } from "lucide-react";
+import { KoreoReaderModal } from "@/components/KoreoReaderModal";
 
 const HERO_IMAGE = "/manus-storage/focus-story-field-manual-hero_508d677b.jpg";
 const SPECIMEN_IMAGE = "/manus-storage/focus-story-camera-specimen_0dd04ad9.jpg";
@@ -120,7 +121,7 @@ function CodeBlock({ code, label = "example", dark = true }: { code: string; lab
   );
 }
 
-function KoreoSpecimen() {
+function KoreoSpecimen({ onTryReader }: { onTryReader: () => void }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeBeat = focusBeats[activeIndex];
   const style = useMemo(
@@ -137,9 +138,9 @@ function KoreoSpecimen() {
         <span className="mono-label">beat {String(activeIndex + 1).padStart(2, "0")} / 03</span>
         <span className="specimen-ref">plate 02 / camera plane</span>
       </div>
-      <div className="specimen-stage">
+      <button className="specimen-stage specimen-launch-area" type="button" onClick={onTryReader} aria-label="Try koreo reader on the harbor specimen">
         <div className="specimen-image" style={style}>
-          <img src={SPECIMEN_IMAGE} alt="Illustrated harbor scene used to demonstrate koreo camera movement" />
+          <img src={SPECIMEN_IMAGE} alt="" />
           <span
             className="focus-ring"
             style={{ left: `${activeBeat.x}%`, top: `${activeBeat.y}%`, borderColor: activeBeat.accent }}
@@ -148,7 +149,8 @@ function KoreoSpecimen() {
         </div>
         <div className="stage-crosshair" aria-hidden="true"><span /><span /></div>
         <span className="stage-coordinate mono-label">x {String(Math.round(activeBeat.x)).padStart(2, "0")} / y {String(Math.round(activeBeat.y)).padStart(2, "0")}</span>
-      </div>
+        <span className="try-koreo-badge">Try koreo <ArrowUpRight size={14} /></span>
+      </button>
       <div className="specimen-copy">
         <div className="specimen-kicker" style={{ color: activeBeat.accent }}>{activeBeat.label}</div>
         <h3>{activeBeat.title}</h3>
@@ -197,6 +199,7 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("premise");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [codeKey, setCodeKey] = useState<CodeKey>("html");
+  const [readerOpen, setReaderOpen] = useState(false);
 
   useEffect(() => {
     const observers = sections.map((section) => {
@@ -293,7 +296,7 @@ export default function Home() {
                 <div className="premise-note"><span className="note-number">B</span><h3>Camera</h3><p>How the window frames it. A point to center, a zoom to set, and context to preserve.</p><span className="note-code">x / y / zoom</span></div>
                 <div className="premise-note accent-note"><span className="note-number">C</span><h3>Beat</h3><p>The editorial moment where prose, focus, and movement arrive together.</p><span className="note-code">text + motion</span></div>
               </div>
-              <KoreoSpecimen />
+              <KoreoSpecimen onTryReader={() => setReaderOpen(true)} />
             </div>
           </section>
 
@@ -405,6 +408,7 @@ export default function Home() {
           </div>
         </aside>
       </div>
+      <KoreoReaderModal open={readerOpen} onClose={() => setReaderOpen(false)} imageSrc={SPECIMEN_IMAGE} imageAlt="Illustrated harbor scene with a clock tower, boats, and a market stall" steps={focusBeats} />
     </div>
   );
 }
