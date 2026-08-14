@@ -103,13 +103,6 @@ export default function Humahuaca() {
 
         <p className="article-lede">Quebrada de Humahuaca follows the line of a major cultural route, the Camino Inca, along the spectacular valley of the Rio Grande, from its source in the cold high desert plateau of the High Andean lands to its confluence with the Rio Leone some 150 km to the south. This UNESCO World Heritage Site features dramatic multi-coloured rock formations, pre-Incan and Incan history, and vibrant Andean culture spanning 10,000 years.</p>
 
-        <div className="article-divider" />
-
-        <section className="annotation-intro" aria-labelledby="annotation-title">
-          <div className="annotation-index"><span>01</span><span className="annotation-index-line" /></div>
-          <div><span className="article-kicker">guided reading</span><h2 id="annotation-title">A field guide inside the frame.</h2><p>Open the photograph to move through a provisional sequence of geological observations. The locations below are best guesses based on visible colour and landform; each point can be corrected later in the authoring tool.</p></div>
-        </section>
-
         <div className="annotation-list">
           {humahuacaSteps.slice(1).map((step, index) => (
             <button className="annotation-row" type="button" key={step.label} onClick={() => setReaderOpen(true)}>

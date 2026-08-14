@@ -15,3 +15,5 @@
 - [x] Define provisional normalized focus coordinates for the five geology captions and label them as editorial estimates.
 - [x] Add a visible path to the new article page and keep the existing Try koreo specimen unchanged.
 - [x] Verify the Humahuaca page and its koreo reader on desktop and mobile before checkpointing.
+- [x] Remove the Humahuaca article’s “Look closer” intro block so captions start directly under the image.
+- [x] Rebalance mobile spacing and verify that the article remains naturally scrollable without bottom-edge gesture interference.

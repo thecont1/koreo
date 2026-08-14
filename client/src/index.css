@@ -359,7 +359,7 @@ body.koreo-reader-open { overflow: hidden; }
 .annotation-index-line { flex: 1; width: 1px; min-height: 5rem; background: linear-gradient(to bottom, var(--oxide), transparent); }
 .annotation-intro h2 { max-width: none; font-size: clamp(2.25rem, 5vw, 4.25rem); margin: .8rem 0 1rem; }
 .annotation-intro p { max-width: 38rem; color: #6c7169; font-size: 1rem; line-height: 1.6; }
-.annotation-list { border-top: 1px solid #dcded9; margin: 3.2rem 0 0; }
+.annotation-list { border-top: 1px solid #dcded9; margin: 2.65rem 0 0; }
 .annotation-row { width: 100%; display: grid; grid-template-columns: 2rem 1.9rem 1fr auto; gap: .9rem; align-items: start; padding: 1.25rem .15rem; border: 0; border-bottom: 1px solid #dcded9; background: transparent; text-align: left; cursor: pointer; color: inherit; transition: background .2s ease, padding .2s var(--ease-out); }
 .annotation-row:hover { background: #f7f7f4; padding-left: .55rem; padding-right: .55rem; }
 .annotation-row-index { color: var(--oxide); font: .61rem "IBM Plex Mono", monospace; padding-top: .2rem; }
@@ -462,9 +462,7 @@ body.koreo-reader-open { overflow: hidden; }
   .article-figure { margin-top: 2.8rem; }
   .article-figure figcaption { align-items: flex-start; flex-direction: column; gap: .35rem; font-size: .49rem; }
   .article-lede { font-size: 1.1rem; margin-top: 2.5rem; }
-  .article-divider { margin: 3.6rem 0 3rem; }
-  .annotation-intro { grid-template-columns: 1.7rem 1fr; gap: .8rem; }
-  .annotation-intro h2 { font-size: 2.55rem; }
+  .annotation-list { margin-top: 2rem; }
   .annotation-row { grid-template-columns: 1.6rem 1.7rem 1fr; gap: .65rem; }
   .annotation-row-arrow { display: none; }
   .annotation-row-copy strong { font-size: 1.08rem; }
