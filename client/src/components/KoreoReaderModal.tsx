@@ -36,7 +36,7 @@ export type KoreoReaderStep = {
   y: number;
   zoom: number;
   accent: string;
-  shape?: "circle" | "rect" | "none";
+  shape?: "circle" | "square" | "none";
   size?: number;
 };
 
@@ -53,6 +53,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
   const [activeIndex, setActiveIndex] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [viewerPreferences, setViewerPreferences] = useState<ViewerPreferences>(readViewerPreferences);
+  const [imageAspect, setImageAspect] = useState(1);
   const { surface, imageMode } = viewerPreferences;
   const readerBodyRef = useRef<HTMLDivElement | null>(null);
   const captionScrollerRef = useRef<HTMLDivElement | null>(null);
@@ -77,16 +78,31 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
   const focalX = Math.min(Math.max((activeStep?.x ?? 50) / 100, 0.001), 0.999);
   const focalY = Math.min(Math.max((activeStep?.y ?? 50) / 100, 0.001), 0.999);
   const cameraZoom = Math.max(activeStep?.zoom ?? 1, 1);
-  const clampCameraOffset = (focalPoint: number) => {
-    const requestedOffset = 50 - focalPoint * 100 * cameraZoom;
-    const minimumOffset = 100 * (1 - cameraZoom);
-    return Math.min(0, Math.max(minimumOffset, requestedOffset));
+  const safeImageAspect = Number.isFinite(imageAspect) && imageAspect > 0 ? imageAspect : ratio;
+  const sourceFrame = safeImageAspect > ratio
+    ? { width: (safeImageAspect / ratio) * 100, height: 100, left: (100 - (safeImageAspect / ratio) * 100) / 2, top: 0 }
+    : { width: 100, height: (ratio / safeImageAspect) * 100, left: 0, top: (100 - (ratio / safeImageAspect) * 100) / 2 };
+  const clampCameraOffset = (focalPoint: number, start: number, span: number) => {
+    const requestedOffset = 50 - (start + focalPoint * span) * cameraZoom;
+    const minimumOffset = 100 - cameraZoom * (start + span);
+    const maximumOffset = -cameraZoom * start;
+    return Math.min(maximumOffset, Math.max(minimumOffset, requestedOffset));
   };
   const cameraStyle = activeStep
     ? {
-        transform: `translate3d(${clampCameraOffset(focalX)}%, ${clampCameraOffset(focalY)}%, 0) scale(${cameraZoom})`,
+        transform: `translate3d(${clampCameraOffset(focalX, sourceFrame.left, sourceFrame.width)}%, ${clampCameraOffset(focalY, sourceFrame.top, sourceFrame.height)}%, 0) scale(${cameraZoom})`,
       }
     : undefined;
+  const sourceFrameStyle = {
+    width: `${sourceFrame.width}%`,
+    height: `${sourceFrame.height}%`,
+    left: `${sourceFrame.left}%`,
+    top: `${sourceFrame.top}%`,
+  };
+
+  useEffect(() => {
+    setImageAspect(ratio);
+  }, [imageSrc, ratio]);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -196,16 +212,25 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
     const syncFromScroll = () => {
       scrollRafRef.current = null;
       if (Date.now() < manualNavigationLockUntilRef.current) return;
-      const scrollSurface = scroller.scrollHeight > scroller.clientHeight + 4 ? scroller : readerBody;
-      const atStart = scrollSurface.scrollTop <= 4;
-      const atEnd = scrollSurface.scrollTop + scrollSurface.clientHeight >= scrollSurface.scrollHeight - 4;
+      const isHorizontalRail = windowFit === "landscape";
+      const scrollSurface = isHorizontalRail ? scroller : scroller.scrollHeight > scroller.clientHeight + 4 ? scroller : readerBody;
+      const scrollPosition = isHorizontalRail ? scrollSurface.scrollLeft : scrollSurface.scrollTop;
+      const scrollLength = isHorizontalRail ? scrollSurface.scrollWidth : scrollSurface.scrollHeight;
+      const scrollViewport = isHorizontalRail ? scrollSurface.clientWidth : scrollSurface.clientHeight;
+      const atStart = scrollPosition <= 4;
+      const atEnd = scrollPosition + scrollViewport >= scrollLength - 4;
       // The reading cue is the vertical centre of the caption rail. First and
       // last beats retain explicit boundaries so neither is lost to overflow.
-      const readingLine = scrollSurface.getBoundingClientRect().top + scrollSurface.clientHeight * 0.5;
+      const readingLine = isHorizontalRail
+        ? scrollSurface.getBoundingClientRect().left + scrollSurface.clientWidth * 0.5
+        : scrollSurface.getBoundingClientRect().top + scrollSurface.clientHeight * 0.5;
       let candidate = atStart ? 0 : atEnd ? steps.length - 1 : 0;
       if (!atStart && !atEnd) {
         stepRefs.current.forEach((node, index) => {
-          const nodeCenter = node ? node.getBoundingClientRect().top + node.getBoundingClientRect().height * 0.5 : Number.POSITIVE_INFINITY;
+          const bounds = node?.getBoundingClientRect();
+          const nodeCenter = bounds
+            ? isHorizontalRail ? bounds.left + bounds.width * 0.5 : bounds.top + bounds.height * 0.5
+            : Number.POSITIVE_INFINITY;
           if (nodeCenter <= readingLine) candidate = index;
         });
       }
@@ -218,14 +243,21 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
     };
     scroller.addEventListener("scroll", onScroll, { passive: true });
     readerBody.addEventListener("scroll", onScroll, { passive: true });
+    const onWheel = (event: WheelEvent) => {
+      if (windowFit !== "landscape" || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+      scroller.scrollLeft += event.deltaY;
+      event.preventDefault();
+    };
+    scroller.addEventListener("wheel", onWheel, { passive: false });
     return () => {
       scroller.removeEventListener("scroll", onScroll);
       readerBody.removeEventListener("scroll", onScroll);
+      scroller.removeEventListener("wheel", onWheel);
       if (scrollRafRef.current) window.cancelAnimationFrame(scrollRafRef.current);
       clearPendingBeat();
       scrollRafRef.current = null;
     };
-  }, [open, reducedMotion, steps.length, imageMode]);
+  }, [open, reducedMotion, steps.length, imageMode, windowFit]);
 
   function goToStep(index: number) {
     const nextIndex = Math.max(0, Math.min(index, steps.length - 1));
@@ -238,6 +270,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
     stepRefs.current[nextIndex]?.scrollIntoView({
       behavior: reducedMotion ? "auto" : "smooth",
       block: "center",
+      inline: "center",
     });
   }
 
@@ -247,14 +280,13 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
 
   if (!open || !activeStep) return null;
 
-  const focusSize = activeStep.size ?? (activeStep.shape === "rect" ? 24 : 13);
+  const focusSize = activeStep.size ?? 13;
   const highlightStyle = {
     left: `${activeStep.x}%`,
     top: `${activeStep.y}%`,
     width: `${focusSize}%`,
-    height: activeStep.shape === "rect" ? `${Math.max(focusSize * 0.68, 8)}%` : `${focusSize}%`,
     borderColor: activeStep.accent,
-    borderRadius: activeStep.shape === "rect" ? "8%" : "50%",
+    borderRadius: activeStep.shape === "square" ? "0" : "50%",
     opacity: activeStep.shape === "none" ? 0 : 1,
   };
 
@@ -287,8 +319,13 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
               ) : (
                 <>
                   <div className="reader-camera-plane" style={cameraStyle}>
-                    <img src={imageSrc} alt={imageAlt} />
-                    <span className="reader-highlight" style={highlightStyle} aria-hidden="true" />
+                    <div className="reader-source-frame" style={sourceFrameStyle}>
+                      <img src={imageSrc} alt={imageAlt} onLoad={(event) => {
+                        const { naturalWidth, naturalHeight } = event.currentTarget;
+                        if (naturalWidth > 0 && naturalHeight > 0) setImageAspect(naturalWidth / naturalHeight);
+                      }} />
+                      <span className="reader-highlight" style={highlightStyle} aria-hidden="true" />
+                    </div>
                   </div>
                   <div className="reader-stage-vignette" aria-hidden="true" />
                 </>

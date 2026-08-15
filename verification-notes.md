@@ -113,3 +113,7 @@ The repository was audited at 102 tracked files. The active application directly
 ## 2026-08-15 — Cinque Terre Reader Specimen
 
 The new `/cinque-terre` route uses the supplied ultra-wide Cinque Terre photograph and six authored story beats. It opens directly into the 3:2 koreo reader with the full overview, then transitions via the supplied sea, shops, fishing village, pastel houses, and food readings. The source image was confirmed at 2048 × 706, the first manual Next action advanced cleanly to the sea focus, and the desktop reader screenshot confirms the image stage, caption rail, and progress control render as intended. Type checking and production build pass.
+
+## 2026-08-15 — Wide Reader and Focus Contract Correction
+
+The Cinque Terre route now begins as an uncluttered page view; only its source image and koreo tab open the reader. In the landscape reader, captions are arranged as a horizontally scrollable row beneath the stage, and a standard mouse wheel advances that row horizontally. The reader now positions a source-sized image frame before applying the camera transform, so Studio-normalized coordinates remain faithful: the sea beat at x 7 / y 45 measured at x 167.1 / y 273.6 within its 2386.8 × 607.9 rendered source frame. Circle and Square are the only rendered focus shapes; the sea region measured 334.14 × 334.14 with ratio 1.000, while a migrated Humahuaca Square measured 391.18 × 391.18 with zero-radius corners. Type checking and production build pass.

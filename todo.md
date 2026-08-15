@@ -143,3 +143,7 @@
 - [x] Validate the cleaned project, document the decisions, and organize all remaining work into logical welcome-branch commits.
 - [x] Build a clean /cinque-terre route that presents the supplied Cinque Terre koreo story and user-provided photograph.
 - [x] Verify the Cinque Terre reader story, image framing, and route deployment before publishing.
+- [x] Start the Cinque Terre route in its quiet page view and open koreo only from the source photograph or koreo tab.
+- [x] Present wide-image captions as a horizontal row beneath the image in the reader.
+- [x] Align viewer focus rendering with Studio data: coordinates map faithfully and regions are true Circles or Squares only.
+- [x] Verify the corrected wide-image reader interaction, caption arrangement, and geometry before publishing.

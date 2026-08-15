@@ -77,7 +77,7 @@ const cinqueTerreSteps: KoreoReaderStep[] = [
 ];
 
 export default function CinqueTerre() {
-  const [readerOpen, setReaderOpen] = useState(true);
+  const [readerOpen, setReaderOpen] = useState(false);
 
   return (
     <main className="cinque-terre-page">

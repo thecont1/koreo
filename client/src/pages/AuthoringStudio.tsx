@@ -233,7 +233,7 @@ export default function AuthoringStudio() {
         const region = beat.shape === "none"
           ? { type: "none" }
           : beat.shape === "square"
-            ? { type: "rect", ...point, width: Number((beat.size / 100).toFixed(4)), height: Number((beat.size / 100).toFixed(4)) }
+            ? { type: "square", ...point, side: Number((beat.size / 100).toFixed(4)) }
             : { type: "circle", ...point, diameter: Number((beat.size / 100).toFixed(4)) };
         return {
           id: slugify(beat.id || beat.label, `beat-${index + 1}`),
@@ -284,8 +284,8 @@ export default function AuthoringStudio() {
         const region = isRecord(step.region) ? step.region : { type: "none" };
         const highlight = isRecord(step.highlight) ? step.highlight : undefined;
         const regionType = asText(region.type, "none");
-        const shape: Beat["shape"] = regionType === "circle" ? "circle" : regionType === "rect" ? "square" : "none";
-        const size = shape === "circle" ? asNumber(region.diameter, 0.16) * 100 : shape === "square" ? asNumber(region.width, 0.16) * 100 : 16;
+        const shape: Beat["shape"] = regionType === "circle" ? "circle" : regionType === "square" || regionType === "rect" ? "square" : "none";
+        const size = shape === "circle" ? asNumber(region.diameter, 0.16) * 100 : shape === "square" ? asNumber(region.side, asNumber(region.width, 0.16)) * 100 : 16;
         return {
           id: asText(step.id, `beat-${index + 1}`),
           label: asText(step.caption.eyebrow, `beat ${index + 1}`),
