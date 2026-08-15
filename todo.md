@@ -60,3 +60,5 @@
 - [x] Add a fullscreen control with a graceful unavailable-state fallback.
 - [x] Add reduced-motion-aware caption fade transitions when beats change.
 - [x] Verify theme, fullscreen, and caption-motion controls on the koreo viewer.
+- [x] Add a subtle, theme-aware indicator for the active story beat in koreo viewer.
+- [x] Verify that progress updates with beat navigation without competing with the image or controls.

@@ -203,7 +203,13 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, sta
                 </article>
               ))}
             </div>
-            <div className="reader-controls"><button type="button" onClick={() => goToStep(activeIndex - 1)} disabled={isFirst} aria-label="Previous caption"><ArrowLeft size={16} /><span>previous</span></button><button type="button" onClick={() => goToStep(activeIndex + 1)} disabled={isLast} aria-label="Next caption"><span>next</span><ArrowRight size={16} /></button></div>
+            <div className="reader-controls">
+              <button type="button" onClick={() => goToStep(activeIndex - 1)} disabled={isFirst} aria-label="Previous caption"><ArrowLeft size={16} /><span>previous</span></button>
+              <div className="reader-progress" role="progressbar" aria-label="Story progress" aria-valuemin={1} aria-valuemax={steps.length} aria-valuenow={activeIndex + 1} aria-valuetext={`Beat ${activeIndex + 1} of ${steps.length}`}>
+                {steps.map((step, index) => <span key={step.label} className={index === activeIndex ? "reader-progress-segment active" : "reader-progress-segment"} aria-hidden="true" />)}
+              </div>
+              <button type="button" onClick={() => goToStep(activeIndex + 1)} disabled={isLast} aria-label="Next caption"><span>next</span><ArrowRight size={16} /></button>
+            </div>
           </div>
         </div>
 
