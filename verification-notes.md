@@ -47,3 +47,7 @@ The managed development server was restarted after a transient Vite HMR connecti
 ## 2026-08-15 — Height-Fit Original Image
 
 Original-image mode now uses a full-stage image box with `object-fit: contain`, making its photo content height-limited for the 4:3 Humahuaca source. Browser inspection confirms that the image element reaches—but does not exceed—the stage bottom. The complete image frame, including the foreground at the bottom edge, is visible with neutral side margins rather than any crop.
+
+## 2026-08-15 — Authored Caption Stops Only
+
+The artificial caption-rail tail and its scroll-snap behavior were removed. The rail now contains exactly six `.reader-caption-step` elements, one for each authored Humahuaca beat, with no extra tail node and no snap-aligned child targets. The six labels are overview, red crags, dark slopes, pale bank, dry channel, and background ridges.

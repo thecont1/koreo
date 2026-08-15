@@ -280,7 +280,6 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
                   <div className="reader-caption-content"><span className="reader-caption-label" style={{ color: index === activeIndex ? step.accent : undefined }}>{step.label}</span><h3>{step.title}</h3><p>{step.body}</p></div>
                 </article>
               ))}
-              <div className="reader-caption-tail" aria-hidden="true" />
             </div>
             <div className="reader-controls">
               <button type="button" onClick={() => goToStep(activeIndex - 1)} disabled={isFirst} aria-label="Previous caption"><ArrowLeft size={16} /><span>previous</span></button>

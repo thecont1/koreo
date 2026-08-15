@@ -91,3 +91,5 @@
 - [x] Restore the Vite preview WebSocket connection for the managed development domain.
 - [x] Make portrait original-image mode explicitly fit the photo to the available height with zero crop.
 - [x] Verify the complete bottom edge of the original image remains visible in the viewer.
+- [x] Remove phantom intermediate scroll stops so the caption rail lands only on authored story beats.
+- [x] Verify scrolling progresses through exactly the six Humahuaca captions.
