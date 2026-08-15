@@ -73,3 +73,7 @@ The `/author` helper now provides source metadata, image-file loading, reader wi
 The koreo caption rail now considers a middle beat eligible only when the centre of that caption reaches the vertical centre of the scroll rail. Explicit top and bottom checks preserve the first and final beats. The outer dashed focus ring was removed; the focus treatment is now its single solid boundary.
 
 The authoring helper now supports 16:9, 4:3, 3:2, 1:1, 3:4, and 2:3 stage ratios. The camera zoom range visibly scales the preview and writes the same value to JSON; a 2.00× preview showed the expected enlarged camera frame. The stage supports drag panning at zoom, confirmed by a transform change from `translate3d(0px, 0px, 0px) scale(2)` to `translate3d(42px, 26px, 0px) scale(2)`. The new 5×5 palette includes a custom hex field, verified at `#0f6b78`.
+
+## 2026-08-15 — Naming Cleanup
+
+Visible navigation now links the article directly to Authoring Studio. The authoring page header reads “koreo Authoring Studio,” its return link reads “koreo demo,” the guide is available at `/guide`, and public source plus metadata contain no Field Manual wording.

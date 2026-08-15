@@ -25,7 +25,7 @@ export default function Humahuaca() {
     <div className="humahuaca-page">
       <header className="article-header">
         <a href="/" className="article-back"><span>koreo demo site</span></a>
-        <a href="/field" className="article-field-button">Field Manual <ArrowUpRight size={13} /></a>
+        <a href="/author" className="article-field-button">Authoring Studio <ArrowUpRight size={13} /></a>
       </header>
 
       <main className="article-column">
@@ -57,7 +57,7 @@ export default function Humahuaca() {
         </div>
       </main>
 
-      <footer className="article-footer"><a href="/field">koreo</a><span>© Mahesh Shantaram</span></footer>
+      <footer className="article-footer"><a href="/author">koreo</a><span>© Mahesh Shantaram</span></footer>
 
       <KoreoReaderModal open={readerOpen} onClose={() => setReaderOpen(false)} imageSrc={HUMAHUACA_IMAGE} imageAlt="A dry channel leading through the multi-coloured mountains of Quebrada de Humahuaca" steps={humahuacaSteps} windowRatio="3:4" />
     </div>

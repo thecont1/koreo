@@ -16,7 +16,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Humahuaca} />
-      <Route path="/field" component={Home} />
+      <Route path="/guide" component={Home} />
       <Route path="/author" component={AuthoringStudio} />
       <Route path="/humahuaca" component={Humahuaca} />
       <Route path="/404" component={NotFound} />

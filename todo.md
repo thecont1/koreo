@@ -118,3 +118,6 @@
 - [x] Reduce the authoring helper headline to two lines.
 - [x] Replace the accent picker with a 5×5 differentiated palette plus hexadecimal override.
 - [x] Verify the centered scroll cadence and refined authoring workflow.
+- [x] Remove Field Manual branding and navigation references across the site.
+- [x] Rename the helper interface to koreo Authoring Studio.
+- [x] Verify the updated naming across public routes and generated copy.

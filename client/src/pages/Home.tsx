@@ -1,5 +1,5 @@
 /*
- * koreo Field Manual direction: warm mineral paper, charcoal ink, oxide-red
+ * koreo editorial direction: warm mineral paper, charcoal ink, oxide-red
  * focus marks, strict coordinate labels, and an asymmetric documentation rail.
  * This page is a living guide, so every abstraction is paired with a visible
  * specimen or executable-looking example.
@@ -228,11 +228,11 @@ export default function Home() {
         <a className="brand-lockup" href="#top" aria-label="koreo home">
           <img src={MARK_IMAGE} alt="" className="brand-mark" />
           <span className="brand-wordmark">koreo</span>
-          <span className="brand-version">FIELD MANUAL / 01</span>
+          <span className="brand-version">KOREO GUIDE / 01</span>
         </a>
         <div className="topbar-actions">
           <span className="status-note"><span className="status-dot" /> v1 contract</span>
-          <div className="top-links"><a className="top-link" href="#integration">Read the guide <ArrowUpRight size={15} /></a><a className="top-link" href="/author">Open authoring helper <ArrowUpRight size={15} /></a><a className="top-link article-link" href="/">Open article specimen <ArrowUpRight size={15} /></a></div>
+          <div className="top-links"><a className="top-link" href="#integration">Read the guide <ArrowUpRight size={15} /></a><a className="top-link" href="/author">Open Authoring Studio <ArrowUpRight size={15} /></a><a className="top-link article-link" href="/">Open article specimen <ArrowUpRight size={15} /></a></div>
           <button className="mobile-menu-button" type="button" onClick={() => setMobileNavOpen(!mobileNavOpen)} aria-expanded={mobileNavOpen} aria-label="Toggle guide navigation">
             {mobileNavOpen ? <X size={18} /> : <Menu size={18} />}
           </button>

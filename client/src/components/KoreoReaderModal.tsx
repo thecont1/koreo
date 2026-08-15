@@ -1,5 +1,5 @@
 /*
- * koreo Field Manual direction: the reader is a dark field-kit overlay where
+ * koreo editorial direction: the reader is a dark field-kit overlay where
  * a fixed camera stage and a semantic caption rail move as one editorial unit.
  */
 import { useEffect, useRef, useState, type CSSProperties } from "react";

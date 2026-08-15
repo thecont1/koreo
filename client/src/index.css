@@ -1,5 +1,5 @@
 /*
- * koreo Field Manual direction: warm mineral paper, charcoal ink, oxide-red
+ * koreo editorial direction: warm mineral paper, charcoal ink, oxide-red
  * focus marks, strict coordinate labels, and an asymmetric documentation rail.
  * This stylesheet intentionally uses ruled surfaces, material contrast, and
  * camera-like movement instead of generic app cards or loud gradients.
@@ -333,7 +333,7 @@ body.koreo-reader-open { overflow: hidden; }
 .closing-note { margin-top: 2.4rem; display: flex; align-items: center; gap: .9rem; padding: 1.1rem 1rem; border: 1px solid rgba(180,81,61,.36); background: rgba(180,81,61,.06); }
 .closing-icon { width: 2.1rem; height: 2.1rem; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--oxide); color: var(--oxide); }
 
-/* koreo authoring helper: an asymmetric field bench with source, stage, and beat apparatus. */
+/* koreo Authoring Studio: an asymmetric field bench with source, stage, and beat apparatus. */
 .author-shell { min-height: 100vh; background: #f2efe7; color: #1d201c; font-family: "Source Sans 3", sans-serif; }
 .author-topbar { height: 4.35rem; display: flex; align-items: center; justify-content: space-between; padding: 0 3.5rem; border-bottom: 1px solid #d6d0c3; background: rgba(242,239,231,.94); }
 .author-back, .author-actions button { display: inline-flex; align-items: center; gap: .45rem; color: #1d201c; font: .64rem "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
@@ -425,7 +425,7 @@ body.koreo-reader-open { overflow: hidden; }
 .guide-footer span { font-size: .76rem; color: var(--ink-soft); padding-left: .6rem; border-left: 1px solid var(--border); }
 .guide-footer a { color: var(--oxide); font: .62rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .1em; display: inline-flex; align-items: center; gap: .4rem; }
 
-/* Humahuaca article specimen: blank white, single-column, and deliberately quieter than the Field Manual. */
+/* Humahuaca article specimen: blank white, single-column, and deliberately quieter than the guide. */
 .humahuaca-page { min-height: 100vh; background: #fff; color: #191a18; }
 .article-header { height: 4.6rem; border-bottom: 1px solid #deded9; display: flex; align-items: center; justify-content: space-between; padding: 0 max(1.35rem, calc((100vw - 1120px) / 2)); font: .58rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .12em; }
 .article-back, .article-label, .article-byline, .article-figure figcaption, .article-story-figure figcaption, .article-footer { display: flex; align-items: center; }

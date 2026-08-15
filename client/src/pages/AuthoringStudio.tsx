@@ -1,5 +1,5 @@
 /*
- * koreo Field Manual direction: an authoring bench with mineral paper,
+ * koreo editorial direction: an authoring bench with mineral paper,
  * coordinate marks, and quiet tools that keep the photograph in charge.
  */
 import { useMemo, useRef, useState } from "react";
@@ -205,8 +205,8 @@ export default function AuthoringStudio() {
   return (
     <div className="author-shell">
       <header className="author-topbar">
-        <a className="author-back" href="/field"><ArrowLeft size={15} /> Field Manual</a>
-        <div className="author-title"><span>koreo authoring helper</span><small>json / v1 contract</small></div>
+        <a className="author-back" href="/"><ArrowLeft size={15} /> koreo demo</a>
+        <div className="author-title"><span>koreo Authoring Studio</span><small>json / v1 contract</small></div>
         <div className="author-actions"><button type="button" onClick={copyJson}>{copied ? <Check size={15} /> : <Clipboard size={15} />}{copied ? "Copied" : "Copy JSON"}</button><button className="author-download" type="button" onClick={downloadJson}><Download size={15} /> Download</button></div>
       </header>
 
