@@ -286,7 +286,7 @@ body.koreo-reader-open { overflow: hidden; }
 .koreo-reader-stage-column-portrait { align-items: center; }
 .koreo-reader-stage-column-portrait .koreo-reader-stage { width: auto; height: min(100%, calc(100vh - 7rem)); max-width: 100%; aspect-ratio: var(--koreo-window-ratio); max-height: none; }
 .koreo-reader-stage-column-square .koreo-reader-stage { width: min(100%, calc(100vh - 22rem)); height: auto; aspect-ratio: var(--koreo-window-ratio); max-height: 100%; }
-.reader-camera-plane { position: absolute; inset: 0; transform-origin: 0 0; transition: transform .68s var(--ease-in-out); will-change: transform; }
+.reader-camera-plane { position: absolute; inset: 0; transform-origin: 0 0; transition: transform .72s var(--ease-in-out); will-change: transform; }
 .reader-camera-plane img { width: 100%; height: 100%; display: block; object-fit: cover; }
 .reader-highlight { position: absolute; transform: translate(-50%, -50%); border: 1px solid; box-shadow: 0 0 0 999px rgba(12,15,12,.26); transition: left .68s var(--ease-in-out), top .68s var(--ease-in-out), width .68s var(--ease-in-out), height .68s var(--ease-in-out), border-color .3s ease, border-radius .3s ease, opacity .3s ease; }
 .reader-highlight::after { content: ""; position: absolute; inset: -.45rem; border: 1px dashed currentColor; border-radius: inherit; opacity: .5; }

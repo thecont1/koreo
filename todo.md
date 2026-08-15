@@ -93,3 +93,6 @@
 - [x] Verify the complete bottom edge of the original image remains visible in the viewer.
 - [x] Remove phantom intermediate scroll stops so the caption rail lands only on authored story beats.
 - [x] Verify scrolling progresses through exactly the six Humahuaca captions.
+- [x] Replace proximity-driven scroll activation with deterministic authored-beat selection.
+- [x] Hold each active beat through a deliberate dwell interval before permitting the next transition.
+- [x] Verify smooth scroll progression across exactly the configured beat count.

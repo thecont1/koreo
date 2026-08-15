@@ -51,3 +51,7 @@ Original-image mode now uses a full-stage image box with `object-fit: contain`, 
 ## 2026-08-15 — Authored Caption Stops Only
 
 The artificial caption-rail tail and its scroll-snap behavior were removed. The rail now contains exactly six `.reader-caption-step` elements, one for each authored Humahuaca beat, with no extra tail node and no snap-aligned child targets. The six labels are overview, red crags, dark slopes, pale bank, dry channel, and background ridges.
+
+## 2026-08-15 — Deterministic Authored-Beat Progression
+
+The caption rail now maps a scroll position only to one of its authored step indices. A large scroll from beat 01 to the bottom held the overview at 350ms, then activated beat 02, beat 03, beat 04, beat 05, and beat 06 sequentially; no state outside the six configured captions was reached. Each step waits 680ms before the next transition, and the camera transform animates over 720ms.

@@ -6,6 +6,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowLeft, ArrowRight, Maximize2, Minimize2, Moon, Sun, X } from "lucide-react";
 
 const VIEWER_PREFERENCES_KEY = "koreo.viewer-preferences.v1";
+const SCROLL_BEAT_DWELL_MS = 680;
 
 type ViewerPreferences = {
   surface: "dark" | "light";
@@ -60,6 +61,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
   const scrollRafRef = useRef<number | null>(null);
   const pendingBeatRef = useRef<number | null>(null);
   const beatSettleTimerRef = useRef<number | null>(null);
+  const activeIndexRef = useRef(0);
 
   const activeStep = steps[activeIndex] ?? steps[0];
   const [ratioWidth, ratioHeight] = windowRatio.split(":").map(Number);
@@ -91,6 +93,10 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
     media.addEventListener?.("change", update);
     return () => media.removeEventListener?.("change", update);
   }, []);
+
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
 
   useEffect(() => {
     try {
@@ -141,7 +147,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
   });
 
   useEffect(() => {
-    if (!open) return;
+    if (!open || imageMode) return;
     const scroller = captionScrollerRef.current;
     const readerBody = readerBodyRef.current;
     if (!scroller || !readerBody) return;
@@ -152,21 +158,38 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
       pendingBeatRef.current = null;
     };
 
-    const activateScrollBeat = (candidate: number, immediate = false) => {
-      if (immediate || reducedMotion) {
+    const activateScrollBeat = (rawCandidate: number) => {
+      const current = activeIndexRef.current;
+      const candidate = Math.max(0, Math.min(steps.length - 1, rawCandidate));
+      if (candidate === current) {
         clearPendingBeat();
-        setActiveIndex((current) => (current === candidate ? current : candidate));
         return;
       }
-      if (pendingBeatRef.current === candidate) return;
+
+      if (reducedMotion) {
+        clearPendingBeat();
+        activeIndexRef.current = candidate;
+        setActiveIndex((currentIndex) => (currentIndex === candidate ? currentIndex : candidate));
+        return;
+      }
+
+      // A scroll can pass several captions, but the camera advances only one
+      // authored beat at a time—never to an intermediate visual position.
+      const nextAuthoredBeat = current + Math.sign(candidate - current);
+      if (pendingBeatRef.current === nextAuthoredBeat) return;
       clearPendingBeat();
-      pendingBeatRef.current = candidate;
+      pendingBeatRef.current = nextAuthoredBeat;
       beatSettleTimerRef.current = window.setTimeout(() => {
         const settledBeat = pendingBeatRef.current;
         pendingBeatRef.current = null;
         beatSettleTimerRef.current = null;
-        if (settledBeat !== null) setActiveIndex((current) => (current === settledBeat ? current : settledBeat));
-      }, 220);
+        if (settledBeat === null) return;
+        activeIndexRef.current = settledBeat;
+        setActiveIndex((currentIndex) => (currentIndex === settledBeat ? currentIndex : settledBeat));
+        // Continue only after another complete dwell if the reader remains
+        // beyond a subsequent authored caption.
+        window.requestAnimationFrame(syncFromScroll);
+      }, SCROLL_BEAT_DWELL_MS);
     };
 
     const syncFromScroll = () => {
@@ -174,19 +197,13 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
       const scrollSurface = scroller.scrollHeight > scroller.clientHeight + 4 ? scroller : readerBody;
       const atStart = scrollSurface.scrollTop <= 4;
       const atEnd = scrollSurface.scrollTop + scrollSurface.clientHeight >= scrollSurface.scrollHeight - 4;
-      if (atStart) {
-        activateScrollBeat(0, true);
-        return;
-      }
-      if (atEnd) {
-        activateScrollBeat(steps.length - 1, true);
-        return;
-      }
       const readingLine = scrollSurface.getBoundingClientRect().top + scrollSurface.clientHeight * 0.34;
-      let candidate = 0;
-      stepRefs.current.forEach((node, index) => {
-        if (node && node.getBoundingClientRect().top <= readingLine) candidate = index;
-      });
+      let candidate = atStart ? 0 : atEnd ? steps.length - 1 : 0;
+      if (!atStart && !atEnd) {
+        stepRefs.current.forEach((node, index) => {
+          if (node && node.getBoundingClientRect().top <= readingLine) candidate = index;
+        });
+      }
       activateScrollBeat(candidate);
     };
 
