@@ -93,3 +93,7 @@ The Studio now maps each region from the transformed image frame rather than the
 ## 2026-08-15 — Save and Load Story Files
 
 The Studio now places Copy, Load, and Save together in the beats panel. The visible interface refers only to story files. Save created `untitled-photo-story.koreo.json`; loading that file restored its source metadata, two beats, reader-window ratio, focus settings, and accent values, then provided a transient “Loaded” confirmation. The import path validates the document structure before applying changes, and type checking plus production build pass.
+
+## 2026-08-15 — Wide-Image Pan Repair
+
+The Studio now renders the cover-sized source image at its true transformed dimensions instead of scaling a viewport-sized image. An ultra-wide 4:1 fixture rendered at 3064px within a 575px portrait stage and travelled from `translate3d(-2489.7px, 0px, 0px)` to `translate3d(0px, 0px, 0px)`, reaching both horizontal edges. The stage cursor reports `grabbing` during drag and returns to `grab` afterward. Switching the fixture to a 16:9 reader window clamps the old offset to a fully covered frame (1293px source width across a 575px stage), preventing a blank stage. Type checking and production build pass.

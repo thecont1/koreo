@@ -134,3 +134,5 @@
 - [x] Validate loaded story documents, restore source, beats, focus settings, and reader-window ratio, then verify a save-load round trip before publishing.
 - [x] Review the welcome branch for any remaining uncommitted work and organize it into logical commits.
 - [x] Push the finalized welcome branch history to the private koreo repository and verify it is clean.
+- [x] Repair full-range pan constraints for unusually wide source images in the Authoring Studio.
+- [x] Add smooth grab/grabbing cursor feedback and verify wide-image panning in landscape and portrait reader windows before publishing.

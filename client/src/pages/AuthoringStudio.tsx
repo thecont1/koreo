@@ -104,6 +104,9 @@ export default function AuthoringStudio() {
   const panningRef = useRef(false);
 
   const activeBeat = beats[activeIndex] ?? beats[0];
+  const activeImageFrame = stageSize.width && stageSize.height
+    ? getRenderedImageFrame(stageSize.width, stageSize.height, imageSize.width, imageSize.height, activeBeat?.zoom ?? 1, previewPan)
+    : null;
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -117,6 +120,17 @@ export default function AuthoringStudio() {
     observer.observe(stage);
     return () => observer.disconnect();
   }, [windowRatio]);
+
+  useEffect(() => {
+    if (!stageSize.width || !stageSize.height || !activeBeat) return;
+    const frame = getRenderedImageFrame(stageSize.width, stageSize.height, imageSize.width, imageSize.height, activeBeat.zoom, { x: 0, y: 0 });
+    const maxX = Math.max(0, (frame.renderedWidth - stageSize.width) / 2);
+    const maxY = Math.max(0, (frame.renderedHeight - stageSize.height) / 2);
+    setPreviewPan((current) => {
+      const next = { x: clamp(current.x, -maxX, maxX), y: clamp(current.y, -maxY, maxY) };
+      return next.x === current.x && next.y === current.y ? current : next;
+    });
+  }, [activeBeat, imageSize.height, imageSize.width, stageSize.height, stageSize.width, windowRatio]);
 
   const updateBeat = (patch: Partial<Beat>) => {
     setBeats((current) => current.map((beat, index) => index === activeIndex ? { ...beat, ...patch } : beat));
@@ -326,7 +340,7 @@ export default function AuthoringStudio() {
           <div className="author-stage-meta"><span>plate / focus map</span><span>x {String(activeBeat.x).padStart(2, "0")} · y {String(activeBeat.y).padStart(2, "0")}</span></div>
           <div className="author-stage-window" data-ratio={windowRatio}>
             <button ref={stageRef} className={isPanning ? "author-image-stage is-panning" : "author-image-stage"} type="button" onClick={setFocusFromClick} onPointerDown={startPan} onPointerMove={movePan} onPointerUp={endPan} onPointerCancel={endPan} style={{ aspectRatio: windowRatio.replace(":", " / ") }} aria-label="Drag to pan the image or click to place the active focus point">
-              <img src={previewSource} alt="" style={{ transform: `translate3d(${previewPan.x}px, ${previewPan.y}px, 0) scale(${activeBeat.zoom})` }} onError={(event) => { event.currentTarget.src = DEFAULT_IMAGE; }} />
+              <img src={previewSource} alt="" draggable={false} style={activeImageFrame ? { width: `${activeImageFrame.renderedWidth}px`, height: `${activeImageFrame.renderedHeight}px`, transform: `translate3d(${activeImageFrame.left}px, ${activeImageFrame.top}px, 0)` } : undefined} onError={(event) => { event.currentTarget.src = DEFAULT_IMAGE; }} />
               {beats.map((beat, index) => beat.shape !== "none" && <span key={beat.id} className={index === activeIndex ? "author-focus-point active" : "author-focus-point"} style={{ ...getFocusMarkerStyle(beat), borderColor: beat.accent, borderRadius: beat.shape === "circle" ? "50%" : "0", color: beat.accent }}><i aria-hidden="true" /></span>)}
               <span className="author-stage-crosshair" aria-hidden="true"><i /><i /></span>
             </button>
