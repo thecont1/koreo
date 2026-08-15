@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight, Maximize2, Minimize2, Moon, Sun, X } from "lucid
 
 const VIEWER_PREFERENCES_KEY = "koreo.viewer-preferences.v1";
 const SCROLL_BEAT_DWELL_MS = 1000;
+const MANUAL_NAVIGATION_LOCK_MS = 900;
 
 type ViewerPreferences = {
   surface: "dark" | "light";
@@ -62,6 +63,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
   const pendingBeatRef = useRef<number | null>(null);
   const beatSettleTimerRef = useRef<number | null>(null);
   const activeIndexRef = useRef(0);
+  const manualNavigationLockUntilRef = useRef(0);
 
   const activeStep = steps[activeIndex] ?? steps[0];
   const [ratioWidth, ratioHeight] = windowRatio.split(":").map(Number);
@@ -194,6 +196,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
 
     const syncFromScroll = () => {
       scrollRafRef.current = null;
+      if (Date.now() < manualNavigationLockUntilRef.current) return;
       const scrollSurface = scroller.scrollHeight > scroller.clientHeight + 4 ? scroller : readerBody;
       const atStart = scrollSurface.scrollTop <= 4;
       const atEnd = scrollSurface.scrollTop + scrollSurface.clientHeight >= scrollSurface.scrollHeight - 4;
@@ -227,6 +230,8 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
     if (beatSettleTimerRef.current) window.clearTimeout(beatSettleTimerRef.current);
     beatSettleTimerRef.current = null;
     pendingBeatRef.current = null;
+    manualNavigationLockUntilRef.current = Date.now() + MANUAL_NAVIGATION_LOCK_MS;
+    activeIndexRef.current = nextIndex;
     setActiveIndex(nextIndex);
     stepRefs.current[nextIndex]?.scrollIntoView({
       behavior: reducedMotion ? "auto" : "smooth",

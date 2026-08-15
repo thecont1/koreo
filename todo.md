@@ -100,3 +100,5 @@
 - [x] Commit the current koreo project changes to GitHub in logical batches.
 - [x] Push and verify the updated GitHub commit history.
 - [x] Create and publish a GitHub branch named `welcome` containing all current koreo changes.
+- [x] Prevent stale scroll callbacks from overriding Next and Previous navigation.
+- [x] Verify manual navigation remains on each selected authored beat.

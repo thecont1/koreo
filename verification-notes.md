@@ -55,3 +55,7 @@ The artificial caption-rail tail and its scroll-snap behavior were removed. The 
 ## 2026-08-15 — Deterministic Authored-Beat Progression
 
 The caption rail now maps a scroll position only to one of its authored step indices. A large scroll from beat 01 to the bottom held the overview at 350ms, then activated beat 02, beat 03, beat 04, beat 05, and beat 06 sequentially; no state outside the six configured captions was reached. Each step waits 680ms before the next transition, and the camera transform animates over 720ms.
+
+## 2026-08-15 — Manual Navigation Lock
+
+Manual Previous and Next actions now set a short scroll-activation lock while their caption alignment scroll completes. A sequential manual navigation test moved through overview, red crags, dark slopes, and pale bank; after the lock expired, pale bank remained active instead of being reversed by the deferred scroll callback.
