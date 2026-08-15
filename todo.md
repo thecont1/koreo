@@ -138,3 +138,6 @@
 - [x] Add smooth grab/grabbing cursor feedback and verify wide-image panning in landscape and portrait reader windows before publishing.
 - [x] Rename the source-image action to “Load Image” and ensure its label remains on one line.
 - [x] Reorder Authoring Studio reader-window ratios to 1:1, 3:2, 2:3, 4:3, 3:4, and 16:9.
+- [x] Audit tracked repository files and identify safe candidates for consolidation, removal, or exclusion.
+- [x] Streamline safe generated, redundant, or template-only project material without affecting builds or deployment.
+- [x] Validate the cleaned project, document the decisions, and organize all remaining work into logical welcome-branch commits.

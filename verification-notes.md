@@ -105,3 +105,7 @@ The source-image action now reads “Load Image.” Its inline-flex layout and n
 ## 2026-08-15 — Reader-Window Preset Order
 
 The visible Authoring Studio reader-window sequence is now 1:1, 3:2, 2:3, 4:3, 3:4, and 16:9. The local browser inspection confirmed that exact ordering, and type checking plus production build pass.
+
+## 2026-08-15 — Repository Streamlining
+
+The repository was audited at 102 tracked files. The active application directly used only 13 of the generated UI primitives, leaving 41 unreferenced template UI files, two unreferenced template components, one unused client constant, and 12 superseded one-off verification notes. Those files were removed; the running `verification-notes.md` remains as the single current verification record and Git history preserves the prior notes. Unused runtime and development packages were also pruned, reducing the manifest to 18 runtime and 14 development dependencies. A full type check, production build, and screenshots of `/`, `/guide`, and `/author` passed after the cleanup.
