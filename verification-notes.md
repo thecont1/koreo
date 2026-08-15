@@ -35,3 +35,7 @@ The viewer header now renders the supplied GitHub mark immediately after “kore
 The former browser-fullscreen button now activates a container-preserving image-only mode. It hides the caption rail, progress, focus marker, vignette, header identity, and other non-essential controls while retaining an exit control and close button. The complete Humahuaca photo measured at its native 4:3 ratio within the fixed viewer stage using `object-fit: contain`.
 
 Viewer preferences are stored under the site-local `koreo.viewer-preferences.v1` key. Both image-only mode and the light surface persisted after closing and reopening the reader during browser verification.
+
+## 2026-08-15 — Zero-Crop Original Image Correction
+
+Original-image mode now renders the source photo outside the transformed camera plane. Its measured rendered ratio is 1.3333, exactly matching the image’s natural 4:3 ratio, with `object-fit: contain`. The remaining return-to-reading and close controls remain at the viewer header’s right edge; their action group sits within 16px of the header’s right boundary.

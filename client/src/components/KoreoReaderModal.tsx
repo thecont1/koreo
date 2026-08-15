@@ -258,11 +258,17 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
         <div className={`koreo-reader-body koreo-reader-body-${windowFit}`} ref={readerBodyRef}>
           <div className={`koreo-reader-stage-column koreo-reader-stage-column-${windowFit}`} style={windowStyle}>
             <div className="koreo-reader-stage" aria-label="koreo camera stage">
-              <div className="reader-camera-plane" style={imageMode ? undefined : cameraStyle}>
-                <img className={imageMode ? "reader-original-image" : undefined} src={imageSrc} alt={imageAlt} />
-                {!imageMode && <span className="reader-highlight" style={highlightStyle} aria-hidden="true" />}
-              </div>
-              {!imageMode && <div className="reader-stage-vignette" aria-hidden="true" />}
+              {imageMode ? (
+                <img className="reader-original-image" src={imageSrc} alt={imageAlt} />
+              ) : (
+                <>
+                  <div className="reader-camera-plane" style={cameraStyle}>
+                    <img src={imageSrc} alt={imageAlt} />
+                    <span className="reader-highlight" style={highlightStyle} aria-hidden="true" />
+                  </div>
+                  <div className="reader-stage-vignette" aria-hidden="true" />
+                </>
+              )}
             </div>
           </div>
 

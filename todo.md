@@ -85,3 +85,6 @@
 - [x] Fit the complete photograph at its native aspect ratio in distraction-free mode and hide caption chrome.
 - [x] Persist viewer surface and display-mode preferences between koreo openings on the same site.
 - [x] Verify original-image mode and preference persistence across close-and-reopen cycles.
+- [x] Guarantee zero-crop native-aspect-ratio image fitting in original-image mode.
+- [x] Keep the original-image return control and close button fixed at the header’s right edge.
+- [x] Verify the corrected image mode visually and with rendered-dimension checks.
