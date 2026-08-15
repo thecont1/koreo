@@ -42,3 +42,6 @@
 - [x] Make the source image itself activate Koreo while keeping its visual surface unobstructed.
 - [x] Refine the Koreo tab to half height, white by default, bottom-corner tab shape, left-indented, and black on image/tab hover.
 - [x] Set the article prose to the lightest available type weight and verify responsive caption/tab layout.
+- [x] Load Lora for article text and render it in solid black at a light weight.
+- [x] Reformat the image caption into a single-column title-over-body block.
+- [x] Render the image-caption body in a monospace face and verify desktop/mobile typography.
