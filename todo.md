@@ -45,3 +45,5 @@
 - [x] Load Lora for article text and render it in solid black at a light weight.
 - [x] Reformat the image caption into a single-column title-over-body block.
 - [x] Render the image-caption body in a monospace face and verify desktop/mobile typography.
+- [x] Stack the image-caption title directly above its monospace body.
+- [x] Set the image-caption title in Fraunces and verify the corrected hierarchy responsively.

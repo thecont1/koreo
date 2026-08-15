@@ -346,8 +346,8 @@ body.koreo-reader-open { overflow: hidden; }
 .article-image-launch:focus-visible { outline: 2px solid var(--oxide); outline-offset: 4px; }
 .article-source-image { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 .article-image-footer { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; }
-.article-image-caption { display: block; min-width: 0; padding: 1.65rem 1.4rem 0 0; color: #000; text-transform: none; letter-spacing: normal; }
-.article-image-caption h2 { max-width: none; margin: 0 0 .55rem; color: #000; font: 400 1.15rem/1.2 "Lora", serif; text-transform: none; letter-spacing: normal; }
+.article-figure .article-image-caption { display: block; min-width: 0; padding: 1.65rem 1.4rem 0 0; color: #000; text-transform: none; letter-spacing: normal; }
+.article-image-caption h2 { display: block; max-width: none; margin: 0 0 .55rem; color: #000; font: 500 1.15rem/1.2 "Fraunces", serif; text-transform: none; letter-spacing: normal; }
 .article-image-caption p { max-width: 37rem; margin: 0; color: #000; font: 400 .79rem/1.7 "IBM Plex Mono", monospace; text-transform: none; letter-spacing: 0; }
 .article-koreo-tab { display: inline-flex; align-items: center; align-self: start; gap: .4rem; min-height: 1.35rem; margin-right: .8rem; padding: .24rem .65rem; border: 1px solid #deded9; border-top: 0; border-radius: 0 0 .42rem .42rem; background: #fff; color: #22241f; font: 500 .52rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .1em; transition: background .18s ease, color .18s ease, border-color .18s ease; }
 .article-image-launch:hover + .article-image-footer .article-koreo-tab, .article-image-launch:focus-visible + .article-image-footer .article-koreo-tab, .article-koreo-tab:hover, .article-koreo-tab:focus-visible { border-color: #191a18; background: #191a18; color: #fff; }
