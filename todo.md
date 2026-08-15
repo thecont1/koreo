@@ -147,5 +147,5 @@
 - [x] Present wide-image captions as a horizontal row beneath the image in the reader.
 - [x] Align viewer focus rendering with Studio data: coordinates map faithfully and regions are true Circles or Squares only.
 - [x] Verify the corrected wide-image reader interaction, caption arrangement, and geometry before publishing.
-- [ ] Transfer the README, TECH-SPEC, and documentation asset references to main while preserving welcome for feature development.
-- [ ] Verify both GitHub branches and return the local workspace to welcome for continued work.
+- [x] Transfer the README, TECH-SPEC, and documentation asset references to main while preserving welcome for feature development.
+- [x] Verify both GitHub branches and return the local workspace to welcome for continued work.
