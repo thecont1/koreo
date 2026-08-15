@@ -265,7 +265,6 @@ body.koreo-reader-open { overflow: hidden; }
 .koreo-reader-backdrop { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 1rem; background: rgba(16, 18, 16, .86); backdrop-filter: blur(12px); animation: reader-fade-in .26s var(--ease-out) both; }
 .koreo-reader { --viewer-bg: #1d211e; --viewer-stage: #272c27; --viewer-fg: #f3efe6; --viewer-muted: rgba(243,239,230,.68); --viewer-subtle: rgba(243,239,230,.42); --viewer-border: rgba(243,239,230,.16); width: min(1560px, calc(100vw - 2rem)); height: min(920px, calc(100vh - 2rem)); display: flex; flex-direction: column; background: var(--viewer-bg); color: var(--viewer-fg); border: 1px solid var(--viewer-border); box-shadow: 0 30px 100px rgba(0,0,0,.35); animation: reader-rise-in .42s var(--ease-out) both; }
 .koreo-viewer-light { --viewer-bg: #f6f5f0; --viewer-stage: #e7e6df; --viewer-fg: #181a17; --viewer-muted: rgba(24,26,23,.7); --viewer-subtle: rgba(24,26,23,.48); --viewer-border: rgba(24,26,23,.18); }
-.koreo-reader:fullscreen { width: 100vw; height: 100vh; border: 0; }
 .koreo-reader-header { min-height: 2.8rem; display: flex; align-items: center; gap: 1rem; padding: 0 1rem; border-color: var(--viewer-border); font: .59rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .11em; }
 .koreo-reader-header { justify-content: space-between; border-bottom: 1px solid var(--viewer-border); }
 .reader-brand, .viewer-actions, .viewer-action, .reader-close, .reader-controls button { display: flex; align-items: center; }
@@ -292,6 +291,13 @@ body.koreo-reader-open { overflow: hidden; }
 .reader-highlight { position: absolute; transform: translate(-50%, -50%); border: 1px solid; box-shadow: 0 0 0 999px rgba(12,15,12,.26); transition: left .68s var(--ease-in-out), top .68s var(--ease-in-out), width .68s var(--ease-in-out), height .68s var(--ease-in-out), border-color .3s ease, border-radius .3s ease, opacity .3s ease; }
 .reader-highlight::after { content: ""; position: absolute; inset: -.45rem; border: 1px dashed currentColor; border-radius: inherit; opacity: .5; }
 .reader-stage-vignette { position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 80px rgba(0,0,0,.26); }
+.koreo-reader-image-mode .reader-brand, .koreo-reader-image-mode .viewer-action:not(.image-mode-toggle) { display: none; }
+.koreo-reader-image-mode .koreo-reader-body { display: block; overflow: hidden; }
+.koreo-reader-image-mode .koreo-reader-stage-column { width: 100%; height: 100%; }
+.koreo-reader-image-mode .koreo-reader-stage { width: 100% !important; height: 100% !important; max-width: none !important; max-height: none !important; aspect-ratio: auto !important; display: grid; place-items: center; }
+.koreo-reader-image-mode .reader-camera-plane { position: relative; inset: auto; width: 100%; height: 100%; display: grid; place-items: center; transform: none !important; }
+.koreo-reader-image-mode .reader-original-image { width: 100%; height: 100%; object-fit: contain; }
+.koreo-reader-image-mode .koreo-reader-copy { display: none; }
 .koreo-reader-copy { min-width: 0; min-height: 0; display: flex; flex-direction: column; padding: 1rem 1.2rem; }
 .reader-caption-scroller { min-height: 0; flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: .1rem .4rem .8rem 0; scroll-snap-type: y proximity; scroll-padding-block: 34%; scrollbar-color: color-mix(in srgb, var(--viewer-fg) 28%, transparent) transparent; scrollbar-width: thin; }
 .reader-caption-step { display: grid; grid-template-columns: 2rem 1fr; gap: .75rem; min-height: 16rem; padding: 2rem 0; border-top: 1px solid var(--viewer-border); scroll-snap-align: center; scroll-snap-stop: always; opacity: .42; transition: opacity .3s ease; }

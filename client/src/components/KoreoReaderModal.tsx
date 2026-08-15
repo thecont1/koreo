@@ -5,6 +5,27 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowLeft, ArrowRight, Maximize2, Minimize2, Moon, Sun, X } from "lucide-react";
 
+const VIEWER_PREFERENCES_KEY = "koreo.viewer-preferences.v1";
+
+type ViewerPreferences = {
+  surface: "dark" | "light";
+  imageMode: boolean;
+};
+
+function readViewerPreferences(): ViewerPreferences {
+  try {
+    const stored = window.localStorage.getItem(VIEWER_PREFERENCES_KEY);
+    if (!stored) return { surface: "dark", imageMode: false };
+    const parsed = JSON.parse(stored) as Partial<ViewerPreferences>;
+    return {
+      surface: parsed.surface === "light" ? "light" : "dark",
+      imageMode: parsed.imageMode === true,
+    };
+  } catch {
+    return { surface: "dark", imageMode: false };
+  }
+}
+
 export type KoreoReaderStep = {
   label: string;
   title: string;
@@ -29,10 +50,8 @@ type KoreoReaderModalProps = {
 export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, windowRatio = "4:3" }: KoreoReaderModalProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [surface, setSurface] = useState<"dark" | "light">("dark");
-  const [fullscreenSupported, setFullscreenSupported] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const viewerRef = useRef<HTMLElement | null>(null);
+  const [viewerPreferences, setViewerPreferences] = useState<ViewerPreferences>(readViewerPreferences);
+  const { surface, imageMode } = viewerPreferences;
   const readerBodyRef = useRef<HTMLDivElement | null>(null);
   const captionScrollerRef = useRef<HTMLDivElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -74,12 +93,12 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
   }, []);
 
   useEffect(() => {
-    const supported = typeof document !== "undefined" && "requestFullscreen" in document.documentElement;
-    setFullscreenSupported(supported);
-    const onFullscreenChange = () => setIsFullscreen(document.fullscreenElement === viewerRef.current);
-    document.addEventListener("fullscreenchange", onFullscreenChange);
-    return () => document.removeEventListener("fullscreenchange", onFullscreenChange);
-  }, []);
+    try {
+      window.localStorage.setItem(VIEWER_PREFERENCES_KEY, JSON.stringify(viewerPreferences));
+    } catch {
+      // Preference persistence is optional; koreo continues without storage access.
+    }
+  }, [viewerPreferences]);
 
   useEffect(() => {
     if (!open) return;
@@ -98,7 +117,11 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
-        onClose();
+        if (imageMode) {
+          setViewerPreferences((current) => ({ ...current, imageMode: false }));
+        } else {
+          onClose();
+        }
       } else if (event.key === "ArrowRight" || event.key === "ArrowDown") {
         event.preventDefault();
         goToStep(Math.min(activeIndex + 1, steps.length - 1));
@@ -180,7 +203,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
       clearPendingBeat();
       scrollRafRef.current = null;
     };
-  }, [open, reducedMotion, steps.length]);
+  }, [open, reducedMotion, steps.length, imageMode]);
 
   function goToStep(index: number) {
     const nextIndex = Math.max(0, Math.min(index, steps.length - 1));
@@ -194,17 +217,8 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
     });
   }
 
-  async function toggleFullscreen() {
-    if (!fullscreenSupported || !viewerRef.current) return;
-    try {
-      if (document.fullscreenElement) {
-        await document.exitFullscreen();
-      } else {
-        await viewerRef.current.requestFullscreen();
-      }
-    } catch {
-      setIsFullscreen(false);
-    }
+  function toggleImageMode() {
+    setViewerPreferences((current) => ({ ...current, imageMode: !current.imageMode }));
   }
 
   if (!open || !activeStep) return null;
@@ -222,7 +236,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
 
   return (
     <div className="koreo-reader-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
-      <section ref={viewerRef} className={`koreo-reader koreo-viewer-${surface}`} role="dialog" aria-modal="true" aria-label="koreo viewer">
+      <section className={`koreo-reader koreo-viewer-${surface}${imageMode ? " koreo-reader-image-mode" : ""}`} role="dialog" aria-modal="true" aria-label="koreo viewer">
         <header className="koreo-reader-header">
           <a className="reader-brand" href="https://github.com/thecont1/koreo" target="_blank" rel="noreferrer" aria-label="Open the koreo repository on GitHub">
             <span>koreo viewer by mahesh shantaram</span>
@@ -231,11 +245,11 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
             </svg>
           </a>
           <div className="viewer-actions">
-            <button className="viewer-action" type="button" onClick={() => setSurface((current) => current === "dark" ? "light" : "dark")} aria-label={`Switch to ${surface === "dark" ? "light" : "dark"} viewer surface`} aria-pressed={surface === "light"}>
+            <button className="viewer-action" type="button" onClick={() => setViewerPreferences((current) => ({ ...current, surface: current.surface === "dark" ? "light" : "dark" }))} aria-label={`Switch to ${surface === "dark" ? "light" : "dark"} viewer surface`} aria-pressed={surface === "light"}>
               {surface === "dark" ? <Sun size={17} /> : <Moon size={17} />}
             </button>
-            <button className="viewer-action" type="button" onClick={toggleFullscreen} aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"} disabled={!fullscreenSupported} title={fullscreenSupported ? undefined : "Fullscreen is unavailable in this browser"}>
-              {isFullscreen ? <Minimize2 size={17} /> : <Maximize2 size={17} />}
+            <button className="viewer-action image-mode-toggle" type="button" onClick={toggleImageMode} aria-label={imageMode ? "Return to guided reading" : "Show complete original image"} aria-pressed={imageMode}>
+              {imageMode ? <Minimize2 size={17} /> : <Maximize2 size={17} />}
             </button>
             <button ref={closeButtonRef} className="reader-close" type="button" onClick={onClose} aria-label="Close koreo viewer"><X size={20} /></button>
           </div>
@@ -244,11 +258,11 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
         <div className={`koreo-reader-body koreo-reader-body-${windowFit}`} ref={readerBodyRef}>
           <div className={`koreo-reader-stage-column koreo-reader-stage-column-${windowFit}`} style={windowStyle}>
             <div className="koreo-reader-stage" aria-label="koreo camera stage">
-              <div className="reader-camera-plane" style={cameraStyle}>
-                <img src={imageSrc} alt={imageAlt} />
-                <span className="reader-highlight" style={highlightStyle} aria-hidden="true" />
+              <div className="reader-camera-plane" style={imageMode ? undefined : cameraStyle}>
+                <img className={imageMode ? "reader-original-image" : undefined} src={imageSrc} alt={imageAlt} />
+                {!imageMode && <span className="reader-highlight" style={highlightStyle} aria-hidden="true" />}
               </div>
-              <div className="reader-stage-vignette" aria-hidden="true" />
+              {!imageMode && <div className="reader-stage-vignette" aria-hidden="true" />}
             </div>
           </div>
 

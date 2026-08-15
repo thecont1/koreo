@@ -81,3 +81,7 @@
 - [x] Change the viewer header attribution to “koreo viewer by mahesh shantaram.”
 - [x] Verify settled sequential caption transitions in the viewer.
 - [x] Add the supplied GitHub mark beside the viewer header attribution and link the full identity treatment to the koreo repository.
+- [x] Replace browser fullscreen with a container-preserving distraction-free original-image mode.
+- [x] Fit the complete photograph at its native aspect ratio in distraction-free mode and hide caption chrome.
+- [x] Persist viewer surface and display-mode preferences between koreo openings on the same site.
+- [x] Verify original-image mode and preference persistence across close-and-reopen cycles.

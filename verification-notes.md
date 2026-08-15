@@ -29,3 +29,9 @@ Scroll-derived candidates now wait 220ms before activating. In the Humahuaca vie
 ## 2026-08-15 — GitHub Identity Link
 
 The viewer header now renders the supplied GitHub mark immediately after “koreo viewer by mahesh shantaram.” The complete compact identity is one accessible link to `https://github.com/thecont1/koreo`, and the mark inherits the active viewer-surface color for both dark and light modes.
+
+## 2026-08-15 — Original Image Mode and Persistent Preferences
+
+The former browser-fullscreen button now activates a container-preserving image-only mode. It hides the caption rail, progress, focus marker, vignette, header identity, and other non-essential controls while retaining an exit control and close button. The complete Humahuaca photo measured at its native 4:3 ratio within the fixed viewer stage using `object-fit: contain`.
+
+Viewer preferences are stored under the site-local `koreo.viewer-preferences.v1` key. Both image-only mode and the light surface persisted after closing and reopening the reader during browser verification.
