@@ -43,3 +43,7 @@ Original-image mode now renders the source photo outside the transformed camera 
 ## 2026-08-15 — Vite Preview Connection
 
 The managed development server was restarted after a transient Vite HMR connection loss. The preview page reloaded successfully and the collected browser logs reported successive `[vite] connected.` messages with no repeat of the WebSocket failure after restart. The existing Vite configuration already allows the managed preview host, so no configuration override was necessary.
+
+## 2026-08-15 — Height-Fit Original Image
+
+Original-image mode now uses a full-stage image box with `object-fit: contain`, making its photo content height-limited for the 4:3 Humahuaca source. Browser inspection confirms that the image element reaches—but does not exceed—the stage bottom. The complete image frame, including the foreground at the bottom edge, is visible with neutral side margins rather than any crop.
