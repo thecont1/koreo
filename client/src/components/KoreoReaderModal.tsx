@@ -51,16 +51,15 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
   const isLast = activeIndex === steps.length - 1;
   const focalX = Math.min(Math.max((activeStep?.x ?? 50) / 100, 0.001), 0.999);
   const focalY = Math.min(Math.max((activeStep?.y ?? 50) / 100, 0.001), 0.999);
-  const minimumCoverZoom = Math.max(
-    0.5 / focalX,
-    0.5 / (1 - focalX),
-    0.5 / focalY,
-    0.5 / (1 - focalY),
-  );
-  const cameraZoom = Math.max(activeStep?.zoom ?? 1, minimumCoverZoom);
+  const cameraZoom = Math.max(activeStep?.zoom ?? 1, 1);
+  const clampCameraOffset = (focalPoint: number) => {
+    const requestedOffset = 50 - focalPoint * 100 * cameraZoom;
+    const minimumOffset = 100 * (1 - cameraZoom);
+    return Math.min(0, Math.max(minimumOffset, requestedOffset));
+  };
   const cameraStyle = activeStep
     ? {
-        transform: `translate3d(${50 - focalX * 100 * cameraZoom}%, ${50 - focalY * 100 * cameraZoom}%, 0) scale(${cameraZoom})`,
+        transform: `translate3d(${clampCameraOffset(focalX)}%, ${clampCameraOffset(focalY)}%, 0) scale(${cameraZoom})`,
       }
     : undefined;
 
@@ -228,6 +227,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
                   <div className="reader-caption-content"><span className="reader-caption-label" style={{ color: index === activeIndex ? step.accent : undefined }}>{step.label}</span><h3>{step.title}</h3><p>{step.body}</p></div>
                 </article>
               ))}
+              <div className="reader-caption-tail" aria-hidden="true" />
             </div>
             <div className="reader-controls">
               <button type="button" onClick={() => goToStep(activeIndex - 1)} disabled={isFirst} aria-label="Previous caption"><ArrowLeft size={16} /><span>previous</span></button>

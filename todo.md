@@ -71,3 +71,7 @@
 - [x] Ensure viewer images fill their stage edge to edge without visible gaps at any ratio.
 - [x] Correct scroll-driven selection so the first and final story beats activate at the caption scroller boundaries.
 - [x] Verify edge fill and first/last mouse-scroll selection in portrait and landscape viewers.
+- [x] Diagnose and restore activation of the fifth Humahuaca caption during caption-rail scrolling.
+- [x] Expose calmer author-controlled camera zoom while preserving edge-to-edge stage coverage.
+- [x] Center portrait, landscape, and square viewer windows within their available stage columns.
+- [x] Verify all six Humahuaca captions, the revised zoom behavior, and centered windows.

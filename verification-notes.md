@@ -13,3 +13,11 @@ Remaining check: verify the mobile overlay layout, then run the final build and 
 The 3:4 Humahuaca viewer was inspected on a desktop viewport. The photograph reaches the stage edges without an intervening inset or stage border. Scrolling the caption rail to the lower boundary activated beat 06, “Layers tilted into the distance,” and scrolling it back to the upper boundary restored beat 01, “A valley shaped by passage.”
 
 The 4:3 Field Manual viewer was also inspected on desktop. Its camera plane was measured beyond all four stage edges during the overview state, confirming full image coverage after camera motion. Scrolling its caption rail to the bottom activated beat 03, “Let context stay in frame,” and returning it to the top restored beat 01, “Start with the whole frame.”
+
+## 2026-08-15 — Fifth Beat, Zoom, and Centering Revision
+
+The Humahuaca viewer’s caption rail now contains all six semantic beats plus a dedicated trailing scroll region. After a natural downward caption-rail scroll, beat 05, “The channel between rains,” visibly became the active caption, with beat 06 remaining inactive beneath it. The viewer stage column reports centered alignment.
+
+The fifth beat successfully advanced to beat 06, “Layers tilted into the distance,” through the existing Next control. The stage and column measurements showed equal left and right space around the portrait window, confirming centered placement. The Humahuaca story retains the existing per-beat `zoom` parameters, revised to a calmer range of 1.18–1.30 for focused beats.
+
+The 4:3 Field Manual specimen was also measured after the global centering change. Its stage column had 124.33px of left margin and 124.34px of right margin around the image window, confirming centered placement for landscape viewer windows as well.
