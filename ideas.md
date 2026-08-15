@@ -1,4 +1,4 @@
-# koreo Field Manual — Design Direction
+# koreo Editorial Field Guide — Design Direction
 
 ## Three directions considered
 

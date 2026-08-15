@@ -22,7 +22,7 @@ const cinqueTerreSteps: KoreoReaderStep[] = [
   },
   {
     label: "sea",
-    title: "The Ligurean Sea",
+    title: "The Ligurian Sea",
     body: "The Ligurian Sea is a branch of the Mediterranean Sea located between the northwestern coast of Italy (regions of Liguria and Tuscany) and the French island of Corsica.",
     x: 7,
     y: 45,
