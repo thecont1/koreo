@@ -85,3 +85,7 @@ At a 1280 × 720 desktop viewport, the Authoring Studio reports zero pixels belo
 ## 2026-08-15 — Ratio-Driven Studio Stage Correction
 
 The stage previously received the invalid CSS value `3:4`, which browsers ignored. The Studio now converts the contract to valid CSS ratio syntax and constrains every stage to the available image row using container-relative dimensions. Direct measurements confirmed `3:4` renders at 575 × 766 (0.750), `16:9` at 575 × 323 (1.778), and `1:1` at 575 × 575 (1.000); all fit inside the workspace. Type checking and production build pass.
+
+## 2026-08-15 — Cursor-Centred Focus Geometry
+
+The Studio now maps each region from the transformed image frame rather than the reader-window percentage box. A deliberate 16:9 click produced a target at 742 × 582 and a white focus-dot centre at the same 742 × 582 coordinate. Focus choices are now None, Circle, and Square only. In 16:9, the active circle measured 92 × 92 with a 1.000 rendered ratio; the square measured 92 × 92 at landscape and 184 × 184 at portrait, both with a zero-radius corner. Type checking and production build pass.

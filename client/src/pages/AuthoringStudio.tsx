@@ -2,7 +2,7 @@
  * koreo editorial direction: an authoring bench with mineral paper,
  * coordinate marks, and quiet tools that keep the photograph in charge.
  */
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, Check, Clipboard, Crosshair, Download, FileImage, Minus, Palette, Plus, Upload } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
@@ -17,7 +17,7 @@ type Beat = {
   x: number;
   y: number;
   zoom: number;
-  shape: "circle" | "rect" | "none";
+  shape: "circle" | "square" | "none";
   size: number;
   accent: string;
 };
@@ -45,6 +45,21 @@ function clamp(value: number, lower: number, upper: number) {
   return Math.min(upper, Math.max(lower, Number.isFinite(value) ? value : lower));
 }
 
+function getRenderedImageFrame(stageWidth: number, stageHeight: number, imageWidth: number, imageHeight: number, zoom: number, pan: { x: number; y: number }) {
+  const imageAspect = imageWidth / imageHeight;
+  const stageAspect = stageWidth / stageHeight;
+  const baseWidth = stageAspect > imageAspect ? stageWidth : stageHeight * imageAspect;
+  const baseHeight = stageAspect > imageAspect ? stageWidth / imageAspect : stageHeight;
+  const renderedWidth = baseWidth * zoom;
+  const renderedHeight = baseHeight * zoom;
+  return {
+    renderedWidth,
+    renderedHeight,
+    left: (stageWidth - renderedWidth) / 2 + pan.x,
+    top: (stageHeight - renderedHeight) / 2 + pan.y,
+  };
+}
+
 export default function AuthoringStudio() {
   const [storyId, setStoryId] = useState("untitled-photo-story");
   const [storyTitle, setStoryTitle] = useState("Untitled photo story");
@@ -59,12 +74,26 @@ export default function AuthoringStudio() {
   const [accentPickerOpen, setAccentPickerOpen] = useState(false);
   const [previewPan, setPreviewPan] = useState({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
+  const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const stageRef = useRef<HTMLButtonElement | null>(null);
   const panStartRef = useRef({ pointerX: 0, pointerY: 0, panX: 0, panY: 0, moved: false });
   const panningRef = useRef(false);
 
   const activeBeat = beats[activeIndex] ?? beats[0];
+
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    const syncStageSize = () => {
+      const bounds = stage.getBoundingClientRect();
+      setStageSize({ width: bounds.width, height: bounds.height });
+    };
+    syncStageSize();
+    const observer = new ResizeObserver(syncStageSize);
+    observer.observe(stage);
+    return () => observer.disconnect();
+  }, [windowRatio]);
 
   const updateBeat = (patch: Partial<Beat>) => {
     setBeats((current) => current.map((beat, index) => index === activeIndex ? { ...beat, ...patch } : beat));
@@ -86,19 +115,19 @@ export default function AuthoringStudio() {
   const setFocusFromClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (panStartRef.current.moved) return;
     const rect = event.currentTarget.getBoundingClientRect();
-    const zoom = activeBeat.zoom;
-    const imageAspect = imageSize.width / imageSize.height;
-    const stageAspect = rect.width / rect.height;
-    const baseWidth = stageAspect > imageAspect ? rect.width : rect.height * imageAspect;
-    const baseHeight = stageAspect > imageAspect ? rect.width / imageAspect : rect.height;
-    const renderedWidth = baseWidth * zoom;
-    const renderedHeight = baseHeight * zoom;
-    const imageLeft = (rect.width - renderedWidth) / 2 + previewPan.x;
-    const imageTop = (rect.height - renderedHeight) / 2 + previewPan.y;
+    const frame = getRenderedImageFrame(rect.width, rect.height, imageSize.width, imageSize.height, activeBeat.zoom, previewPan);
     updateBeat({
-      x: Math.round(clamp(((event.clientX - rect.left - imageLeft) / renderedWidth) * 100, 0, 100)),
-      y: Math.round(clamp(((event.clientY - rect.top - imageTop) / renderedHeight) * 100, 0, 100)),
+      x: Math.round(clamp(((event.clientX - rect.left - frame.left) / frame.renderedWidth) * 100, 0, 100)),
+      y: Math.round(clamp(((event.clientY - rect.top - frame.top) / frame.renderedHeight) * 100, 0, 100)),
+      shape: activeBeat.shape === "none" ? "circle" : activeBeat.shape,
     });
+  };
+
+  const getFocusMarkerStyle = (beat: Beat) => {
+    if (!stageSize.width || !stageSize.height) return { left: `${beat.x}%`, top: `${beat.y}%`, width: `${beat.size}%`, height: `${beat.size}%` };
+    const frame = getRenderedImageFrame(stageSize.width, stageSize.height, imageSize.width, imageSize.height, beat.zoom, previewPan);
+    const size = Math.max(4, (beat.size / 100) * frame.renderedWidth);
+    return { left: `${frame.left + (beat.x / 100) * frame.renderedWidth}px`, top: `${frame.top + (beat.y / 100) * frame.renderedHeight}px`, width: `${size}px`, height: `${size}px` };
   };
 
   const startPan = (event: React.PointerEvent<HTMLButtonElement>) => {
@@ -166,8 +195,8 @@ export default function AuthoringStudio() {
         const point = { x: Number((beat.x / 100).toFixed(4)), y: Number((beat.y / 100).toFixed(4)) };
         const region = beat.shape === "none"
           ? { type: "none" }
-          : beat.shape === "rect"
-            ? { type: "rect", ...point, width: Number((beat.size / 100).toFixed(4)), height: Number((beat.size * 0.68 / 100).toFixed(4)) }
+          : beat.shape === "square"
+            ? { type: "rect", ...point, width: Number((beat.size / 100).toFixed(4)), height: Number((beat.size / 100).toFixed(4)) }
             : { type: "circle", ...point, diameter: Number((beat.size / 100).toFixed(4)) };
         return {
           id: slugify(beat.id || beat.label, `beat-${index + 1}`),
@@ -226,7 +255,7 @@ export default function AuthoringStudio() {
           <div className="author-stage-window" data-ratio={windowRatio}>
             <button ref={stageRef} className={isPanning ? "author-image-stage is-panning" : "author-image-stage"} type="button" onClick={setFocusFromClick} onPointerDown={startPan} onPointerMove={movePan} onPointerUp={endPan} onPointerCancel={endPan} style={{ aspectRatio: windowRatio.replace(":", " / ") }} aria-label="Drag to pan the image or click to place the active focus point">
               <img src={previewSource} alt="" style={{ transform: `translate3d(${previewPan.x}px, ${previewPan.y}px, 0) scale(${activeBeat.zoom})` }} onError={(event) => { event.currentTarget.src = DEFAULT_IMAGE; }} />
-              {beats.map((beat, index) => beat.shape !== "none" && <span key={beat.id} className={index === activeIndex ? "author-focus-point active" : "author-focus-point"} style={{ left: `${beat.x}%`, top: `${beat.y}%`, width: `${beat.size}%`, height: beat.shape === "rect" ? `${beat.size * 0.68}%` : `${beat.size}%`, borderColor: beat.accent, borderRadius: beat.shape === "rect" ? "8%" : "50%", color: beat.accent }}><i>{index + 1}</i></span>)}
+              {beats.map((beat, index) => beat.shape !== "none" && <span key={beat.id} className={index === activeIndex ? "author-focus-point active" : "author-focus-point"} style={{ ...getFocusMarkerStyle(beat), borderColor: beat.accent, borderRadius: beat.shape === "circle" ? "50%" : "0", color: beat.accent }}><i aria-hidden="true" /></span>)}
               <span className="author-stage-crosshair" aria-hidden="true"><i /><i /></span>
             </button>
           </div>
@@ -243,7 +272,7 @@ export default function AuthoringStudio() {
             <div className="author-form-group"><label htmlFor="beat-title">Caption title</label><input id="beat-title" value={activeBeat.title} onChange={(event) => updateBeat({ title: event.target.value })} /></div>
             <div className="author-form-group"><label htmlFor="beat-body">Caption body</label><textarea id="beat-body" value={activeBeat.body} onChange={(event) => updateBeat({ body: event.target.value })} rows={4} /></div>
             <div className="author-controls-grid"><label>Focus x<input type="number" min="0" max="100" value={activeBeat.x} onChange={(event) => updateBeat({ x: clamp(Number(event.target.value), 0, 100) })} /></label><label>Focus y<input type="number" min="0" max="100" value={activeBeat.y} onChange={(event) => updateBeat({ y: clamp(Number(event.target.value), 0, 100) })} /></label><label>Size<input type="number" min="1" max="100" value={activeBeat.size} onChange={(event) => updateBeat({ size: clamp(Number(event.target.value), 1, 100) })} /></label><div className="author-zoom-control"><span>Camera zoom</span><output>{activeBeat.zoom.toFixed(2)}×</output><input type="range" min="1" max="3" step="0.05" value={activeBeat.zoom} onChange={(event) => updateBeat({ zoom: clamp(Number(event.target.value), 1, 3) })} /></div></div>
-            <div className="author-options"><label>Region<select value={activeBeat.shape} onChange={(event) => updateBeat({ shape: event.target.value as Beat["shape"] })}><option value="none">None</option><option value="circle">Circle</option><option value="rect">Rectangle</option></select></label></div>
+            <div className="author-options"><label>Region<select value={activeBeat.shape} onChange={(event) => updateBeat({ shape: event.target.value as Beat["shape"] })}><option value="none">None</option><option value="circle">Circle</option><option value="square">Square</option></select></label></div>
             <div className="author-accent-picker"><span className="author-label">Accent</span><Popover open={accentPickerOpen} onOpenChange={setAccentPickerOpen}><PopoverTrigger asChild><button className="author-accent-trigger" type="button" aria-label="Choose beat accent"><span className="author-accent-current" style={{ background: /^#[0-9a-fA-F]{6}$/.test(activeBeat.accent) ? activeBeat.accent : "transparent" }} /><span>{activeBeat.accent}</span><Palette size={14} /></button></PopoverTrigger><PopoverContent className="author-accent-popover" align="end" sideOffset={8}><div className="author-accent-head"><span>Accent colour</span><span>25 swatches + hex</span></div><div className="author-palette">{accentPalette.map((color) => <button key={color} type="button" title={color} aria-label={`Use accent ${color}`} className={activeBeat.accent.toLowerCase() === color.toLowerCase() ? "active" : ""} style={{ backgroundColor: color }} onClick={() => { updateBeat({ accent: color }); setAccentPickerOpen(false); }} />)}</div><div className="author-hex-row"><input value={activeBeat.accent} maxLength={7} aria-label="Custom accent hexadecimal colour" onChange={(event) => updateBeat({ accent: event.target.value })} /><span className="author-hex-swatch" style={{ background: /^#[0-9a-fA-F]{6}$/.test(activeBeat.accent) ? activeBeat.accent : "transparent" }} /></div></PopoverContent></Popover></div>
           </div>
         </aside>

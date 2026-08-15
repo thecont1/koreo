@@ -127,3 +127,6 @@
 - [x] Verify desktop viewport fit, image-stage sizing, accent selection, type checks, build, and published routes.
 - [x] Restore visibly ratio-driven reader-window resizing for every Authoring Studio aspect-ratio control.
 - [x] Verify 16:9, 1:1, and 3:4 stage geometry changes while preserving desktop viewport fit, then publish the correction.
+- [x] Make stage clicks place the active focus centre exactly beneath the cursor in normalized image coordinates.
+- [x] Restrict focus regions to true Circle and Square options, with equal rendered dimensions across all stage ratios.
+- [x] Verify click placement and geometry at landscape, square, and portrait ratios before publishing the refinement.

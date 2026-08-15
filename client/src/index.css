@@ -391,7 +391,7 @@ body.koreo-reader-open { overflow: hidden; }
 .author-image-stage.is-panning { cursor: grabbing; }
 .author-focus-point { position: absolute; z-index: 2; transform: translate(-50%, -50%); border: 1px solid; box-shadow: 0 0 0 999px rgba(18,22,19,.05); opacity: .58; transition: left .25s var(--ease-in-out), top .25s var(--ease-in-out), opacity .2s ease, box-shadow .2s ease; }
 .author-focus-point.active { opacity: 1; box-shadow: 0 0 0 999px rgba(18,22,19,.22); }
-.author-focus-point i { position: absolute; left: 50%; top: 50%; width: 1.45rem; height: 1.45rem; transform: translate(-50%, -50%); display: grid; place-items: center; border-radius: 50%; background: currentColor; color: #fff; font: .55rem "IBM Plex Mono", monospace; font-style: normal; }
+.author-focus-point i { position: absolute; left: 50%; top: 50%; width: .65rem; height: .65rem; transform: translate(-50%, -50%); border-radius: 50%; border: 1px solid rgba(29,32,28,.42); background: #f8f6ef; box-shadow: 0 0 0 2px rgba(248,246,239,.18); font-style: normal; }
 .author-stage-crosshair { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 .author-stage-crosshair i { position: absolute; background: rgba(255,255,255,.42); }
 .author-stage-crosshair i:first-child { width: 1px; height: 100%; left: 50%; top: 0; }
