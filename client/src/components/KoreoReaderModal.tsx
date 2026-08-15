@@ -54,7 +54,8 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
   const [reducedMotion, setReducedMotion] = useState(false);
   const [viewerPreferences, setViewerPreferences] = useState<ViewerPreferences>(readViewerPreferences);
   const [imageAspect, setImageAspect] = useState(1);
-  const { surface, imageMode } = viewerPreferences;
+  const [imageModeActive, setImageModeActive] = useState(false);
+  const { surface } = viewerPreferences;
   const readerBodyRef = useRef<HTMLDivElement | null>(null);
   const captionScrollerRef = useRef<HTMLDivElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -136,6 +137,14 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
     };
   }, [open]);
 
+  // Restore the persisted image-mode preference only when the dialog opens.
+  // Escape during a session clears the session state without overwriting the
+  // stored preference, so the reader reopens in the user's chosen mode.
+  useEffect(() => {
+    if (open) setImageModeActive(viewerPreferences.imageMode);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally read only on open
+  }, [open]);
+
   const goToStep = useCallback((index: number) => {
     const nextIndex = Math.max(0, Math.min(index, steps.length - 1));
     if (beatSettleTimerRef.current) window.clearTimeout(beatSettleTimerRef.current);
@@ -156,8 +165,8 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
-        if (imageMode) {
-          setViewerPreferences((current) => ({ ...current, imageMode: false }));
+        if (imageModeActive) {
+          setImageModeActive(false);
         } else {
           onClose();
         }
@@ -177,10 +186,10 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [open, imageMode, onClose, goToStep, steps.length]);
+  }, [open, imageModeActive, onClose, goToStep, steps.length]);
 
   useEffect(() => {
-    if (!open || imageMode) return;
+    if (!open || imageModeActive) return;
     const scroller = captionScrollerRef.current;
     const readerBody = readerBodyRef.current;
     if (!scroller || !readerBody) return;
@@ -272,10 +281,11 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
       clearPendingBeat();
       scrollRafRef.current = null;
     };
-  }, [open, reducedMotion, steps.length, imageMode, windowFit]);
+  }, [open, reducedMotion, steps.length, imageModeActive, windowFit]);
 
   function toggleImageMode() {
     setViewerPreferences((current) => ({ ...current, imageMode: !current.imageMode }));
+    setImageModeActive((current) => !current);
   }
 
   if (!open || !activeStep) return null;
@@ -292,7 +302,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
 
   return (
     <div className="koreo-reader-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
-      <section className={`koreo-reader koreo-viewer-${surface}${imageMode ? " koreo-reader-image-mode" : ""}`} role="dialog" aria-modal="true" aria-label="koreo viewer">
+      <section className={`koreo-reader koreo-viewer-${surface}${imageModeActive ? " koreo-reader-image-mode" : ""}`} role="dialog" aria-modal="true" aria-label="koreo viewer">
         <header className="koreo-reader-header">
           <a className="reader-brand" href="https://github.com/thecont1/koreo" target="_blank" rel="noreferrer" aria-label="Open the koreo repository on GitHub">
             <span>koreo viewer by mahesh shantaram</span>
@@ -304,8 +314,8 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
             <button className="viewer-action" type="button" onClick={() => setViewerPreferences((current) => ({ ...current, surface: current.surface === "dark" ? "light" : "dark" }))} aria-label={`Switch to ${surface === "dark" ? "light" : "dark"} viewer surface`} aria-pressed={surface === "light"}>
               {surface === "dark" ? <Sun size={17} /> : <Moon size={17} />}
             </button>
-            <button className="viewer-action image-mode-toggle" type="button" onClick={toggleImageMode} aria-label={imageMode ? "Return to guided reading" : "Show complete original image"} aria-pressed={imageMode}>
-              {imageMode ? <Minimize2 size={17} /> : <Maximize2 size={17} />}
+            <button className="viewer-action image-mode-toggle" type="button" onClick={toggleImageMode} aria-label={imageModeActive ? "Return to guided reading" : "Show complete original image"} aria-pressed={imageModeActive}>
+              {imageModeActive ? <Minimize2 size={17} /> : <Maximize2 size={17} />}
             </button>
             <button ref={closeButtonRef} className="reader-close" type="button" onClick={onClose} aria-label="Close koreo viewer"><X size={20} /></button>
           </div>
@@ -314,7 +324,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
         <div className={`koreo-reader-body koreo-reader-body-${windowFit}`} ref={readerBodyRef}>
           <div className={`koreo-reader-stage-column koreo-reader-stage-column-${windowFit}`} style={windowStyle}>
             <div className="koreo-reader-stage" aria-label="koreo camera stage">
-              {imageMode ? (
+              {imageModeActive ? (
                 <img className="reader-original-image" src={imageSrc} alt={imageAlt} />
               ) : (
                 <>
