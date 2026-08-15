@@ -150,3 +150,7 @@
 - [x] Transfer the README, TECH-SPEC, and documentation asset references to main while preserving welcome for feature development.
 - [x] Verify both GitHub branches and return the local workspace to welcome for continued work.
 - [x] Run focused type, build, route, and runtime-log validation on the welcome branch.
+- [x] Add route-level lazy loading and confirm the production bundle is split into smaller route chunks.
+- [x] Add an automated smoke test for public routes and browser tests for reader opening and keyboard navigation.
+- [x] Write a presentation-ready script covering Koreo’s problem, architecture, reader, Studio, accessibility, and roadmap.
+- [x] Validate the optimized build, full test suite, and presentation script before publishing.
