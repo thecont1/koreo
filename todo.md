@@ -121,3 +121,7 @@
 - [x] Remove Field Manual branding and navigation references across the site.
 - [x] Rename the helper interface to koreo Authoring Studio.
 - [x] Verify the updated naming across public routes and generated copy.
+- [x] Constrain koreo Authoring Studio to a no-scroll desktop viewport workspace and remove the canonical JSON document panel.
+- [x] Reallocate branding and export controls into the left and right columns to maximize the image-stage height.
+- [x] Replace the always-visible accent grid with an active-colour trigger and accessible on-demand palette popover.
+- [x] Verify desktop viewport fit, image-stage sizing, accent selection, type checks, build, and published routes.

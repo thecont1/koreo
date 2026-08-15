@@ -77,3 +77,7 @@ The authoring helper now supports 16:9, 4:3, 3:2, 1:1, 3:4, and 2:3 stage ratios
 ## 2026-08-15 — Naming Cleanup
 
 Visible navigation now links the article directly to Authoring Studio. The authoring page header reads “koreo Authoring Studio,” its return link reads “koreo demo,” the guide is available at `/guide`, and public source plus metadata contain no Field Manual wording.
+
+## 2026-08-15 — Viewport-Bound Authoring Studio
+
+At a 1280 × 720 desktop viewport, the Authoring Studio reports zero pixels below the viewport: source controls, the fit-to-height image stage, beat editor, export controls, and active accent trigger are all visible without page scrolling. The canonical JSON panel was removed while copy and download remain available in the beats column. The accent palette opens only from the active-colour trigger; selecting `#b4513d` updated the active beat and closed the popover. Type checking and production build pass.

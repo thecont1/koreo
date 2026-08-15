@@ -3,7 +3,8 @@
  * coordinate marks, and quiet tools that keep the photograph in charge.
  */
 import { useMemo, useRef, useState } from "react";
-import { ArrowLeft, Check, Clipboard, Crosshair, Download, FileImage, FileJson, Minus, Plus, Upload } from "lucide-react";
+import { ArrowLeft, Check, Clipboard, Crosshair, Download, FileImage, Minus, Palette, Plus, Upload } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const DEFAULT_IMAGE = "/manus-storage/humahuaca-geology_811657ed.webp";
 const DEFAULT_SIZE = { width: 3200, height: 2133 };
@@ -55,6 +56,7 @@ export default function AuthoringStudio() {
   const [beats, setBeats] = useState<Beat[]>(initialBeats);
   const [activeIndex, setActiveIndex] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [accentPickerOpen, setAccentPickerOpen] = useState(false);
   const [previewPan, setPreviewPan] = useState({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -204,14 +206,9 @@ export default function AuthoringStudio() {
 
   return (
     <div className="author-shell">
-      <header className="author-topbar">
-        <a className="author-back" href="/"><ArrowLeft size={15} /> koreo demo</a>
-        <div className="author-title"><span>koreo Authoring Studio</span><small>json / v1 contract</small></div>
-        <div className="author-actions"><button type="button" onClick={copyJson}>{copied ? <Check size={15} /> : <Clipboard size={15} />}{copied ? "Copied" : "Copy JSON"}</button><button className="author-download" type="button" onClick={downloadJson}><Download size={15} /> Download</button></div>
-      </header>
-
       <main className="author-workbench">
         <aside className="author-panel author-setup-panel">
+          <div className="author-branding"><a className="author-back" href="/"><ArrowLeft size={15} /> koreo demo</a><div className="author-title"><div className="author-identity"><span className="author-focus-mark" aria-hidden="true"><i /><i /></span><span className="author-wordmark">koreo</span></div><small>Authoring Studio / json v1</small></div></div>
           <div className="author-panel-head"><span className="author-kicker">01 / source</span><FileImage size={17} /></div>
           <h1><span>Mark the point.</span><span>Set the frame.</span></h1>
           <p className="author-intro">Load a photograph, add intentional reading beats, then take the finished story document with you.</p>
@@ -219,7 +216,7 @@ export default function AuthoringStudio() {
           <div className="author-form-group"><label htmlFor="story-title">Story title</label><input id="story-title" value={storyTitle} onChange={(event) => setStoryTitle(event.target.value)} /></div>
           <div className="author-form-group"><label htmlFor="image-source">Image path or URL</label><input id="image-source" value={imageSource} onChange={(event) => { setImageSource(event.target.value); setPreviewSource(event.target.value || DEFAULT_IMAGE); }} /></div>
           <div className="author-upload-row"><button type="button" onClick={() => fileInputRef.current?.click()}><Upload size={15} /> Load image file</button><span>{imageSize.width} × {imageSize.height}</span><input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageFile} hidden /></div>
-          <div className="author-form-group"><label htmlFor="image-alt">Image description</label><textarea id="image-alt" value={imageAlt} onChange={(event) => setImageAlt(event.target.value)} rows={3} /></div>
+          <div className="author-form-group"><label htmlFor="image-alt">Image description</label><textarea id="image-alt" value={imageAlt} onChange={(event) => setImageAlt(event.target.value)} rows={2} /></div>
           <div className="author-ratio-row"><span className="author-label">Reader window</span><div>{ratios.map((ratio) => <button key={ratio} type="button" onClick={() => setWindowRatio(ratio)} className={windowRatio === ratio ? "active" : ""}>{ratio}</button>)}</div></div>
           <div className="author-note"><Crosshair size={14} /><span>Click the image to place the selected beat in normalized source space.</span></div>
         </aside>
@@ -228,7 +225,7 @@ export default function AuthoringStudio() {
           <div className="author-stage-meta"><span>plate / focus map</span><span>x {String(activeBeat.x).padStart(2, "0")} · y {String(activeBeat.y).padStart(2, "0")}</span></div>
           <button ref={stageRef} className={isPanning ? "author-image-stage is-panning" : "author-image-stage"} type="button" onClick={setFocusFromClick} onPointerDown={startPan} onPointerMove={movePan} onPointerUp={endPan} onPointerCancel={endPan} style={{ aspectRatio: windowRatio }} aria-label="Drag to pan the image or click to place the active focus point">
             <img src={previewSource} alt="" style={{ transform: `translate3d(${previewPan.x}px, ${previewPan.y}px, 0) scale(${activeBeat.zoom})` }} onError={(event) => { event.currentTarget.src = DEFAULT_IMAGE; }} />
-            {beats.map((beat, index) => beat.shape !== "none" && <span key={beat.id} className={index === activeIndex ? "author-focus-point active" : "author-focus-point"} style={{ left: `${beat.x}%`, top: `${beat.y}%`, width: `${beat.size}%`, height: beat.shape === "rect" ? `${beat.size * 0.68}%` : `${beat.size}%`, borderColor: beat.accent, borderRadius: beat.shape === "rect" ? "8%" : "50%" }}><i>{index + 1}</i></span>)}
+            {beats.map((beat, index) => beat.shape !== "none" && <span key={beat.id} className={index === activeIndex ? "author-focus-point active" : "author-focus-point"} style={{ left: `${beat.x}%`, top: `${beat.y}%`, width: `${beat.size}%`, height: beat.shape === "rect" ? `${beat.size * 0.68}%` : `${beat.size}%`, borderColor: beat.accent, borderRadius: beat.shape === "rect" ? "8%" : "50%", color: beat.accent }}><i>{index + 1}</i></span>)}
             <span className="author-stage-crosshair" aria-hidden="true"><i /><i /></span>
           </button>
           <div className="author-stage-caption"><span><Crosshair size={15} /> selected beat / {String(activeIndex + 1).padStart(2, "0")}</span><span>{activeBeat.shape === "none" ? "overview — no region" : `${activeBeat.shape} / ${activeBeat.size}%`}</span></div>
@@ -236,7 +233,7 @@ export default function AuthoringStudio() {
         </section>
 
         <aside className="author-panel author-beats-panel">
-          <div className="author-panel-head"><span className="author-kicker">02 / beats</span><span className="author-beat-count">{String(beats.length).padStart(2, "0")}</span></div>
+          <div className="author-panel-head"><span className="author-kicker">02 / beats</span><div className="author-panel-actions"><span className="author-beat-count">{String(beats.length).padStart(2, "0")}</span><div className="author-actions"><button type="button" onClick={copyJson}>{copied ? <Check size={15} /> : <Clipboard size={15} />}{copied ? "Copied" : "Copy JSON"}</button><button className="author-download" type="button" onClick={downloadJson}><Download size={15} /> Download</button></div></div></div>
           <div className="author-beat-list">{beats.map((beat, index) => <button key={beat.id} type="button" onClick={() => setActiveIndex(index)} className={index === activeIndex ? "author-beat-item active" : "author-beat-item"}><span>{String(index + 1).padStart(2, "0")}</span><strong>{beat.label || "unnamed beat"}</strong><i style={{ background: beat.accent }} /></button>)}</div>
           <div className="author-list-actions"><button type="button" onClick={addBeat}><Plus size={14} /> Add beat</button><button type="button" onClick={removeBeat} disabled={beats.length <= 1}><Minus size={14} /> Remove</button></div>
           <div className="author-editor">
@@ -245,12 +242,10 @@ export default function AuthoringStudio() {
             <div className="author-form-group"><label htmlFor="beat-body">Caption body</label><textarea id="beat-body" value={activeBeat.body} onChange={(event) => updateBeat({ body: event.target.value })} rows={4} /></div>
             <div className="author-controls-grid"><label>Focus x<input type="number" min="0" max="100" value={activeBeat.x} onChange={(event) => updateBeat({ x: clamp(Number(event.target.value), 0, 100) })} /></label><label>Focus y<input type="number" min="0" max="100" value={activeBeat.y} onChange={(event) => updateBeat({ y: clamp(Number(event.target.value), 0, 100) })} /></label><label>Size<input type="number" min="1" max="100" value={activeBeat.size} onChange={(event) => updateBeat({ size: clamp(Number(event.target.value), 1, 100) })} /></label><div className="author-zoom-control"><span>Camera zoom</span><output>{activeBeat.zoom.toFixed(2)}×</output><input type="range" min="1" max="3" step="0.05" value={activeBeat.zoom} onChange={(event) => updateBeat({ zoom: clamp(Number(event.target.value), 1, 3) })} /></div></div>
             <div className="author-options"><label>Region<select value={activeBeat.shape} onChange={(event) => updateBeat({ shape: event.target.value as Beat["shape"] })}><option value="none">None</option><option value="circle">Circle</option><option value="rect">Rectangle</option></select></label></div>
-            <div className="author-accent-picker"><div className="author-accent-head"><span>Accent</span><span>25 swatches + hex</span></div><div className="author-palette">{accentPalette.map((color) => <button key={color} type="button" title={color} aria-label={`Use accent ${color}`} className={activeBeat.accent.toLowerCase() === color.toLowerCase() ? "active" : ""} style={{ backgroundColor: color }} onClick={() => updateBeat({ accent: color })} />)}</div><div className="author-hex-row"><input value={activeBeat.accent} maxLength={7} aria-label="Custom accent hexadecimal colour" onChange={(event) => updateBeat({ accent: event.target.value })} /><span className="author-hex-swatch" style={{ background: /^#[0-9a-fA-F]{6}$/.test(activeBeat.accent) ? activeBeat.accent : "transparent" }} /></div></div>
+            <div className="author-accent-picker"><span className="author-label">Accent</span><Popover open={accentPickerOpen} onOpenChange={setAccentPickerOpen}><PopoverTrigger asChild><button className="author-accent-trigger" type="button" aria-label="Choose beat accent"><span className="author-accent-current" style={{ background: /^#[0-9a-fA-F]{6}$/.test(activeBeat.accent) ? activeBeat.accent : "transparent" }} /><span>{activeBeat.accent}</span><Palette size={14} /></button></PopoverTrigger><PopoverContent className="author-accent-popover" align="end" sideOffset={8}><div className="author-accent-head"><span>Accent colour</span><span>25 swatches + hex</span></div><div className="author-palette">{accentPalette.map((color) => <button key={color} type="button" title={color} aria-label={`Use accent ${color}`} className={activeBeat.accent.toLowerCase() === color.toLowerCase() ? "active" : ""} style={{ backgroundColor: color }} onClick={() => { updateBeat({ accent: color }); setAccentPickerOpen(false); }} />)}</div><div className="author-hex-row"><input value={activeBeat.accent} maxLength={7} aria-label="Custom accent hexadecimal colour" onChange={(event) => updateBeat({ accent: event.target.value })} /><span className="author-hex-swatch" style={{ background: /^#[0-9a-fA-F]{6}$/.test(activeBeat.accent) ? activeBeat.accent : "transparent" }} /></div></PopoverContent></Popover></div>
           </div>
         </aside>
       </main>
-
-      <section className="author-json-panel"><div className="author-json-head"><div><span className="author-kicker">03 / export</span><h2>Canonical story document</h2></div><FileJson size={20} /></div><pre><code>{jsonText}</code></pre></section>
     </div>
   );
 }

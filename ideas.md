@@ -2,7 +2,7 @@
 
 ## Three directions considered
 
-### Theme Name: Field Manual
+### Theme Name: Editorial Field Guide
 Very Brief Intro: A warm, paper-and-ink documentation system that treats the implementation plan like an illustrated field manual: annotations, specimen cards, coordinate grids, and generous margins. It should feel practical, collected, and made for people who build things with care.
 Probability: 0.07
 
@@ -14,7 +14,7 @@ Probability: 0.03
 Very Brief Intro: A restrained museum-catalogue aesthetic with cream stock, fine rules, serif typography, and small index labels. It would frame the guide as an archival object: calm, exact, and highly legible.
 Probability: 0.09
 
-## Chosen direction: Field Manual
+## Chosen direction: Editorial Field Guide
 
 ### Design Movement
 Contemporary editorial field guide with influences from Swiss information design, printed technical manuals, and museum accession cards.
@@ -70,3 +70,5 @@ The mark is a small offset crosshair nested inside a cropped rectangular frame: 
 - The live specimen demonstrates the camera/region relationship before asking the reader to understand the implementation details.
 - Rounded cards are used sparingly; ruled panels, index tabs, and material contrast carry the hierarchy.
 - The visual system must remain legible in screenshots and on small screens; no interaction depends on hover alone.
+- The koreo wordmark uses a Fraunces lowercase lockup paired with an IBM Plex Mono accession line and a cropped-frame crosshair mark.
+- Oxide red `#b4513d` traces the active focus path between selected beat, stage coordinate, target, and editor boundary; cobalt `#225ea8` is reserved for navigation and movement affordances.
