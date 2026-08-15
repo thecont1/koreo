@@ -39,6 +39,8 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
   const stepRefs = useRef<Array<HTMLElement | null>>([]);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const scrollRafRef = useRef<number | null>(null);
+  const pendingBeatRef = useRef<number | null>(null);
+  const beatSettleTimerRef = useRef<number | null>(null);
 
   const activeStep = steps[activeIndex] ?? steps[0];
   const [ratioWidth, ratioHeight] = windowRatio.split(":").map(Number);
@@ -121,18 +123,40 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
     const readerBody = readerBodyRef.current;
     if (!scroller || !readerBody) return;
 
+    const clearPendingBeat = () => {
+      if (beatSettleTimerRef.current) window.clearTimeout(beatSettleTimerRef.current);
+      beatSettleTimerRef.current = null;
+      pendingBeatRef.current = null;
+    };
+
+    const activateScrollBeat = (candidate: number, immediate = false) => {
+      if (immediate || reducedMotion) {
+        clearPendingBeat();
+        setActiveIndex((current) => (current === candidate ? current : candidate));
+        return;
+      }
+      if (pendingBeatRef.current === candidate) return;
+      clearPendingBeat();
+      pendingBeatRef.current = candidate;
+      beatSettleTimerRef.current = window.setTimeout(() => {
+        const settledBeat = pendingBeatRef.current;
+        pendingBeatRef.current = null;
+        beatSettleTimerRef.current = null;
+        if (settledBeat !== null) setActiveIndex((current) => (current === settledBeat ? current : settledBeat));
+      }, 220);
+    };
+
     const syncFromScroll = () => {
       scrollRafRef.current = null;
       const scrollSurface = scroller.scrollHeight > scroller.clientHeight + 4 ? scroller : readerBody;
       const atStart = scrollSurface.scrollTop <= 4;
       const atEnd = scrollSurface.scrollTop + scrollSurface.clientHeight >= scrollSurface.scrollHeight - 4;
       if (atStart) {
-        setActiveIndex((current) => (current === 0 ? current : 0));
+        activateScrollBeat(0, true);
         return;
       }
       if (atEnd) {
-        const finalIndex = steps.length - 1;
-        setActiveIndex((current) => (current === finalIndex ? current : finalIndex));
+        activateScrollBeat(steps.length - 1, true);
         return;
       }
       const readingLine = scrollSurface.getBoundingClientRect().top + scrollSurface.clientHeight * 0.34;
@@ -140,7 +164,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
       stepRefs.current.forEach((node, index) => {
         if (node && node.getBoundingClientRect().top <= readingLine) candidate = index;
       });
-      setActiveIndex((current) => (current === candidate ? current : candidate));
+      activateScrollBeat(candidate);
     };
 
     const onScroll = () => {
@@ -153,12 +177,16 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
       scroller.removeEventListener("scroll", onScroll);
       readerBody.removeEventListener("scroll", onScroll);
       if (scrollRafRef.current) window.cancelAnimationFrame(scrollRafRef.current);
+      clearPendingBeat();
       scrollRafRef.current = null;
     };
-  }, [open]);
+  }, [open, reducedMotion, steps.length]);
 
   function goToStep(index: number) {
     const nextIndex = Math.max(0, Math.min(index, steps.length - 1));
+    if (beatSettleTimerRef.current) window.clearTimeout(beatSettleTimerRef.current);
+    beatSettleTimerRef.current = null;
+    pendingBeatRef.current = null;
     setActiveIndex(nextIndex);
     stepRefs.current[nextIndex]?.scrollIntoView({
       behavior: reducedMotion ? "auto" : "smooth",
@@ -196,7 +224,12 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
     <div className="koreo-reader-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
       <section ref={viewerRef} className={`koreo-reader koreo-viewer-${surface}`} role="dialog" aria-modal="true" aria-label="koreo viewer">
         <header className="koreo-reader-header">
-          <span className="reader-brand">koreo viewer</span>
+          <a className="reader-brand" href="https://github.com/thecont1/koreo" target="_blank" rel="noreferrer" aria-label="Open the koreo repository on GitHub">
+            <span>koreo viewer by mahesh shantaram</span>
+            <svg className="reader-brand-github" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+              <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" fillRule="evenodd" d="M24,2.5a21.5,21.5,0,0,0-6.8,41.9c1.08.2,1.47-.46,1.47-1s0-1.86,0-3.65c-6,1.3-7.24-2.88-7.24-2.88A5.7,5.7,0,0,0,9,33.68c-1.95-1.33.15-1.31.15-1.31a4.52,4.52,0,0,1,3.29,2.22c1.92,3.29,5,2.34,6.26,1.79a4.61,4.61,0,0,1,1.37-2.88c-4.78-.54-9.8-2.38-9.8-10.62a8.29,8.29,0,0,1,2.22-5.77,7.68,7.68,0,0,1,.21-5.69s1.8-.58,5.91,2.2a20.46,20.46,0,0,1,10.76,0c4.11-2.78,5.91-2.2,5.91-2.2a7.74,7.74,0,0,1,.21,5.69,8.28,8.28,0,0,1,2.21,5.77c0,8.26-5,10.07-9.81,10.61a5.12,5.12,0,0,1,1.46,4c0,2.87,0,5.19,0,5.9s.39,1.24,1.48,1A21.5,21.5,0,0,0,24,2.5" />
+            </svg>
+          </a>
           <div className="viewer-actions">
             <button className="viewer-action" type="button" onClick={() => setSurface((current) => current === "dark" ? "light" : "dark")} aria-label={`Switch to ${surface === "dark" ? "light" : "dark"} viewer surface`} aria-pressed={surface === "light"}>
               {surface === "dark" ? <Sun size={17} /> : <Moon size={17} />}

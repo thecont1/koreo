@@ -269,7 +269,10 @@ body.koreo-reader-open { overflow: hidden; }
 .koreo-reader-header { min-height: 2.8rem; display: flex; align-items: center; gap: 1rem; padding: 0 1rem; border-color: var(--viewer-border); font: .59rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .11em; }
 .koreo-reader-header { justify-content: space-between; border-bottom: 1px solid var(--viewer-border); }
 .reader-brand, .viewer-actions, .viewer-action, .reader-close, .reader-controls button { display: flex; align-items: center; }
-.reader-brand { color: var(--viewer-muted); }
+.reader-brand { gap: .45rem; color: var(--viewer-muted); text-decoration: none; transition: color .2s ease, opacity .2s ease; }
+.reader-brand:hover, .reader-brand:focus-visible { color: var(--viewer-fg); }
+.reader-brand:focus-visible { outline: 1px solid var(--viewer-fg); outline-offset: .3rem; }
+.reader-brand-github { width: 1rem; height: 1rem; flex: 0 0 auto; stroke-width: 1.4; }
 .viewer-actions { gap: .25rem; }
 .viewer-action, .reader-close { display: grid; place-items: center; width: 2rem; height: 2rem; border: 0; background: transparent; color: var(--viewer-muted); cursor: pointer; }
 .viewer-action:hover:not(:disabled), .viewer-action:focus-visible:not(:disabled), .reader-close:hover, .reader-close:focus-visible { color: var(--viewer-fg); background: color-mix(in srgb, var(--viewer-fg) 8%, transparent); }

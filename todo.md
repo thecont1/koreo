@@ -77,3 +77,7 @@
 - [x] Verify all six Humahuaca captions, the revised zoom behavior, and centered windows.
 - [x] Export the complete koreo project source to a private GitHub repository named `koreo`.
 - [ ] Reorganize the GitHub repository history into logical, reviewable commit batches.
+- [x] Add a brief dwell threshold before scroll-driven beat changes to prevent jittery camera transitions.
+- [x] Change the viewer header attribution to “koreo viewer by mahesh shantaram.”
+- [x] Verify settled sequential caption transitions in the viewer.
+- [x] Add the supplied GitHub mark beside the viewer header attribution and link the full identity treatment to the koreo repository.

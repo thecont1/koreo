@@ -21,3 +21,11 @@ The Humahuaca viewer’s caption rail now contains all six semantic beats plus a
 The fifth beat successfully advanced to beat 06, “Layers tilted into the distance,” through the existing Next control. The stage and column measurements showed equal left and right space around the portrait window, confirming centered placement. The Humahuaca story retains the existing per-beat `zoom` parameters, revised to a calmer range of 1.18–1.30 for focused beats.
 
 The 4:3 Field Manual specimen was also measured after the global centering change. Its stage column had 124.33px of left margin and 124.34px of right margin around the image window, confirming centered placement for landscape viewer windows as well.
+
+## 2026-08-15 — Settled Beat Transitions
+
+Scroll-derived candidates now wait 220ms before activating. In the Humahuaca viewer, a programmatic caption-rail move retained “A valley shaped by passage” at 80ms and changed to “Muted green-gray weathering” only after the settling interval elapsed. The header renders “koreo viewer by mahesh shantaram.”
+
+## 2026-08-15 — GitHub Identity Link
+
+The viewer header now renders the supplied GitHub mark immediately after “koreo viewer by mahesh shantaram.” The complete compact identity is one accessible link to `https://github.com/thecont1/koreo`, and the mark inherits the active viewer-surface color for both dark and light modes.
