@@ -65,3 +65,6 @@
 - [x] Replace the viewer’s orientation variant with a single user-supplied window aspect ratio.
 - [x] Fit portrait ratios to height, landscape ratios to width, and square ratios to maximum available space.
 - [x] Update the Humahuaca story to use the ratio contract and verify 3:4, 4:3, and 1:1 behavior.
+- [x] Place captions beneath the image for landscape koreo viewer windows.
+- [x] Keep captions to the right of the image for portrait koreo viewer windows.
+- [x] Verify ratio-specific caption placement on the Humahuaca and Field Manual viewers.

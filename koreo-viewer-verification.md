@@ -19,3 +19,5 @@ The Humahuaca viewer now receives only `windowRatio="3:4"`. Browser verification
 The Field Manual continues to rely on the default `4:3` ratio, which is the landscape width-fit configuration under the new contract. Its specimen trigger was brought into view for the final browser check.
 
 Opening the Field Manual specimen verified that the default `4:3` window expands to the available stage width. The same ratio parser classifies `1:1` as square and applies a stage constrained by both available width and height, so square windows use the maximum available space without needing separate dimension inputs.
+
+The 3:4 Humahuaca viewer was checked with a portrait stage at left and its caption rail to the right. The 4:3 Field Manual viewer was checked with its width-fitted landscape stage on top and the caption reading surface directly below. On narrow screens, the responsive viewer stacks content vertically to preserve legibility.

@@ -189,7 +189,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
           </div>
         </header>
 
-        <div className="koreo-reader-body" ref={readerBodyRef}>
+        <div className={`koreo-reader-body koreo-reader-body-${windowFit}`} ref={readerBodyRef}>
           <div className={`koreo-reader-stage-column koreo-reader-stage-column-${windowFit}`} style={windowStyle}>
             <div className="koreo-reader-stage" aria-label="koreo camera stage">
               <div className="reader-camera-plane" style={cameraStyle}>
