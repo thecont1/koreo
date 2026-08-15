@@ -75,4 +75,5 @@
 - [x] Expose calmer author-controlled camera zoom while preserving edge-to-edge stage coverage.
 - [x] Center portrait, landscape, and square viewer windows within their available stage columns.
 - [x] Verify all six Humahuaca captions, the revised zoom behavior, and centered windows.
-- [ ] Export the complete koreo project source to a private GitHub repository named `koreo`.
+- [x] Export the complete koreo project source to a private GitHub repository named `koreo`.
+- [ ] Reorganize the GitHub repository history into logical, reviewable commit batches.
