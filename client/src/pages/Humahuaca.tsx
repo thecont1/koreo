@@ -34,14 +34,21 @@ export default function Humahuaca() {
         <p className="article-preimage">This looks very likely to be in the central Andes, most plausibly near Tupiza, Bolivia, or possibly the Quebrada de Humahuaca / Purmamarca region of northwest Argentina. The dry high-altitude setting, red folded sedimentary outcrop, sparse shrubs, and broad ephemeral stream channel are especially consistent with the Bolivian–Argentine Andes. A precise location cannot be established from the image alone.</p>
 
         <figure className="article-figure">
-          <img className="article-source-image" src={HUMAHUACA_IMAGE} alt="A dry channel leading through the multi-coloured mountains of Quebrada de Humahuaca" />
-          <button className="article-koreo-tab" type="button" onClick={() => setReaderOpen(true)} aria-label="Open Koreo guided reading of the Quebrada de Humahuaca photograph">
-            <span>Koreo</span><ArrowUpRight size={14} />
+          <button className="article-image-launch" type="button" onClick={() => setReaderOpen(true)} aria-label="Open Koreo guided reading of the Quebrada de Humahuaca photograph">
+            <img className="article-source-image" src={HUMAHUACA_IMAGE} alt="A dry channel leading through the multi-coloured mountains of Quebrada de Humahuaca" />
           </button>
+          <div className="article-image-footer">
+            <figcaption className="article-image-caption">
+              <h2>A valley shaped by passage</h2>
+              <p>Quebrada de Humahuaca follows the line of a major cultural route, the Camino Inca, along the spectacular valley of the Rio Grande, from its source in the cold high desert plateau of the High Andean lands to its confluence with the Rio Leone some 150 km to the south. This UNESCO World Heritage Site features dramatic multi-coloured rock formations, pre-Incan and Incan history, and vibrant Andean culture spanning 10,000 years.</p>
+            </figcaption>
+            <button className="article-koreo-tab" type="button" onClick={() => setReaderOpen(true)} aria-label="Open Koreo guided reading of the Quebrada de Humahuaca photograph">
+              <span>Koreo</span><ArrowUpRight size={12} />
+            </button>
+          </div>
         </figure>
 
         <div className="article-prose">
-          <p className="article-lede">Quebrada de Humahuaca follows the line of a major cultural route, the Camino Inca, along the spectacular valley of the Rio Grande, from its source in the cold high desert plateau of the High Andean lands to its confluence with the Rio Leone some 150 km to the south. This UNESCO World Heritage Site features dramatic multi-coloured rock formations, pre-Incan and Incan history, and vibrant Andean culture spanning 10,000 years.</p>
           <p>The landscape is a desert or semi-desert alluvial valley: rainwater periodically rushes through the central channel, carrying mud, sand, gravel, and rock fragments downhill. Most of the time it is dry, but its braided surface and steep, loose banks show that it can flood abruptly.</p>
           <p>The dramatic central red formation appears to be steeply tilted and eroded sedimentary strata—layers originally deposited horizontally by rivers, lakes, or debris flows, later uplifted, compressed, and tilted during Andean mountain building. Similar regional sequences include conglomerate, sandstone, and siltstone deposited in river and alluvial-fan environments.</p>
         </div>

@@ -341,10 +341,16 @@ body.koreo-reader-open { overflow: hidden; }
 .article-dek { max-width: 32rem; color: #666a63; font: 1.28rem/1.4 "Fraunces", serif; margin-bottom: 1.5rem; }
 .article-byline { gap: .6rem; color: #858980; font: .57rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .12em; }
 .article-byline-dot { width: .3rem; height: .3rem; border-radius: 50%; background: var(--oxide); }
-.article-figure { position: relative; margin: 3.9rem 0 0; padding-bottom: 2.7rem; }
+.article-figure { position: relative; margin: 3.9rem 0 0; }
+.article-image-launch { display: block; width: 100%; border: 0; padding: 0; background: transparent; cursor: pointer; }
+.article-image-launch:focus-visible { outline: 2px solid var(--oxide); outline-offset: 4px; }
 .article-source-image { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
-.article-koreo-tab { position: absolute; top: calc(100% - 2.7rem); right: 0; z-index: 1; display: inline-flex; align-items: center; gap: .55rem; min-height: 2.7rem; padding: .75rem 1rem; border: 0; background: #191a18; color: #fff; font: 500 .62rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .11em; transition: background .2s ease, transform .2s var(--ease-out); }
-.article-koreo-tab:hover, .article-koreo-tab:focus-visible { background: var(--oxide); transform: translateY(2px); }
+.article-image-footer { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; }
+.article-image-caption { min-width: 0; padding: 1.65rem 1.4rem 0 0; color: inherit; text-transform: none; letter-spacing: normal; }
+.article-image-caption h2 { max-width: none; margin: 0 0 .45rem; color: #292c27; font-size: 1.28rem; line-height: 1.1; text-transform: none; letter-spacing: normal; }
+.article-image-caption p { max-width: 37rem; margin: 0; color: #555a53; font: 300 1rem/1.62 "Fraunces", serif; text-transform: none; letter-spacing: normal; }
+.article-koreo-tab { display: inline-flex; align-items: center; align-self: start; gap: .4rem; min-height: 1.35rem; margin-right: .8rem; padding: .24rem .65rem; border: 1px solid #deded9; border-top: 0; border-radius: 0 0 .42rem .42rem; background: #fff; color: #22241f; font: 500 .52rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .1em; transition: background .18s ease, color .18s ease, border-color .18s ease; }
+.article-image-launch:hover + .article-image-footer .article-koreo-tab, .article-image-launch:focus-visible + .article-image-footer .article-koreo-tab, .article-koreo-tab:hover, .article-koreo-tab:focus-visible { border-color: #191a18; background: #191a18; color: #fff; }
 .article-image-trigger { display: block; position: relative; width: 100%; border: 0; padding: 0; background: #e5e5df; cursor: zoom-in; text-align: left; }
 .article-image-trigger img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 .article-image-trigger::after { content: ""; position: absolute; inset: 0; background: rgba(25,26,24,0); transition: background .25s ease; pointer-events: none; }
@@ -353,7 +359,7 @@ body.koreo-reader-open { overflow: hidden; }
 .article-image-action { position: absolute; right: .9rem; bottom: .9rem; z-index: 2; display: inline-flex; align-items: center; gap: .45rem; padding: .65rem .75rem; background: rgba(255,255,255,.93); color: #191a18; font: .58rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .1em; box-shadow: 0 5px 16px rgba(0,0,0,.13); transition: background .2s ease, color .2s ease, transform .2s var(--ease-out); }
 .article-image-trigger:hover .article-image-action, .article-image-trigger:focus-visible .article-image-action { background: var(--oxide); color: #fff; transform: translateY(-2px); }
 .article-figure figcaption { justify-content: space-between; gap: 1rem; padding-top: .75rem; color: #7a7e76; font: .55rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .08em; }
-.article-preimage, .article-prose p { color: #4d514b; font: 400 1.14rem/1.75 "Fraunces", serif; }
+.article-preimage, .article-prose p { color: #555a53; font: 300 1.14rem/1.75 "Fraunces", serif; }
 .article-preimage { max-width: 43rem; margin: 2.4rem 0 0; }
 .article-prose { margin-top: 2.45rem; }
 .article-prose .article-lede { margin: 0; }
@@ -480,8 +486,11 @@ body.koreo-reader-open { overflow: hidden; }
   .article-column h1 { font-size: clamp(2.65rem, 12.5vw, 4.1rem); }
   .article-subtitle { font-size: 1rem; }
   .article-dek { font-size: 1.08rem; }
-  .article-figure { margin-top: 2.8rem; padding-bottom: 2.5rem; }
-  .article-koreo-tab { top: calc(100% - 2.5rem); min-height: 2.5rem; padding: .68rem .85rem; }
+  .article-figure { margin-top: 2.8rem; }
+  .article-image-caption { padding: 1.25rem .8rem 0 0; }
+  .article-image-caption h2 { font-size: 1.14rem; }
+  .article-image-caption p { font-size: .92rem; line-height: 1.58; }
+  .article-koreo-tab { min-height: 1.25rem; margin-right: .55rem; padding: .22rem .55rem; font-size: .49rem; }
   .article-figure figcaption { align-items: flex-start; flex-direction: column; gap: .35rem; font-size: .49rem; }
   .article-preimage, .article-prose p { font-size: 1rem; line-height: 1.7; }
   .article-preimage { margin-top: 1.75rem; }

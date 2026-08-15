@@ -38,3 +38,7 @@
 - [x] Reduce the article title size and add the requested subtitle.
 - [x] Restore the intro caption immediately below the image and soften article text weight for comfortable reading.
 - [x] Verify the unobstructed image and hanging tab responsively before checkpointing.
+- [x] Add the “A valley shaped by passage” caption beneath the image in a reserved caption space.
+- [x] Make the source image itself activate Koreo while keeping its visual surface unobstructed.
+- [x] Refine the Koreo tab to half height, white by default, bottom-corner tab shape, left-indented, and black on image/tab hover.
+- [x] Set the article prose to the lightest available type weight and verify responsive caption/tab layout.
