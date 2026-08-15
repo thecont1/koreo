@@ -1,5 +1,0 @@
-# Humahuaca caption sequence verification
-
-The current story data contains six reader beats: one initial overview followed by five geology captions: red crags, dark slopes, pale bank, dry channel, and background ridges. The article list exposes all five geology captions; the reader content extraction exposes beats 01 through 06.
-
-The issue was presentation rather than missing content: the mobile modal used a short internal caption scroller beside a fixed stage, which made the later beats easy to miss. The mobile reader now uses the full modal body as the scroll surface while keeping the image stage at the top, so all six beats remain in one natural scroll flow. Desktop retains the split image-and-caption layout. Browser verification reached beats `02 / 06` through `06 / 06` sequentially with the expected camera readouts, including dry channel at beat 05 and background ridges at beat 06. The mobile article screenshot also shows all five geology caption rows beneath the image and opening caption in one continuous page flow.
