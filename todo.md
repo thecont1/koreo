@@ -88,3 +88,4 @@
 - [x] Guarantee zero-crop native-aspect-ratio image fitting in original-image mode.
 - [x] Keep the original-image return control and close button fixed at the header’s right edge.
 - [x] Verify the corrected image mode visually and with rendered-dimension checks.
+- [x] Restore the Vite preview WebSocket connection for the managed development domain.

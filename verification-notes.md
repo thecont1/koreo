@@ -39,3 +39,7 @@ Viewer preferences are stored under the site-local `koreo.viewer-preferences.v1`
 ## 2026-08-15 — Zero-Crop Original Image Correction
 
 Original-image mode now renders the source photo outside the transformed camera plane. Its measured rendered ratio is 1.3333, exactly matching the image’s natural 4:3 ratio, with `object-fit: contain`. The remaining return-to-reading and close controls remain at the viewer header’s right edge; their action group sits within 16px of the header’s right boundary.
+
+## 2026-08-15 — Vite Preview Connection
+
+The managed development server was restarted after a transient Vite HMR connection loss. The preview page reloaded successfully and the collected browser logs reported successive `[vite] connected.` messages with no repeat of the WebSocket failure after restart. The existing Vite configuration already allows the managed preview host, so no configuration override was necessary.
