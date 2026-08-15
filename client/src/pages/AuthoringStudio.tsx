@@ -6,7 +6,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, Check, Clipboard, Crosshair, FileImage, FolderOpen, Minus, Palette, Plus, Save, Upload } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-const DEFAULT_IMAGE = "/manus-storage/humahuaca-geology_811657ed.webp";
+const DEFAULT_IMAGE = `data:image/svg+xml;utf8,${encodeURIComponent(
+  "<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='1066'><rect width='100%' height='100%' fill='#d6d0c3'/></svg>",
+)}`;
 const DEFAULT_SIZE = { width: 3200, height: 2133 };
 
 type Beat = {
@@ -102,6 +104,7 @@ export default function AuthoringStudio() {
   const stageRef = useRef<HTMLButtonElement | null>(null);
   const panStartRef = useRef({ pointerX: 0, pointerY: 0, panX: 0, panY: 0, moved: false });
   const panningRef = useRef(false);
+  const objectUrlRef = useRef<string | null>(null);
 
   const activeBeat = beats[activeIndex] ?? beats[0];
   const activeImageFrame = stageSize.width && stageSize.height
@@ -138,7 +141,8 @@ export default function AuthoringStudio() {
 
   const addBeat = () => {
     const ordinal = beats.length + 1;
-    const next: Beat = { id: `beat-${ordinal}`, label: `beat ${ordinal}`, title: "A new point of attention", body: "Describe what this part of the photograph asks the reader to notice.", x: 50, y: 50, zoom: 1.22, shape: "circle", size: 14, accent: "#225ea8" };
+    const id = typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `beat-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const next: Beat = { id, label: `beat ${ordinal}`, title: "A new point of attention", body: "Describe what this part of the photograph asks the reader to notice.", x: 50, y: 50, zoom: 1.22, shape: "circle", size: 14, accent: "#225ea8" };
     setBeats((current) => [...current, next]);
     setActiveIndex(beats.length);
   };
@@ -151,6 +155,7 @@ export default function AuthoringStudio() {
 
   const setFocusFromClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (panStartRef.current.moved) return;
+    if (event.clientX === 0 && event.clientY === 0) return;
     const rect = event.currentTarget.getBoundingClientRect();
     const frame = getRenderedImageFrame(rect.width, rect.height, imageSize.width, imageSize.height, activeBeat.zoom, previewPan);
     updateBeat({
@@ -181,12 +186,9 @@ export default function AuthoringStudio() {
   const movePan = (event: React.PointerEvent<HTMLButtonElement>) => {
     if (!panningRef.current || !stageRef.current) return;
     const rect = stageRef.current.getBoundingClientRect();
-    const imageAspect = imageSize.width / imageSize.height;
-    const stageAspect = rect.width / rect.height;
-    const baseWidth = stageAspect > imageAspect ? rect.width : rect.height * imageAspect;
-    const baseHeight = stageAspect > imageAspect ? rect.width / imageAspect : rect.height;
-    const maxX = Math.max(0, (baseWidth * activeBeat.zoom - rect.width) / 2);
-    const maxY = Math.max(0, (baseHeight * activeBeat.zoom - rect.height) / 2);
+    const frame = getRenderedImageFrame(rect.width, rect.height, imageSize.width, imageSize.height, activeBeat.zoom, { x: 0, y: 0 });
+    const maxX = Math.max(0, (frame.renderedWidth - rect.width) / 2);
+    const maxY = Math.max(0, (frame.renderedHeight - rect.height) / 2);
     const deltaX = event.clientX - panStartRef.current.pointerX;
     const deltaY = event.clientY - panStartRef.current.pointerY;
     if (Math.abs(deltaX) > 3 || Math.abs(deltaY) > 3) panStartRef.current.moved = true;
@@ -200,14 +202,23 @@ export default function AuthoringStudio() {
 
   const handleImageFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+    event.target.value = "";
     if (!file) return;
+    if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
     const localPreview = URL.createObjectURL(file);
+    objectUrlRef.current = localPreview;
     const image = new Image();
     image.onload = () => setImageSize({ width: image.naturalWidth, height: image.naturalHeight });
     image.src = localPreview;
     setPreviewSource(localPreview);
     setImageSource(file.name);
   };
+
+  useEffect(() => {
+    return () => {
+      if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+    };
+  }, []);
 
   const documentJson = useMemo(() => {
     const [ratioWidth, ratioHeight] = windowRatio.split(":").map(Number);
@@ -340,7 +351,7 @@ export default function AuthoringStudio() {
           <div className="author-stage-meta"><span>plate / focus map</span><span>x {String(activeBeat.x).padStart(2, "0")} · y {String(activeBeat.y).padStart(2, "0")}</span></div>
           <div className="author-stage-window" data-ratio={windowRatio}>
             <button ref={stageRef} className={isPanning ? "author-image-stage is-panning" : "author-image-stage"} type="button" onClick={setFocusFromClick} onPointerDown={startPan} onPointerMove={movePan} onPointerUp={endPan} onPointerCancel={endPan} style={{ aspectRatio: windowRatio.replace(":", " / ") }} aria-label="Drag to pan the image or click to place the active focus point">
-              <img src={previewSource} alt="" draggable={false} style={activeImageFrame ? { width: `${activeImageFrame.renderedWidth}px`, height: `${activeImageFrame.renderedHeight}px`, transform: `translate3d(${activeImageFrame.left}px, ${activeImageFrame.top}px, 0)` } : undefined} onError={(event) => { event.currentTarget.src = DEFAULT_IMAGE; }} />
+              <img src={previewSource} alt="" draggable={false} style={activeImageFrame ? { width: `${activeImageFrame.renderedWidth}px`, height: `${activeImageFrame.renderedHeight}px`, transform: `translate3d(${activeImageFrame.left}px, ${activeImageFrame.top}px, 0)` } : undefined} onError={(event) => { if (event.currentTarget.src !== DEFAULT_IMAGE) event.currentTarget.src = DEFAULT_IMAGE; }} />
               {beats.map((beat, index) => beat.shape !== "none" && <span key={beat.id} className={index === activeIndex ? "author-focus-point active" : "author-focus-point"} style={{ ...getFocusMarkerStyle(beat), borderColor: beat.accent, borderRadius: beat.shape === "circle" ? "50%" : "0", color: beat.accent }}><i aria-hidden="true" /></span>)}
               <span className="author-stage-crosshair" aria-hidden="true"><i /><i /></span>
             </button>
@@ -354,7 +365,7 @@ export default function AuthoringStudio() {
           <div className="author-beat-list">{beats.map((beat, index) => <button key={beat.id} type="button" onClick={() => setActiveIndex(index)} className={index === activeIndex ? "author-beat-item active" : "author-beat-item"}><span>{String(index + 1).padStart(2, "0")}</span><strong>{beat.label || "unnamed beat"}</strong><i style={{ background: beat.accent }} /></button>)}</div>
           <div className="author-list-actions"><button type="button" onClick={addBeat}><Plus size={14} /> Add beat</button><button type="button" onClick={removeBeat} disabled={beats.length <= 1}><Minus size={14} /> Remove</button></div>
           <div className="author-editor">
-            <div className="author-form-group"><label htmlFor="beat-label">Beat label</label><input id="beat-label" value={activeBeat.label} onChange={(event) => updateBeat({ label: event.target.value, id: slugify(event.target.value, activeBeat.id) })} /></div>
+            <div className="author-form-group"><label htmlFor="beat-label">Beat label</label><input id="beat-label" value={activeBeat.label} onChange={(event) => updateBeat({ label: event.target.value })} /></div>
             <div className="author-form-group"><label htmlFor="beat-title">Caption title</label><input id="beat-title" value={activeBeat.title} onChange={(event) => updateBeat({ title: event.target.value })} /></div>
             <div className="author-form-group"><label htmlFor="beat-body">Caption body</label><textarea id="beat-body" value={activeBeat.body} onChange={(event) => updateBeat({ body: event.target.value })} rows={4} /></div>
             <div className="author-controls-grid"><label>Focus x<input type="number" min="0" max="100" value={activeBeat.x} onChange={(event) => updateBeat({ x: clamp(Number(event.target.value), 0, 100) })} /></label><label>Focus y<input type="number" min="0" max="100" value={activeBeat.y} onChange={(event) => updateBeat({ y: clamp(Number(event.target.value), 0, 100) })} /></label><label>Size<input type="number" min="1" max="100" value={activeBeat.size} onChange={(event) => updateBeat({ size: clamp(Number(event.target.value), 1, 100) })} /></label><div className="author-zoom-control"><span>Camera zoom</span><output>{activeBeat.zoom.toFixed(2)}×</output><input type="range" min="1" max="3" step="0.05" value={activeBeat.zoom} onChange={(event) => updateBeat({ zoom: clamp(Number(event.target.value), 1, 3) })} /></div></div>
