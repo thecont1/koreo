@@ -56,3 +56,7 @@
 - [x] Replace the text close control with an icon-only cross and remove the viewer footer bar and fixed-window indicator.
 - [x] Expand the viewer and fit portrait windows to available height and landscape windows to available width.
 - [x] Verify the minimal viewer controls and image-first sizing on desktop and mobile.
+- [x] Add a dark/light viewer surface toggle that complements different photographs.
+- [x] Add a fullscreen control with a graceful unavailable-state fallback.
+- [x] Add reduced-motion-aware caption fade transitions when beats change.
+- [x] Verify theme, fullscreen, and caption-motion controls on the koreo viewer.

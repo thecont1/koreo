@@ -263,16 +263,20 @@ h2 { font-size: clamp(2.35rem, 4.2vw, 4.65rem); line-height: .98; margin-bottom:
 /* Minimal koreo viewer: image first, controls and context only where essential. */
 body.koreo-reader-open { overflow: hidden; }
 .koreo-reader-backdrop { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 1rem; background: rgba(16, 18, 16, .86); backdrop-filter: blur(12px); animation: reader-fade-in .26s var(--ease-out) both; }
-.koreo-reader { width: min(1560px, calc(100vw - 2rem)); height: min(920px, calc(100vh - 2rem)); display: flex; flex-direction: column; background: #1d211e; color: #f3efe6; border: 1px solid rgba(243,239,230,.2); box-shadow: 0 30px 100px rgba(0,0,0,.35); animation: reader-rise-in .42s var(--ease-out) both; }
-.koreo-reader-header { min-height: 2.8rem; display: flex; align-items: center; gap: 1rem; padding: 0 1rem; border-color: rgba(243,239,230,.16); font: .59rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .11em; }
-.koreo-reader-header { justify-content: space-between; border-bottom: 1px solid rgba(243,239,230,.16); }
-.reader-brand, .reader-close, .reader-controls button { display: flex; align-items: center; }
-.reader-brand { color: rgba(243,239,230,.72); }
-.reader-close { display: grid; place-items: center; width: 2rem; height: 2rem; border: 0; background: transparent; color: rgba(243,239,230,.72); cursor: pointer; }
-.reader-close:hover { color: #f3efe6; }
+.koreo-reader { --viewer-bg: #1d211e; --viewer-stage: #272c27; --viewer-fg: #f3efe6; --viewer-muted: rgba(243,239,230,.68); --viewer-subtle: rgba(243,239,230,.42); --viewer-border: rgba(243,239,230,.16); width: min(1560px, calc(100vw - 2rem)); height: min(920px, calc(100vh - 2rem)); display: flex; flex-direction: column; background: var(--viewer-bg); color: var(--viewer-fg); border: 1px solid var(--viewer-border); box-shadow: 0 30px 100px rgba(0,0,0,.35); animation: reader-rise-in .42s var(--ease-out) both; }
+.koreo-viewer-light { --viewer-bg: #f6f5f0; --viewer-stage: #e7e6df; --viewer-fg: #181a17; --viewer-muted: rgba(24,26,23,.7); --viewer-subtle: rgba(24,26,23,.48); --viewer-border: rgba(24,26,23,.18); }
+.koreo-reader:fullscreen { width: 100vw; height: 100vh; border: 0; }
+.koreo-reader-header { min-height: 2.8rem; display: flex; align-items: center; gap: 1rem; padding: 0 1rem; border-color: var(--viewer-border); font: .59rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .11em; }
+.koreo-reader-header { justify-content: space-between; border-bottom: 1px solid var(--viewer-border); }
+.reader-brand, .viewer-actions, .viewer-action, .reader-close, .reader-controls button { display: flex; align-items: center; }
+.reader-brand { color: var(--viewer-muted); }
+.viewer-actions { gap: .25rem; }
+.viewer-action, .reader-close { display: grid; place-items: center; width: 2rem; height: 2rem; border: 0; background: transparent; color: var(--viewer-muted); cursor: pointer; }
+.viewer-action:hover:not(:disabled), .viewer-action:focus-visible:not(:disabled), .reader-close:hover, .reader-close:focus-visible { color: var(--viewer-fg); background: color-mix(in srgb, var(--viewer-fg) 8%, transparent); }
+.viewer-action:disabled { opacity: .3; cursor: not-allowed; }
 .koreo-reader-body { min-height: 0; flex: 1; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(20rem, .6fr); gap: 1.6rem; padding: 1.35rem 1.5rem 1.5rem; }
 .koreo-reader-stage-column { min-width: 0; display: flex; flex-direction: column; justify-content: center; }
-.koreo-reader-stage { min-height: 0; position: relative; overflow: hidden; background: #272c27; border: 1px solid rgba(243,239,230,.2); }
+.koreo-reader-stage { min-height: 0; position: relative; overflow: hidden; background: var(--viewer-stage); border: 1px solid var(--viewer-border); }
 .koreo-reader-stage-column-landscape .koreo-reader-stage { width: 100%; aspect-ratio: 4 / 3; max-height: calc(100vh - 7rem); }
 .koreo-reader-stage-column-portrait { align-items: center; }
 .koreo-reader-stage-column-portrait .koreo-reader-stage { width: min(100%, 38rem); height: min(100%, calc(100vh - 7rem)); aspect-ratio: 3 / 4; max-height: none; }
@@ -282,21 +286,24 @@ body.koreo-reader-open { overflow: hidden; }
 .reader-highlight::after { content: ""; position: absolute; inset: -.45rem; border: 1px dashed currentColor; border-radius: inherit; opacity: .5; }
 .reader-stage-vignette { position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 80px rgba(0,0,0,.26); }
 .koreo-reader-copy { min-width: 0; min-height: 0; display: flex; flex-direction: column; padding: .2rem .6rem .2rem 0; }
-.reader-caption-scroller { min-height: 0; flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: .1rem .4rem .8rem 0; scrollbar-color: rgba(243,239,230,.28) transparent; scrollbar-width: thin; }
-.reader-caption-step { display: grid; grid-template-columns: 2rem 1fr; gap: .75rem; min-height: 16rem; padding: 2rem 0; border-top: 1px solid rgba(243,239,230,.14); opacity: .42; transition: opacity .3s ease; }
+.reader-caption-scroller { min-height: 0; flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: .1rem .4rem .8rem 0; scrollbar-color: color-mix(in srgb, var(--viewer-fg) 28%, transparent) transparent; scrollbar-width: thin; }
+.reader-caption-step { display: grid; grid-template-columns: 2rem 1fr; gap: .75rem; min-height: 16rem; padding: 2rem 0; border-top: 1px solid var(--viewer-border); opacity: .42; transition: opacity .3s ease; }
 .reader-caption-step.active { opacity: 1; }
 .reader-caption-marker { display: flex; flex-direction: column; align-items: center; gap: .65rem; }
-.reader-caption-marker .mono-label { color: rgba(243,239,230,.45); }
-.caption-marker-line { width: 1px; height: 100%; min-height: 3.5rem; background: rgba(243,239,230,.17); transition: background .3s ease; }
-.reader-caption-label { display: block; font: .58rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .15em; color: rgba(243,239,230,.58); margin-bottom: .72rem; transition: color .25s ease; }
-.reader-caption-step h3 { color: #f3efe6; font-size: 1.55rem; line-height: 1.04; letter-spacing: -.03em; margin-bottom: .55rem; }
-.reader-caption-step p { color: rgba(243,239,230,.68); max-width: 24rem; line-height: 1.5; margin: 0; }
-.reader-controls { display: flex; justify-content: space-between; gap: 1rem; padding-top: .8rem; border-top: 1px solid rgba(243,239,230,.16); }
-.reader-controls button { gap: .4rem; border: 0; background: transparent; color: #f3efe6; cursor: pointer; padding: .35rem 0; font: .58rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .12em; }
-.reader-controls button:disabled { color: rgba(243,239,230,.25); cursor: not-allowed; }
+.reader-caption-marker .mono-label { color: var(--viewer-subtle); }
+.caption-marker-line { width: 1px; height: 100%; min-height: 3.5rem; background: var(--viewer-border); transition: background .3s ease; }
+.reader-caption-label { display: block; font: .58rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .15em; color: var(--viewer-muted); margin-bottom: .72rem; transition: color .25s ease; }
+.reader-caption-step h3 { color: var(--viewer-fg); font-size: 1.55rem; line-height: 1.04; letter-spacing: -.03em; margin-bottom: .55rem; }
+.reader-caption-step p { color: var(--viewer-muted); max-width: 24rem; line-height: 1.5; margin: 0; }
+.reader-caption-step.active .reader-caption-content { animation: viewer-caption-in .32s var(--ease-out) both; }
+.reader-controls { display: flex; justify-content: space-between; gap: 1rem; padding-top: .8rem; border-top: 1px solid var(--viewer-border); }
+.reader-controls button { gap: .4rem; border: 0; background: transparent; color: var(--viewer-fg); cursor: pointer; padding: .35rem 0; font: .58rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .12em; }
+.reader-controls button:disabled { color: var(--viewer-subtle); cursor: not-allowed; }
 .reader-controls button:not(:disabled):hover { color: var(--saffron); }
 @keyframes reader-fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes reader-rise-in { from { opacity: 0; transform: translateY(1rem) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes viewer-caption-in { from { opacity: .15; transform: translateY(.45rem); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .reader-caption-step.active .reader-caption-content { animation: none; } }
 
 .roadmap-list { border-top: 1px solid var(--border); margin-top: 2.2rem; }
 .roadmap-row { display: grid; grid-template-columns: 3rem 1fr auto; gap: 1rem; align-items: center; padding: 1.15rem .3rem; border-bottom: 1px solid var(--border); transition: background .2s ease, padding .2s var(--ease-out); }

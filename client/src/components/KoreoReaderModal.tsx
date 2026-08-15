@@ -3,7 +3,7 @@
  * a fixed camera stage and a semantic caption rail move as one editorial unit.
  */
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Maximize2, Minimize2, Moon, Sun, X } from "lucide-react";
 
 export type KoreoReaderStep = {
   label: string;
@@ -29,6 +29,10 @@ type KoreoReaderModalProps = {
 export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, stageVariant = "landscape" }: KoreoReaderModalProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [surface, setSurface] = useState<"dark" | "light">("dark");
+  const [fullscreenSupported, setFullscreenSupported] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const viewerRef = useRef<HTMLElement | null>(null);
   const readerBodyRef = useRef<HTMLDivElement | null>(null);
   const captionScrollerRef = useRef<HTMLDivElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -51,6 +55,14 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, sta
     update();
     media.addEventListener?.("change", update);
     return () => media.removeEventListener?.("change", update);
+  }, []);
+
+  useEffect(() => {
+    const supported = typeof document !== "undefined" && "requestFullscreen" in document.documentElement;
+    setFullscreenSupported(supported);
+    const onFullscreenChange = () => setIsFullscreen(document.fullscreenElement === viewerRef.current);
+    document.addEventListener("fullscreenchange", onFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", onFullscreenChange);
   }, []);
 
   useEffect(() => {
@@ -129,6 +141,19 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, sta
     });
   }
 
+  async function toggleFullscreen() {
+    if (!fullscreenSupported || !viewerRef.current) return;
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else {
+        await viewerRef.current.requestFullscreen();
+      }
+    } catch {
+      setIsFullscreen(false);
+    }
+  }
+
   if (!open || !activeStep) return null;
 
   const focusSize = activeStep.size ?? (activeStep.shape === "rect" ? 24 : 13);
@@ -144,10 +169,18 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, sta
 
   return (
     <div className="koreo-reader-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
-      <section className="koreo-reader" role="dialog" aria-modal="true" aria-label="koreo viewer">
+      <section ref={viewerRef} className={`koreo-reader koreo-viewer-${surface}`} role="dialog" aria-modal="true" aria-label="koreo viewer">
         <header className="koreo-reader-header">
           <span className="reader-brand">koreo viewer</span>
-          <button ref={closeButtonRef} className="reader-close" type="button" onClick={onClose} aria-label="Close koreo viewer"><X size={20} /></button>
+          <div className="viewer-actions">
+            <button className="viewer-action" type="button" onClick={() => setSurface((current) => current === "dark" ? "light" : "dark")} aria-label={`Switch to ${surface === "dark" ? "light" : "dark"} viewer surface`} aria-pressed={surface === "light"}>
+              {surface === "dark" ? <Sun size={17} /> : <Moon size={17} />}
+            </button>
+            <button className="viewer-action" type="button" onClick={toggleFullscreen} aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"} disabled={!fullscreenSupported} title={fullscreenSupported ? undefined : "Fullscreen is unavailable in this browser"}>
+              {isFullscreen ? <Minimize2 size={17} /> : <Maximize2 size={17} />}
+            </button>
+            <button ref={closeButtonRef} className="reader-close" type="button" onClick={onClose} aria-label="Close koreo viewer"><X size={20} /></button>
+          </div>
         </header>
 
         <div className="koreo-reader-body" ref={readerBodyRef}>
@@ -166,7 +199,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, sta
               {steps.map((step, index) => (
                 <article key={step.label} className={index === activeIndex ? "reader-caption-step active" : "reader-caption-step"} ref={(node) => { stepRefs.current[index] = node; }}>
                   <div className="reader-caption-marker"><span className="mono-label">0{index + 1}</span><span className="caption-marker-line" style={{ backgroundColor: index === activeIndex ? step.accent : undefined }} /></div>
-                  <div><span className="reader-caption-label" style={{ color: index === activeIndex ? step.accent : undefined }}>{step.label}</span><h3>{step.title}</h3><p>{step.body}</p></div>
+                  <div className="reader-caption-content"><span className="reader-caption-label" style={{ color: index === activeIndex ? step.accent : undefined }}>{step.label}</span><h3>{step.title}</h3><p>{step.body}</p></div>
                 </article>
               ))}
             </div>
