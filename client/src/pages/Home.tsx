@@ -232,7 +232,7 @@ export default function Home() {
         </a>
         <div className="topbar-actions">
           <span className="status-note"><span className="status-dot" /> v1 contract</span>
-          <div className="top-links"><a className="top-link" href="#integration">Read the guide <ArrowUpRight size={15} /></a><a className="top-link article-link" href="/">Open article specimen <ArrowUpRight size={15} /></a></div>
+          <div className="top-links"><a className="top-link" href="#integration">Read the guide <ArrowUpRight size={15} /></a><a className="top-link" href="/author">Open authoring helper <ArrowUpRight size={15} /></a><a className="top-link article-link" href="/">Open article specimen <ArrowUpRight size={15} /></a></div>
           <button className="mobile-menu-button" type="button" onClick={() => setMobileNavOpen(!mobileNavOpen)} aria-expanded={mobileNavOpen} aria-label="Toggle guide navigation">
             {mobileNavOpen ? <X size={18} /> : <Menu size={18} />}
           </button>

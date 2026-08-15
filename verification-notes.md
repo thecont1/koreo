@@ -63,3 +63,7 @@ Manual Previous and Next actions now set a short scroll-activation lock while th
 ## 2026-08-15 — Paced Reader Refinements
 
 Continued scrolling now queues the next authored beat rather than interrupting the present one. In a continuous-scroll test, beat 02 remained active at 500ms, changed to beat 03 after the 1,000ms dwell, and changed to beat 04 only after another full dwell. Arrow-key navigation now resolves from the current ref-backed beat and uses the same lock as the visible Previous and Next controls. Camera and focus transitions use an 860ms ease-in-out curve, while active caption content has a 2px leading rule, low-contrast backing tint, soft shadow, and entrance motion.
+
+## 2026-08-15 — Koreo Authoring Helper
+
+The `/author` helper now provides source metadata, image-file loading, reader window ratio selection, click-to-place normalized coordinates, per-beat caption/focus/camera controls, add/remove beats, JSON preview, clipboard copy, and JSON download. Browser verification placed an overview coordinate at 0.5 / 0.5, added a third beat, copied the generated document, and parsed its JSON successfully with schema version 1.0 and three unique step identifiers.
