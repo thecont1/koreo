@@ -1,0 +1,79 @@
+# koreo implementation updates
+
+- [x] Rebrand the living guide from Focus Story to koreo across the title, navigation, copy, metadata, and visual language.
+- [x] Define the canonical integration contract as `<script src="/path/to/koreo.js" defer></script>` in the document head plus activation from an `<img>` element.
+- [x] Show a minimal IMG example using `data-koreo` or an equivalent declarative attribute without requiring a framework.
+- [x] Update the architecture and state-model sections so they describe a headless browser library, not an Astro-first component package.
+- [x] Preserve the existing Lightbox.astro adapter as an optional host integration rather than the primary install path.
+- [x] Verify the renamed koreo guide on desktop and mobile before delivery.
+- [x] Add a live “Try koreo” modal opened from the specimen image.
+- [x] Link caption scrolling and keyboard controls to camera movement and focus-region highlights.
+- [x] Restore focus to the specimen trigger and support reduced-motion and responsive layouts.
+- [x] Re-run type checking, production build, and browser verification before checkpointing.
+- [x] Add a blank white single-column Humahuaca article page while preserving the koreo Field Manual page.
+- [x] Add the supplied 2048 × 1536 photograph as a web asset outside the project and reference its managed storage URL.
+- [x] Define provisional normalized focus coordinates for the five geology captions and label them as editorial estimates.
+- [x] Add a visible path to the new article page and keep the existing Try koreo specimen unchanged.
+- [x] Verify the Humahuaca page and its koreo reader on desktop and mobile before checkpointing.
+- [x] Remove the Humahuaca article’s “Look closer” intro block so captions start directly under the image.
+- [x] Rebalance mobile spacing and verify that the article remains naturally scrollable without bottom-edge gesture interference.
+- [x] Remove the reader’s source-image metadata and guided-reading intro block.
+- [x] Rebalance the simplified reader columns and verify image, captions, and controls remain usable.
+- [x] Confirm the Humahuaca reader exposes the overview plus all five geology captions.
+- [x] Prevent the reader from hiding captions behind the fixed stage or viewport on desktop and mobile.
+- [x] Verify each geology caption is reachable by scroll and next/previous controls.
+- [x] Restore a vertically cropped/sticky Humahuaca image with ample visual real estate.
+- [x] Show exactly one caption at a time, beginning with the supplied intro caption and then five geology beats.
+- [x] Advance the active caption from page scroll on desktop and from any page scroll position on mobile.
+- [x] Preserve keyboard and reduced-motion access while removing the multi-caption list from the article surface.
+- [x] Delay the Humahuaca scrolly activation until the image reaches a healthy top-of-viewport margin.
+- [x] Keep the sticky stage aligned to that margin on desktop and mobile, then verify the first transition timing.
+- [x] Route the Humahuaca article to `/` and move the koreo Field Manual to `/field`.
+- [x] Restore the article image to its original horizontal 4:3 form and keep only the supplied intro text immediately beneath it.
+- [x] Place the supplied pre-image and post-image paragraphs verbatim, without editorial changes.
+- [x] Keep the vertical crop, focus region, and side-caption treatment inside the koreo reader only.
+- [x] Verify root and `/field` routing, desktop/mobile article flow, and reader-specific crop behavior.
+- [x] Remove all controls and labels from the Humahuaca photograph surface.
+- [x] Place a bottom-right hanging activation tab below the image labelled “Koreo”.
+- [x] Reduce the article title size and add the requested subtitle.
+- [x] Restore the intro caption immediately below the image and soften article text weight for comfortable reading.
+- [x] Verify the unobstructed image and hanging tab responsively before checkpointing.
+- [x] Add the “A valley shaped by passage” caption beneath the image in a reserved caption space.
+- [x] Make the source image itself activate Koreo while keeping its visual surface unobstructed.
+- [x] Refine the Koreo tab to half height, white by default, bottom-corner tab shape, left-indented, and black on image/tab hover.
+- [x] Set the article prose to the lightest available type weight and verify responsive caption/tab layout.
+- [x] Load Lora for article text and render it in solid black at a light weight.
+- [x] Reformat the image caption into a single-column title-over-body block.
+- [x] Render the image-caption body in a monospace face and verify desktop/mobile typography.
+- [x] Stack the image-caption title directly above its monospace body.
+- [x] Set the image-caption title in Fraunces and verify the corrected hierarchy responsively.
+- [x] Replace the footer tagline with a Mahesh Shantaram copyright notice.
+- [x] Render the subtitle in the title’s Fraunces style while preserving its current size and align the title/subtitle block to the article width.
+- [x] Reduce the pre-image spacing to one line of vertical space.
+- [x] Rename the header to “koreo demo site” and add a right-aligned Field Manual button.
+- [x] Verify the framing updates on desktop and mobile before checkpointing.
+- [x] Rename the overlay to “koreo viewer” and remove the live-demonstration and progress chrome.
+- [x] Replace the text close control with an icon-only cross and remove the viewer footer bar and fixed-window indicator.
+- [x] Expand the viewer and fit portrait windows to available height and landscape windows to available width.
+- [x] Verify the minimal viewer controls and image-first sizing on desktop and mobile.
+- [x] Add a dark/light viewer surface toggle that complements different photographs.
+- [x] Add a fullscreen control with a graceful unavailable-state fallback.
+- [x] Add reduced-motion-aware caption fade transitions when beats change.
+- [x] Verify theme, fullscreen, and caption-motion controls on the koreo viewer.
+- [x] Add a subtle, theme-aware indicator for the active story beat in koreo viewer.
+- [x] Verify that progress updates with beat navigation without competing with the image or controls.
+- [x] Replace the viewer’s orientation variant with a single user-supplied window aspect ratio.
+- [x] Fit portrait ratios to height, landscape ratios to width, and square ratios to maximum available space.
+- [x] Update the Humahuaca story to use the ratio contract and verify 3:4, 4:3, and 1:1 behavior.
+- [x] Place captions beneath the image for landscape koreo viewer windows.
+- [x] Keep captions to the right of the image for portrait koreo viewer windows.
+- [x] Verify ratio-specific caption placement on the Humahuaca and Field Manual viewers.
+- [x] Ensure viewer images fill their stage edge to edge without visible gaps at any ratio.
+- [x] Correct scroll-driven selection so the first and final story beats activate at the caption scroller boundaries.
+- [x] Verify edge fill and first/last mouse-scroll selection in portrait and landscape viewers.
+- [x] Diagnose and restore activation of the fifth Humahuaca caption during caption-rail scrolling.
+- [x] Expose calmer author-controlled camera zoom while preserving edge-to-edge stage coverage.
+- [x] Center portrait, landscape, and square viewer windows within their available stage columns.
+- [x] Verify all six Humahuaca captions, the revised zoom behavior, and centered windows.
+- [x] Export the complete koreo project source to a private GitHub repository named `koreo`.
+- [ ] Reorganize the GitHub repository history into logical, reviewable commit batches.
