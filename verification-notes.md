@@ -59,3 +59,7 @@ The caption rail now maps a scroll position only to one of its authored step ind
 ## 2026-08-15 — Manual Navigation Lock
 
 Manual Previous and Next actions now set a short scroll-activation lock while their caption alignment scroll completes. A sequential manual navigation test moved through overview, red crags, dark slopes, and pale bank; after the lock expired, pale bank remained active instead of being reversed by the deferred scroll callback.
+
+## 2026-08-15 — Paced Reader Refinements
+
+Continued scrolling now queues the next authored beat rather than interrupting the present one. In a continuous-scroll test, beat 02 remained active at 500ms, changed to beat 03 after the 1,000ms dwell, and changed to beat 04 only after another full dwell. Arrow-key navigation now resolves from the current ref-backed beat and uses the same lock as the visible Previous and Next controls. Camera and focus transitions use an 860ms ease-in-out curve, while active caption content has a 2px leading rule, low-contrast backing tint, soft shadow, and entrance motion.

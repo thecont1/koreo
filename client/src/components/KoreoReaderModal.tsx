@@ -132,10 +132,10 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
         }
       } else if (event.key === "ArrowRight" || event.key === "ArrowDown") {
         event.preventDefault();
-        goToStep(Math.min(activeIndex + 1, steps.length - 1));
+        goToStep(activeIndexRef.current + 1);
       } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
         event.preventDefault();
-        goToStep(Math.max(activeIndex - 1, 0));
+        goToStep(activeIndexRef.current - 1);
       } else if (event.key === "Home") {
         event.preventDefault();
         goToStep(0);
@@ -230,7 +230,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
     if (beatSettleTimerRef.current) window.clearTimeout(beatSettleTimerRef.current);
     beatSettleTimerRef.current = null;
     pendingBeatRef.current = null;
-    manualNavigationLockUntilRef.current = Date.now() + MANUAL_NAVIGATION_LOCK_MS;
+    manualNavigationLockUntilRef.current = Math.max(manualNavigationLockUntilRef.current, Date.now() + MANUAL_NAVIGATION_LOCK_MS);
     activeIndexRef.current = nextIndex;
     setActiveIndex(nextIndex);
     stepRefs.current[nextIndex]?.scrollIntoView({

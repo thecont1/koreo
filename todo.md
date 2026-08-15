@@ -102,3 +102,8 @@
 - [x] Create and publish a GitHub branch named `welcome` containing all current koreo changes.
 - [x] Prevent stale scroll callbacks from overriding Next and Previous navigation.
 - [x] Verify manual navigation remains on each selected authored beat.
+- [x] Queue constant scrolling so each authored beat visibly holds before the next transition.
+- [x] Apply a softer ease-in-out camera transition to manual and scroll-driven beat changes.
+- [x] Apply the same navigation lock to keyboard arrow controls as to button navigation.
+- [x] Add restrained visual feedback to the active caption during beat transitions.
+- [x] Verify paced scrolling, keyboard navigation, eased camera motion, and active-caption feedback.
