@@ -132,3 +132,5 @@
 - [x] Verify click placement and geometry at landscape, square, and portrait ratios before publishing the refinement.
 - [x] Add Save and Load actions beside Copy for the Studio’s story documents without exposing technical format terminology in the interface.
 - [x] Validate loaded story documents, restore source, beats, focus settings, and reader-window ratio, then verify a save-load round trip before publishing.
+- [x] Review the welcome branch for any remaining uncommitted work and organize it into logical commits.
+- [x] Push the finalized welcome branch history to the private koreo repository and verify it is clean.
