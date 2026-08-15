@@ -62,3 +62,6 @@
 - [x] Verify theme, fullscreen, and caption-motion controls on the koreo viewer.
 - [x] Add a subtle, theme-aware indicator for the active story beat in koreo viewer.
 - [x] Verify that progress updates with beat navigation without competing with the image or controls.
+- [x] Replace the viewer’s orientation variant with a single user-supplied window aspect ratio.
+- [x] Fit portrait ratios to height, landscape ratios to width, and square ratios to maximum available space.
+- [x] Update the Humahuaca story to use the ratio contract and verify 3:4, 4:3, and 1:1 behavior.

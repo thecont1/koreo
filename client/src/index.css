@@ -277,9 +277,11 @@ body.koreo-reader-open { overflow: hidden; }
 .koreo-reader-body { min-height: 0; flex: 1; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(20rem, .6fr); gap: 1.6rem; padding: 1.35rem 1.5rem 1.5rem; }
 .koreo-reader-stage-column { min-width: 0; display: flex; flex-direction: column; justify-content: center; }
 .koreo-reader-stage { min-height: 0; position: relative; overflow: hidden; background: var(--viewer-stage); border: 1px solid var(--viewer-border); }
-.koreo-reader-stage-column-landscape .koreo-reader-stage { width: 100%; aspect-ratio: 4 / 3; max-height: calc(100vh - 7rem); }
+.koreo-reader-stage-column-landscape .koreo-reader-stage { width: 100%; height: auto; aspect-ratio: var(--koreo-window-ratio); max-height: calc(100vh - 7rem); }
 .koreo-reader-stage-column-portrait { align-items: center; }
-.koreo-reader-stage-column-portrait .koreo-reader-stage { width: min(100%, 38rem); height: min(100%, calc(100vh - 7rem)); aspect-ratio: 3 / 4; max-height: none; }
+.koreo-reader-stage-column-portrait .koreo-reader-stage { width: auto; height: min(100%, calc(100vh - 7rem)); max-width: 100%; aspect-ratio: var(--koreo-window-ratio); max-height: none; }
+.koreo-reader-stage-column-square { align-items: center; }
+.koreo-reader-stage-column-square .koreo-reader-stage { width: min(100%, calc(100vh - 7rem)); height: auto; aspect-ratio: var(--koreo-window-ratio); max-height: calc(100vh - 7rem); }
 .reader-camera-plane { position: absolute; inset: 0; transform-origin: 0 0; transition: transform .68s var(--ease-in-out); will-change: transform; }
 .reader-camera-plane img { width: 100%; height: 100%; display: block; object-fit: cover; }
 .reader-highlight { position: absolute; transform: translate(-50%, -50%); border: 1px solid; box-shadow: 0 0 0 999px rgba(12,15,12,.26); transition: left .68s var(--ease-in-out), top .68s var(--ease-in-out), width .68s var(--ease-in-out), height .68s var(--ease-in-out), border-color .3s ease, border-radius .3s ease, opacity .3s ease; }
@@ -452,9 +454,10 @@ body.koreo-reader-open { overflow: hidden; }
   .koreo-reader-header { min-height: 3rem; padding: 0 .8rem; }
   .koreo-reader-body { display: block; overflow-y: auto; overscroll-behavior: contain; padding: .9rem; }
   .koreo-reader-stage-column { min-height: 0; }
-  .koreo-reader-stage-column-landscape .koreo-reader-stage { width: 100%; height: auto; max-height: none; aspect-ratio: 4 / 3; }
+  .koreo-reader-stage-column-landscape .koreo-reader-stage { width: 100%; height: auto; max-height: none; aspect-ratio: var(--koreo-window-ratio); }
   .koreo-reader-stage-column-portrait { height: min(66dvh, 38rem); align-items: center; }
-  .koreo-reader-stage-column-portrait .koreo-reader-stage { width: min(100%, 28rem); height: 100%; aspect-ratio: 3 / 4; }
+  .koreo-reader-stage-column-portrait .koreo-reader-stage { width: auto; max-width: 100%; height: 100%; aspect-ratio: var(--koreo-window-ratio); }
+  .koreo-reader-stage-column-square .koreo-reader-stage { width: min(100%, 66dvh); height: auto; aspect-ratio: var(--koreo-window-ratio); }
   .koreo-reader-copy { flex: 1; padding: .1rem 0 0; }
   .reader-caption-scroller { overflow: visible; padding: .1rem 0 .8rem; }
   .reader-caption-step { min-height: auto; padding: 1.25rem 0; }

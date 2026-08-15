@@ -59,7 +59,7 @@ export default function Humahuaca() {
 
       <footer className="article-footer"><a href="/field">koreo</a><span>© Mahesh Shantaram</span></footer>
 
-      <KoreoReaderModal open={readerOpen} onClose={() => setReaderOpen(false)} imageSrc={HUMAHUACA_IMAGE} imageAlt="A dry channel leading through the multi-coloured mountains of Quebrada de Humahuaca" steps={humahuacaSteps} stageVariant="portrait" />
+      <KoreoReaderModal open={readerOpen} onClose={() => setReaderOpen(false)} imageSrc={HUMAHUACA_IMAGE} imageAlt="A dry channel leading through the multi-coloured mountains of Quebrada de Humahuaca" steps={humahuacaSteps} windowRatio="3:4" />
     </div>
   );
 }

@@ -2,7 +2,7 @@
  * koreo Field Manual direction: the reader is a dark field-kit overlay where
  * a fixed camera stage and a semantic caption rail move as one editorial unit.
  */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowLeft, ArrowRight, Maximize2, Minimize2, Moon, Sun, X } from "lucide-react";
 
 export type KoreoReaderStep = {
@@ -23,10 +23,10 @@ type KoreoReaderModalProps = {
   imageAlt: string;
   steps: KoreoReaderStep[];
   onClose: () => void;
-  stageVariant?: "landscape" | "portrait";
+  windowRatio?: string;
 };
 
-export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, stageVariant = "landscape" }: KoreoReaderModalProps) {
+export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, windowRatio = "4:3" }: KoreoReaderModalProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [surface, setSurface] = useState<"dark" | "light">("dark");
@@ -41,6 +41,12 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, sta
   const scrollRafRef = useRef<number | null>(null);
 
   const activeStep = steps[activeIndex] ?? steps[0];
+  const [ratioWidth, ratioHeight] = windowRatio.split(":").map(Number);
+  const safeRatioWidth = Number.isFinite(ratioWidth) && ratioWidth > 0 ? ratioWidth : 4;
+  const safeRatioHeight = Number.isFinite(ratioHeight) && ratioHeight > 0 ? ratioHeight : 3;
+  const ratio = safeRatioWidth / safeRatioHeight;
+  const windowFit = ratio > 1 ? "landscape" : ratio < 1 ? "portrait" : "square";
+  const windowStyle = { "--koreo-window-ratio": `${safeRatioWidth} / ${safeRatioHeight}` } as CSSProperties;
   const isFirst = activeIndex === 0;
   const isLast = activeIndex === steps.length - 1;
   const cameraStyle = activeStep
@@ -184,7 +190,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, sta
         </header>
 
         <div className="koreo-reader-body" ref={readerBodyRef}>
-          <div className={stageVariant === "portrait" ? "koreo-reader-stage-column koreo-reader-stage-column-portrait" : "koreo-reader-stage-column koreo-reader-stage-column-landscape"}>
+          <div className={`koreo-reader-stage-column koreo-reader-stage-column-${windowFit}`} style={windowStyle}>
             <div className="koreo-reader-stage" aria-label="koreo camera stage">
               <div className="reader-camera-plane" style={cameraStyle}>
                 <img src={imageSrc} alt={imageAlt} />

@@ -13,3 +13,9 @@ Browser checks confirmed that the surface control changed its accessible label t
 The segmented story-progress meter appears between the previous and next controls at the first story beat, with its first segment expanded to mark the active position. Its accessible value communicates “Beat 1 of 6.”
 
 After using Next, the active caption and camera moved to the red-crags beat and the expanded progress segment advanced to the second position, confirming that the meter updates with story navigation while remaining visually secondary to the image.
+
+The Humahuaca viewer now receives only `windowRatio="3:4"`. Browser verification shows the resulting portrait stage centered in the larger viewer and fitted to the available height alongside the caption rail.
+
+The Field Manual continues to rely on the default `4:3` ratio, which is the landscape width-fit configuration under the new contract. Its specimen trigger was brought into view for the final browser check.
+
+Opening the Field Manual specimen verified that the default `4:3` window expands to the available stage width. The same ratio parser classifies `1:1` as square and applies a stage constrained by both available width and height, so square windows use the maximum available space without needing separate dimension inputs.
