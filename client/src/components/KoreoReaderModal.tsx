@@ -49,9 +49,18 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
   const windowStyle = { "--koreo-window-ratio": `${safeRatioWidth} / ${safeRatioHeight}` } as CSSProperties;
   const isFirst = activeIndex === 0;
   const isLast = activeIndex === steps.length - 1;
+  const focalX = Math.min(Math.max((activeStep?.x ?? 50) / 100, 0.001), 0.999);
+  const focalY = Math.min(Math.max((activeStep?.y ?? 50) / 100, 0.001), 0.999);
+  const minimumCoverZoom = Math.max(
+    0.5 / focalX,
+    0.5 / (1 - focalX),
+    0.5 / focalY,
+    0.5 / (1 - focalY),
+  );
+  const cameraZoom = Math.max(activeStep?.zoom ?? 1, minimumCoverZoom);
   const cameraStyle = activeStep
     ? {
-        transform: `translate3d(${50 - activeStep.x * activeStep.zoom}%, ${50 - activeStep.y * activeStep.zoom}%, 0) scale(${activeStep.zoom})`,
+        transform: `translate3d(${50 - focalX * 100 * cameraZoom}%, ${50 - focalY * 100 * cameraZoom}%, 0) scale(${cameraZoom})`,
       }
     : undefined;
 
@@ -116,6 +125,17 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
     const syncFromScroll = () => {
       scrollRafRef.current = null;
       const scrollSurface = scroller.scrollHeight > scroller.clientHeight + 4 ? scroller : readerBody;
+      const atStart = scrollSurface.scrollTop <= 4;
+      const atEnd = scrollSurface.scrollTop + scrollSurface.clientHeight >= scrollSurface.scrollHeight - 4;
+      if (atStart) {
+        setActiveIndex((current) => (current === 0 ? current : 0));
+        return;
+      }
+      if (atEnd) {
+        const finalIndex = steps.length - 1;
+        setActiveIndex((current) => (current === finalIndex ? current : finalIndex));
+        return;
+      }
       const readingLine = scrollSurface.getBoundingClientRect().top + scrollSurface.clientHeight * 0.34;
       let candidate = 0;
       stepRefs.current.forEach((node, index) => {

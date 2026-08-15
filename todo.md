@@ -68,3 +68,6 @@
 - [x] Place captions beneath the image for landscape koreo viewer windows.
 - [x] Keep captions to the right of the image for portrait koreo viewer windows.
 - [x] Verify ratio-specific caption placement on the Humahuaca and Field Manual viewers.
+- [x] Ensure viewer images fill their stage edge to edge without visible gaps at any ratio.
+- [x] Correct scroll-driven selection so the first and final story beats activate at the caption scroller boundaries.
+- [x] Verify edge fill and first/last mouse-scroll selection in portrait and landscape viewers.
