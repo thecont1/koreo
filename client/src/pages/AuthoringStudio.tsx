@@ -27,7 +27,7 @@ const initialBeats: Beat[] = [
   { id: "first-focus", label: "first focus", title: "Name the detail", body: "Write the caption that asks the reader to look closer.", x: 62, y: 42, zoom: 1.32, shape: "circle", size: 14, accent: "#b4513d" },
 ];
 
-const ratios = ["16:9", "4:3", "3:2", "1:1", "3:4", "2:3"];
+const ratios = ["1:1", "3:2", "2:3", "4:3", "3:4", "16:9"];
 const accentPalette = [
   "#b4513d", "#d49b43", "#d6bd45", "#7d9b4d", "#3a8d7d",
   "#225ea8", "#5366a5", "#7958a6", "#a34d86", "#bc4e5a",

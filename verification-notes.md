@@ -101,3 +101,7 @@ The Studio now renders the cover-sized source image at its true transformed dime
 ## 2026-08-15 — Compact Image Action
 
 The source-image action now reads “Load Image.” Its inline-flex layout and no-wrap text rule keep the control on one line beside the source dimensions in the compact Studio panel. Type checking and production build pass.
+
+## 2026-08-15 — Reader-Window Preset Order
+
+The visible Authoring Studio reader-window sequence is now 1:1, 3:2, 2:3, 4:3, 3:4, and 16:9. The local browser inspection confirmed that exact ordering, and type checking plus production build pass.

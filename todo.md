@@ -137,3 +137,4 @@
 - [x] Repair full-range pan constraints for unusually wide source images in the Authoring Studio.
 - [x] Add smooth grab/grabbing cursor feedback and verify wide-image panning in landscape and portrait reader windows before publishing.
 - [x] Rename the source-image action to “Load Image” and ensure its label remains on one line.
+- [x] Reorder Authoring Studio reader-window ratios to 1:1, 3:2, 2:3, 4:3, 3:4, and 16:9.
