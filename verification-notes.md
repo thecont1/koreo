@@ -117,7 +117,3 @@ The new `/cinque-terre` route uses the supplied ultra-wide Cinque Terre photogra
 ## 2026-08-15 — Wide Reader and Focus Contract Correction
 
 The Cinque Terre route now begins as an uncluttered page view; only its source image and koreo tab open the reader. In the landscape reader, captions are arranged as a horizontally scrollable row beneath the stage, and a standard mouse wheel advances that row horizontally. The reader now positions a source-sized image frame before applying the camera transform, so Studio-normalized coordinates remain faithful: the sea beat at x 7 / y 45 measured at x 167.1 / y 273.6 within its 2386.8 × 607.9 rendered source frame. Circle and Square are the only rendered focus shapes; the sea region measured 334.14 × 334.14 with ratio 1.000, while a migrated Humahuaca Square measured 391.18 × 391.18 with zero-radius corners. Type checking and production build pass.
-
-## 2026-08-15 — Project Documentation
-
-Three supplied product screenshots were resized to a maximum 1600px width, renamed semantically, recompressed as WebP (116–152KB each), and uploaded as durable documentation assets. The new README presents koreo’s reader behavior, authoring flow, controls, demos, principles, and local setup with all three visuals. TECH-SPEC.md details the document model, reader API, source-frame coordinate transform, navigation state machine, Studio interaction model, accessibility, persistence, and roadmap. Markdown link checks passed; each asset endpoint returned a valid redirect, and type checking plus production build pass.
