@@ -634,3 +634,65 @@ body.koreo-reader-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
+
+/* koreo specimen direction: retain an image-first, nearly blank page that
+   delegates all narrative controls to the reader rather than the photograph. */
+.cinque-terre-page {
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(1rem, 3vw, 3rem);
+  background: #fff;
+}
+
+.cinque-terre-figure { width: min(100%, 1600px); margin: 0; }
+
+.cinque-terre-image-launch {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+.cinque-terre-image-launch:focus-visible,
+.cinque-terre-koreo-tab:focus-visible { outline: 2px solid #b4513d; outline-offset: 4px; }
+
+.cinque-terre-image { display: block; width: 100%; height: auto; }
+
+.cinque-terre-footer {
+  display: flex;
+  justify-content: flex-end;
+  min-height: 1.75rem;
+  margin: 0;
+  padding-right: clamp(0.6rem, 2vw, 2rem);
+}
+
+.cinque-terre-koreo-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  min-height: 1.75rem;
+  margin-top: -1px;
+  padding: 0.18rem 0.7rem 0.25rem;
+  border: 1px solid #151515;
+  border-top: 0;
+  border-radius: 0 0 0.38rem 0.38rem;
+  background: #fff;
+  color: #151515;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out);
+}
+
+.cinque-terre-koreo-tab:hover { background: #151515; color: #fff; }
+
+@media (max-width: 700px) {
+  .cinque-terre-page { padding: 0.75rem; }
+  .cinque-terre-footer { padding-right: 0.55rem; }
+}

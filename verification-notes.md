@@ -109,3 +109,7 @@ The visible Authoring Studio reader-window sequence is now 1:1, 3:2, 2:3, 4:3, 3
 ## 2026-08-15 — Repository Streamlining
 
 The repository was audited at 102 tracked files. The active application directly used only 13 of the generated UI primitives, leaving 41 unreferenced template UI files, two unreferenced template components, one unused client constant, and 12 superseded one-off verification notes. Those files were removed; the running `verification-notes.md` remains as the single current verification record and Git history preserves the prior notes. Unused runtime and development packages were also pruned, reducing the manifest to 18 runtime and 14 development dependencies. A full type check, production build, and screenshots of `/`, `/guide`, and `/author` passed after the cleanup.
+
+## 2026-08-15 — Cinque Terre Reader Specimen
+
+The new `/cinque-terre` route uses the supplied ultra-wide Cinque Terre photograph and six authored story beats. It opens directly into the 3:2 koreo reader with the full overview, then transitions via the supplied sea, shops, fishing village, pastel houses, and food readings. The source image was confirmed at 2048 × 706, the first manual Next action advanced cleanly to the sea focus, and the desktop reader screenshot confirms the image stage, caption rail, and progress control render as intended. Type checking and production build pass.

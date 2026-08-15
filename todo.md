@@ -141,3 +141,5 @@
 - [x] Audit tracked repository files and identify safe candidates for consolidation, removal, or exclusion.
 - [x] Streamline safe generated, redundant, or template-only project material without affecting builds or deployment.
 - [x] Validate the cleaned project, document the decisions, and organize all remaining work into logical welcome-branch commits.
+- [x] Build a clean /cinque-terre route that presents the supplied Cinque Terre koreo story and user-provided photograph.
+- [x] Verify the Cinque Terre reader story, image framing, and route deployment before publishing.
