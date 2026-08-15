@@ -149,3 +149,4 @@
 - [x] Verify the corrected wide-image reader interaction, caption arrangement, and geometry before publishing.
 - [x] Transfer the README, TECH-SPEC, and documentation asset references to main while preserving welcome for feature development.
 - [x] Verify both GitHub branches and return the local workspace to welcome for continued work.
+- [x] Run focused type, build, route, and runtime-log validation on the welcome branch.
