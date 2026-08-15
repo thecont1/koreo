@@ -308,7 +308,7 @@ body.koreo-reader-open { overflow: hidden; }
 .reader-caption-label { display: block; font: .58rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .15em; color: var(--viewer-muted); margin-bottom: .72rem; transition: color .25s ease; }
 .reader-caption-step h3 { color: var(--viewer-fg); font-size: 1.55rem; line-height: 1.04; letter-spacing: -.03em; margin-bottom: .55rem; }
 .reader-caption-step p { color: var(--viewer-muted); max-width: 24rem; line-height: 1.5; margin: 0; }
-.reader-caption-step.active .reader-caption-content { margin-left: -.7rem; padding: .42rem .6rem .48rem .7rem; border-left: 2px solid var(--viewer-fg); background: color-mix(in srgb, var(--viewer-fg) 6%, transparent); box-shadow: 0 .45rem 1.4rem color-mix(in srgb, var(--viewer-fg) 6%, transparent); animation: viewer-caption-in .42s var(--ease-out) both; }
+.reader-caption-step.active .reader-caption-content { animation: viewer-caption-in .42s var(--ease-out) both; }
 .reader-controls { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem; padding-top: .8rem; border-top: 1px solid var(--viewer-border); }
 .reader-controls button { gap: .4rem; border: 0; background: transparent; color: var(--viewer-fg); cursor: pointer; padding: .35rem 0; font: .58rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .12em; }
 .reader-controls button:last-child { justify-self: end; }

@@ -107,3 +107,7 @@
 - [x] Apply the same navigation lock to keyboard arrow controls as to button navigation.
 - [x] Add restrained visual feedback to the active caption during beat transitions.
 - [x] Verify paced scrolling, keyboard navigation, eased camera motion, and active-caption feedback.
+- [ ] Remove the active caption’s leading rule, tint, and shadow while retaining restrained transition feedback.
+- [ ] Commit the caption styling refinement to the `welcome` branch.
+- [ ] Add a koreo authoring helper for defining image focus beats and exporting a JSON document.
+- [ ] Verify the helper’s JSON preview and download workflow.
