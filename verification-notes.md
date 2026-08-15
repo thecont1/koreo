@@ -81,3 +81,7 @@ Visible navigation now links the article directly to Authoring Studio. The autho
 ## 2026-08-15 — Viewport-Bound Authoring Studio
 
 At a 1280 × 720 desktop viewport, the Authoring Studio reports zero pixels below the viewport: source controls, the fit-to-height image stage, beat editor, export controls, and active accent trigger are all visible without page scrolling. The canonical JSON panel was removed while copy and download remain available in the beats column. The accent palette opens only from the active-colour trigger; selecting `#b4513d` updated the active beat and closed the popover. Type checking and production build pass.
+
+## 2026-08-15 — Ratio-Driven Studio Stage Correction
+
+The stage previously received the invalid CSS value `3:4`, which browsers ignored. The Studio now converts the contract to valid CSS ratio syntax and constrains every stage to the available image row using container-relative dimensions. Direct measurements confirmed `3:4` renders at 575 × 766 (0.750), `16:9` at 575 × 323 (1.778), and `1:1` at 575 × 575 (1.000); all fit inside the workspace. Type checking and production build pass.

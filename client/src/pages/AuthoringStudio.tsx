@@ -223,11 +223,13 @@ export default function AuthoringStudio() {
 
         <section className="author-stage-panel">
           <div className="author-stage-meta"><span>plate / focus map</span><span>x {String(activeBeat.x).padStart(2, "0")} · y {String(activeBeat.y).padStart(2, "0")}</span></div>
-          <button ref={stageRef} className={isPanning ? "author-image-stage is-panning" : "author-image-stage"} type="button" onClick={setFocusFromClick} onPointerDown={startPan} onPointerMove={movePan} onPointerUp={endPan} onPointerCancel={endPan} style={{ aspectRatio: windowRatio }} aria-label="Drag to pan the image or click to place the active focus point">
-            <img src={previewSource} alt="" style={{ transform: `translate3d(${previewPan.x}px, ${previewPan.y}px, 0) scale(${activeBeat.zoom})` }} onError={(event) => { event.currentTarget.src = DEFAULT_IMAGE; }} />
-            {beats.map((beat, index) => beat.shape !== "none" && <span key={beat.id} className={index === activeIndex ? "author-focus-point active" : "author-focus-point"} style={{ left: `${beat.x}%`, top: `${beat.y}%`, width: `${beat.size}%`, height: beat.shape === "rect" ? `${beat.size * 0.68}%` : `${beat.size}%`, borderColor: beat.accent, borderRadius: beat.shape === "rect" ? "8%" : "50%", color: beat.accent }}><i>{index + 1}</i></span>)}
-            <span className="author-stage-crosshair" aria-hidden="true"><i /><i /></span>
-          </button>
+          <div className="author-stage-window" data-ratio={windowRatio}>
+            <button ref={stageRef} className={isPanning ? "author-image-stage is-panning" : "author-image-stage"} type="button" onClick={setFocusFromClick} onPointerDown={startPan} onPointerMove={movePan} onPointerUp={endPan} onPointerCancel={endPan} style={{ aspectRatio: windowRatio.replace(":", " / ") }} aria-label="Drag to pan the image or click to place the active focus point">
+              <img src={previewSource} alt="" style={{ transform: `translate3d(${previewPan.x}px, ${previewPan.y}px, 0) scale(${activeBeat.zoom})` }} onError={(event) => { event.currentTarget.src = DEFAULT_IMAGE; }} />
+              {beats.map((beat, index) => beat.shape !== "none" && <span key={beat.id} className={index === activeIndex ? "author-focus-point active" : "author-focus-point"} style={{ left: `${beat.x}%`, top: `${beat.y}%`, width: `${beat.size}%`, height: beat.shape === "rect" ? `${beat.size * 0.68}%` : `${beat.size}%`, borderColor: beat.accent, borderRadius: beat.shape === "rect" ? "8%" : "50%", color: beat.accent }}><i>{index + 1}</i></span>)}
+              <span className="author-stage-crosshair" aria-hidden="true"><i /><i /></span>
+            </button>
+          </div>
           <div className="author-stage-caption"><span><Crosshair size={15} /> selected beat / {String(activeIndex + 1).padStart(2, "0")}</span><span>{activeBeat.shape === "none" ? "overview — no region" : `${activeBeat.shape} / ${activeBeat.size}%`}</span></div>
           <div className="author-preview-tools"><span>drag photograph to pan</span><button type="button" onClick={() => setPreviewPan({ x: 0, y: 0 })}>reset pan</button></div>
         </section>

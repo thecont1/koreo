@@ -125,3 +125,5 @@
 - [x] Reallocate branding and export controls into the left and right columns to maximize the image-stage height.
 - [x] Replace the always-visible accent grid with an active-colour trigger and accessible on-demand palette popover.
 - [x] Verify desktop viewport fit, image-stage sizing, accent selection, type checks, build, and published routes.
+- [x] Restore visibly ratio-driven reader-window resizing for every Authoring Studio aspect-ratio control.
+- [x] Verify 16:9, 1:1, and 3:4 stage geometry changes while preserving desktop viewport fit, then publish the correction.
