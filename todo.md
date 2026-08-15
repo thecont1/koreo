@@ -77,3 +77,80 @@
 - [x] Verify all six Humahuaca captions, the revised zoom behavior, and centered windows.
 - [x] Export the complete koreo project source to a private GitHub repository named `koreo`.
 - [ ] Reorganize the GitHub repository history into logical, reviewable commit batches.
+- [x] Add a brief dwell threshold before scroll-driven beat changes to prevent jittery camera transitions.
+- [x] Change the viewer header attribution to “koreo viewer by mahesh shantaram.”
+- [x] Verify settled sequential caption transitions in the viewer.
+- [x] Add the supplied GitHub mark beside the viewer header attribution and link the full identity treatment to the koreo repository.
+- [x] Replace browser fullscreen with a container-preserving distraction-free original-image mode.
+- [x] Fit the complete photograph at its native aspect ratio in distraction-free mode and hide caption chrome.
+- [x] Persist viewer surface and display-mode preferences between koreo openings on the same site.
+- [x] Verify original-image mode and preference persistence across close-and-reopen cycles.
+- [x] Guarantee zero-crop native-aspect-ratio image fitting in original-image mode.
+- [x] Keep the original-image return control and close button fixed at the header’s right edge.
+- [x] Verify the corrected image mode visually and with rendered-dimension checks.
+- [x] Restore the Vite preview WebSocket connection for the managed development domain.
+- [x] Make portrait original-image mode explicitly fit the photo to the available height with zero crop.
+- [x] Verify the complete bottom edge of the original image remains visible in the viewer.
+- [x] Remove phantom intermediate scroll stops so the caption rail lands only on authored story beats.
+- [x] Verify scrolling progresses through exactly the six Humahuaca captions.
+- [x] Replace proximity-driven scroll activation with deterministic authored-beat selection.
+- [x] Hold each active beat through a deliberate dwell interval before permitting the next transition.
+- [x] Verify smooth scroll progression across exactly the configured beat count.
+- [x] Increase the dwell interval between authored koreo beats.
+- [x] Commit the current koreo project changes to GitHub in logical batches.
+- [x] Push and verify the updated GitHub commit history.
+- [x] Create and publish a GitHub branch named `welcome` containing all current koreo changes.
+- [x] Prevent stale scroll callbacks from overriding Next and Previous navigation.
+- [x] Verify manual navigation remains on each selected authored beat.
+- [x] Queue constant scrolling so each authored beat visibly holds before the next transition.
+- [x] Apply a softer ease-in-out camera transition to manual and scroll-driven beat changes.
+- [x] Apply the same navigation lock to keyboard arrow controls as to button navigation.
+- [x] Add restrained visual feedback to the active caption during beat transitions.
+- [x] Verify paced scrolling, keyboard navigation, eased camera motion, and active-caption feedback.
+- [x] Remove the active caption’s leading rule, tint, and shadow while retaining restrained transition feedback.
+- [x] Commit the caption styling refinement to the `welcome` branch.
+- [x] Add a koreo authoring helper for defining image focus beats and exporting a JSON document.
+- [x] Verify the helper’s JSON preview and download workflow.
+- [x] Activate scroll-driven beats at the caption rail’s vertical centre, except at explicit first and last boundaries.
+- [x] Remove the dotted outer border from the viewer focus treatment.
+- [x] Add 16:9, 2:3, and 3:2 authoring window ratios with live stage resizing.
+- [x] Add image pan and visibly functional zoom controls to the authoring preview.
+- [x] Reduce the authoring helper headline to two lines.
+- [x] Replace the accent picker with a 5×5 differentiated palette plus hexadecimal override.
+- [x] Verify the centered scroll cadence and refined authoring workflow.
+- [x] Remove Field Manual branding and navigation references across the site.
+- [x] Rename the helper interface to koreo Authoring Studio.
+- [x] Verify the updated naming across public routes and generated copy.
+- [x] Constrain koreo Authoring Studio to a no-scroll desktop viewport workspace and remove the canonical JSON document panel.
+- [x] Reallocate branding and export controls into the left and right columns to maximize the image-stage height.
+- [x] Replace the always-visible accent grid with an active-colour trigger and accessible on-demand palette popover.
+- [x] Verify desktop viewport fit, image-stage sizing, accent selection, type checks, build, and published routes.
+- [x] Restore visibly ratio-driven reader-window resizing for every Authoring Studio aspect-ratio control.
+- [x] Verify 16:9, 1:1, and 3:4 stage geometry changes while preserving desktop viewport fit, then publish the correction.
+- [x] Make stage clicks place the active focus centre exactly beneath the cursor in normalized image coordinates.
+- [x] Restrict focus regions to true Circle and Square options, with equal rendered dimensions across all stage ratios.
+- [x] Verify click placement and geometry at landscape, square, and portrait ratios before publishing the refinement.
+- [x] Add Save and Load actions beside Copy for the Studio’s story documents without exposing technical format terminology in the interface.
+- [x] Validate loaded story documents, restore source, beats, focus settings, and reader-window ratio, then verify a save-load round trip before publishing.
+- [x] Review the welcome branch for any remaining uncommitted work and organize it into logical commits.
+- [x] Push the finalized welcome branch history to the private koreo repository and verify it is clean.
+- [x] Repair full-range pan constraints for unusually wide source images in the Authoring Studio.
+- [x] Add smooth grab/grabbing cursor feedback and verify wide-image panning in landscape and portrait reader windows before publishing.
+- [x] Rename the source-image action to “Load Image” and ensure its label remains on one line.
+- [x] Reorder Authoring Studio reader-window ratios to 1:1, 3:2, 2:3, 4:3, 3:4, and 16:9.
+- [x] Audit tracked repository files and identify safe candidates for consolidation, removal, or exclusion.
+- [x] Streamline safe generated, redundant, or template-only project material without affecting builds or deployment.
+- [x] Validate the cleaned project, document the decisions, and organize all remaining work into logical welcome-branch commits.
+- [x] Build a clean /cinque-terre route that presents the supplied Cinque Terre koreo story and user-provided photograph.
+- [x] Verify the Cinque Terre reader story, image framing, and route deployment before publishing.
+- [x] Start the Cinque Terre route in its quiet page view and open koreo only from the source photograph or koreo tab.
+- [x] Present wide-image captions as a horizontal row beneath the image in the reader.
+- [x] Align viewer focus rendering with Studio data: coordinates map faithfully and regions are true Circles or Squares only.
+- [x] Verify the corrected wide-image reader interaction, caption arrangement, and geometry before publishing.
+- [x] Transfer the README, TECH-SPEC, and documentation asset references to main while preserving welcome for feature development.
+- [x] Verify both GitHub branches and return the local workspace to welcome for continued work.
+- [x] Run focused type, build, route, and runtime-log validation on the welcome branch.
+- [x] Add route-level lazy loading and confirm the production bundle is split into smaller route chunks.
+- [x] Add an automated smoke test for public routes and browser tests for reader opening and keyboard navigation.
+- [x] Write a presentation-ready script covering Koreo’s problem, architecture, reader, Studio, accessibility, and roadmap.
+- [x] Validate the optimized build, full test suite, and presentation script before publishing.
