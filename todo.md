@@ -52,3 +52,7 @@
 - [x] Reduce the pre-image spacing to one line of vertical space.
 - [x] Rename the header to “koreo demo site” and add a right-aligned Field Manual button.
 - [x] Verify the framing updates on desktop and mobile before checkpointing.
+- [x] Rename the overlay to “koreo viewer” and remove the live-demonstration and progress chrome.
+- [x] Replace the text close control with an icon-only cross and remove the viewer footer bar and fixed-window indicator.
+- [x] Expand the viewer and fit portrait windows to available height and landscape windows to available width.
+- [x] Verify the minimal viewer controls and image-first sizing on desktop and mobile.

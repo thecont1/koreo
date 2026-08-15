@@ -3,7 +3,7 @@
  * a fixed camera stage and a semantic caption rail move as one editorial unit.
  */
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Crosshair, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
 
 export type KoreoReaderStep = {
   label: string;
@@ -23,10 +23,10 @@ type KoreoReaderModalProps = {
   imageAlt: string;
   steps: KoreoReaderStep[];
   onClose: () => void;
-  stageVariant?: "default" | "portrait";
+  stageVariant?: "landscape" | "portrait";
 };
 
-export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, stageVariant = "default" }: KoreoReaderModalProps) {
+export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, stageVariant = "landscape" }: KoreoReaderModalProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
   const readerBodyRef = useRef<HTMLDivElement | null>(null);
@@ -144,23 +144,20 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, sta
 
   return (
     <div className="koreo-reader-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
-      <section className="koreo-reader" role="dialog" aria-modal="true" aria-label="koreo guided reader">
+      <section className="koreo-reader" role="dialog" aria-modal="true" aria-label="koreo viewer">
         <header className="koreo-reader-header">
-          <div className="reader-brand"><span className="reader-brand-mark"><Crosshair size={15} /></span><span>koreo / reader</span></div>
-          <div className="reader-header-meta"><span className="reader-live"><span /> live demonstration</span><span className="mono-label">{String(activeIndex + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}</span></div>
-          <button ref={closeButtonRef} className="reader-close" type="button" onClick={onClose} aria-label="Close koreo reader"><X size={19} /><span>close</span></button>
+          <span className="reader-brand">koreo viewer</span>
+          <button ref={closeButtonRef} className="reader-close" type="button" onClick={onClose} aria-label="Close koreo viewer"><X size={20} /></button>
         </header>
 
         <div className="koreo-reader-body" ref={readerBodyRef}>
-          <div className={stageVariant === "portrait" ? "koreo-reader-stage-column koreo-reader-stage-column-portrait" : "koreo-reader-stage-column"}>
+          <div className={stageVariant === "portrait" ? "koreo-reader-stage-column koreo-reader-stage-column-portrait" : "koreo-reader-stage-column koreo-reader-stage-column-landscape"}>
             <div className="koreo-reader-stage" aria-label="koreo camera stage">
               <div className="reader-camera-plane" style={cameraStyle}>
                 <img src={imageSrc} alt={imageAlt} />
                 <span className="reader-highlight" style={highlightStyle} aria-hidden="true" />
               </div>
               <div className="reader-stage-vignette" aria-hidden="true" />
-              <span className="reader-stage-coordinate mono-label">x {String(Math.round(activeStep.x)).padStart(2, "0")} / y {String(Math.round(activeStep.y)).padStart(2, "0")} / z {activeStep.zoom.toFixed(2)}</span>
-              <span className="reader-stage-label"><span className="live-dot" /> fixed view window</span>
             </div>
           </div>
 
@@ -177,7 +174,6 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, sta
           </div>
         </div>
 
-        <footer className="koreo-reader-footer"><span>scroll / keys ↑ ↓ / escape to exit</span><span className="reader-footer-rule" /><span>koreo field manual / live specimen</span></footer>
       </section>
     </div>
   );
