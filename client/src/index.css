@@ -367,6 +367,7 @@ body.koreo-reader-open { overflow: hidden; }
 .author-form-group textarea { resize: vertical; line-height: 1.4; }
 .author-upload-row, .author-ratio-row, .author-list-actions, .author-options { display: flex; align-items: center; gap: .5rem; }
 .author-upload-row { justify-content: space-between; margin: -.1rem 0 .75rem; }
+.author-upload-row button { display: inline-flex; align-items: center; gap: .35rem; white-space: nowrap; flex: 0 0 auto; }
 .author-upload-row span { color: #77766f; font: .55rem "IBM Plex Mono", monospace; }
 .author-ratio-row { justify-content: space-between; margin: .75rem 0; padding-top: .7rem; border-top: 1px solid #d6d0c3; }
 .author-ratio-row div { display: flex; gap: .25rem; }

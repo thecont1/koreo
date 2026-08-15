@@ -97,3 +97,7 @@ The Studio now places Copy, Load, and Save together in the beats panel. The visi
 ## 2026-08-15 — Wide-Image Pan Repair
 
 The Studio now renders the cover-sized source image at its true transformed dimensions instead of scaling a viewport-sized image. An ultra-wide 4:1 fixture rendered at 3064px within a 575px portrait stage and travelled from `translate3d(-2489.7px, 0px, 0px)` to `translate3d(0px, 0px, 0px)`, reaching both horizontal edges. The stage cursor reports `grabbing` during drag and returns to `grab` afterward. Switching the fixture to a 16:9 reader window clamps the old offset to a fully covered frame (1293px source width across a 575px stage), preventing a blank stage. Type checking and production build pass.
+
+## 2026-08-15 — Compact Image Action
+
+The source-image action now reads “Load Image.” Its inline-flex layout and no-wrap text rule keep the control on one line beside the source dimensions in the compact Studio panel. Type checking and production build pass.
