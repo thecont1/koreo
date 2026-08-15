@@ -96,7 +96,7 @@
 - [x] Replace proximity-driven scroll activation with deterministic authored-beat selection.
 - [x] Hold each active beat through a deliberate dwell interval before permitting the next transition.
 - [x] Verify smooth scroll progression across exactly the configured beat count.
-- [ ] Increase the dwell interval between authored koreo beats.
-- [ ] Commit the current koreo project changes to GitHub in logical batches.
-- [ ] Push and verify the updated GitHub commit history.
-- [ ] Create and publish a GitHub branch named `welcome` containing all current koreo changes.
+- [x] Increase the dwell interval between authored koreo beats.
+- [x] Commit the current koreo project changes to GitHub in logical batches.
+- [x] Push and verify the updated GitHub commit history.
+- [x] Create and publish a GitHub branch named `welcome` containing all current koreo changes.
