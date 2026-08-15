@@ -332,16 +332,19 @@ body.koreo-reader-open { overflow: hidden; }
 .article-back, .article-label, .article-byline, .article-figure figcaption, .article-story-figure figcaption, .article-footer { display: flex; align-items: center; }
 .article-back { gap: .45rem; color: #555954; transition: color .2s ease; }
 .article-back:hover { color: var(--oxide); }
+.article-field-button { display: inline-flex; align-items: center; gap: .35rem; padding: .48rem .6rem; border: 1px solid #d9dcd6; color: #242722; font: .54rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .1em; transition: border-color .2s ease, background .2s ease, color .2s ease; }
+.article-field-button:hover, .article-field-button:focus-visible { border-color: #191a18; background: #191a18; color: #fff; }
 .article-label { color: #888b84; }
 .article-column { width: min(760px, calc(100% - 2.7rem)); margin: 0 auto; padding: 5.8rem 0 6rem; }
 .article-kicker { display: inline-flex; align-items: center; gap: .65rem; color: var(--oxide); font: .6rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .13em; }
 .article-kicker-line { display: inline-block; width: 2.2rem; height: 1px; background: var(--oxide); }
+.article-title-block { width: 100%; }
 .article-column h1 { max-width: none; font-size: clamp(2.8rem, 6.5vw, 4.85rem); line-height: .95; margin: 1.7rem 0 .75rem; color: #191a18; }
-.article-subtitle { max-width: 32rem; margin: 0; color: #000; font: 400 1.08rem/1.5 "Lora", serif; }
+.article-subtitle { max-width: none; margin: 0; color: #000; font: 500 1.08rem/1.5 "Fraunces", serif; }
 .article-dek { max-width: 32rem; color: #666a63; font: 1.28rem/1.4 "Fraunces", serif; margin-bottom: 1.5rem; }
 .article-byline { gap: .6rem; color: #858980; font: .57rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .12em; }
 .article-byline-dot { width: .3rem; height: .3rem; border-radius: 50%; background: var(--oxide); }
-.article-figure { position: relative; margin: 3.9rem 0 0; }
+.article-figure { position: relative; margin: 1.1rem 0 0; }
 .article-image-launch { display: block; width: 100%; border: 0; padding: 0; background: transparent; cursor: pointer; }
 .article-image-launch:focus-visible { outline: 2px solid var(--oxide); outline-offset: 4px; }
 .article-source-image { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
@@ -486,7 +489,7 @@ body.koreo-reader-open { overflow: hidden; }
   .article-column h1 { font-size: clamp(2.65rem, 12.5vw, 4.1rem); }
   .article-subtitle { font-size: 1rem; }
   .article-dek { font-size: 1.08rem; }
-  .article-figure { margin-top: 2.8rem; }
+  .article-figure { margin-top: 1.1rem; }
   .article-image-caption { padding: 1.25rem .8rem 0 0; }
   .article-image-caption h2 { font-size: 1.14rem; }
   .article-image-caption p { font-size: .92rem; line-height: 1.58; }

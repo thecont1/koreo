@@ -4,7 +4,7 @@
  * portrait camera crop and side-caption treatment in the focused reader.
  */
 import { useState } from "react";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { KoreoReaderModal, type KoreoReaderStep } from "@/components/KoreoReaderModal";
 
 const HUMAHUACA_IMAGE = "/manus-storage/humahuaca-geology_811657ed.webp";
@@ -24,12 +24,15 @@ export default function Humahuaca() {
   return (
     <div className="humahuaca-page">
       <header className="article-header">
-        <a href="/field" className="article-back"><ArrowLeft size={15} /> <span>koreo field manual</span></a>
+        <a href="/" className="article-back"><span>koreo demo site</span></a>
+        <a href="/field" className="article-field-button">Field Manual <ArrowUpRight size={13} /></a>
       </header>
 
       <main className="article-column">
-        <h1>Quebrada de Humahuaca</h1>
-        <p className="article-subtitle">A UNESCO World Heritage site in Argentina and Chile carved by time.</p>
+        <div className="article-title-block">
+          <h1>Quebrada de Humahuaca</h1>
+          <p className="article-subtitle">A UNESCO World Heritage site in Argentina and Chile carved by time.</p>
+        </div>
 
         <p className="article-preimage">This looks very likely to be in the central Andes, most plausibly near Tupiza, Bolivia, or possibly the Quebrada de Humahuaca / Purmamarca region of northwest Argentina. The dry high-altitude setting, red folded sedimentary outcrop, sparse shrubs, and broad ephemeral stream channel are especially consistent with the Bolivian–Argentine Andes. A precise location cannot be established from the image alone.</p>
 
@@ -54,7 +57,7 @@ export default function Humahuaca() {
         </div>
       </main>
 
-      <footer className="article-footer"><a href="/field">koreo</a><span>one image / many deliberate readings</span></footer>
+      <footer className="article-footer"><a href="/field">koreo</a><span>© Mahesh Shantaram</span></footer>
 
       <KoreoReaderModal open={readerOpen} onClose={() => setReaderOpen(false)} imageSrc={HUMAHUACA_IMAGE} imageAlt="A dry channel leading through the multi-coloured mountains of Quebrada de Humahuaca" steps={humahuacaSteps} stageVariant="portrait" />
     </div>

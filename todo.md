@@ -47,3 +47,8 @@
 - [x] Render the image-caption body in a monospace face and verify desktop/mobile typography.
 - [x] Stack the image-caption title directly above its monospace body.
 - [x] Set the image-caption title in Fraunces and verify the corrected hierarchy responsively.
+- [x] Replace the footer tagline with a Mahesh Shantaram copyright notice.
+- [x] Render the subtitle in the title’s Fraunces style while preserving its current size and align the title/subtitle block to the article width.
+- [x] Reduce the pre-image spacing to one line of vertical space.
+- [x] Rename the header to “koreo demo site” and add a right-aligned Field Manual button.
+- [x] Verify the framing updates on desktop and mobile before checkpointing.
