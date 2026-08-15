@@ -33,3 +33,8 @@
 - [x] Place the supplied pre-image and post-image paragraphs verbatim, without editorial changes.
 - [x] Keep the vertical crop, focus region, and side-caption treatment inside the koreo reader only.
 - [x] Verify root and `/field` routing, desktop/mobile article flow, and reader-specific crop behavior.
+- [x] Remove all controls and labels from the Humahuaca photograph surface.
+- [x] Place a bottom-right hanging activation tab below the image labelled “Koreo”.
+- [x] Reduce the article title size and add the requested subtitle.
+- [x] Restore the intro caption immediately below the image and soften article text weight for comfortable reading.
+- [x] Verify the unobstructed image and hanging tab responsively before checkpointing.
