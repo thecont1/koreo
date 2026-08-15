@@ -6,7 +6,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowLeft, ArrowRight, Maximize2, Minimize2, Moon, Sun, X } from "lucide-react";
 
 const VIEWER_PREFERENCES_KEY = "koreo.viewer-preferences.v1";
-const SCROLL_BEAT_DWELL_MS = 680;
+const SCROLL_BEAT_DWELL_MS = 1000;
 
 type ViewerPreferences = {
   surface: "dark" | "light";
