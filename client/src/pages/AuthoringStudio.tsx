@@ -3,7 +3,7 @@
  * coordinate marks, and quiet tools that keep the photograph in charge.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, Check, Clipboard, Crosshair, Download, FileImage, Minus, Palette, Plus, Upload } from "lucide-react";
+import { ArrowLeft, Check, Clipboard, Crosshair, FileImage, FolderOpen, Minus, Palette, Plus, Save, Upload } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const DEFAULT_IMAGE = "/manus-storage/humahuaca-geology_811657ed.webp";
@@ -45,6 +45,27 @@ function clamp(value: number, lower: number, upper: number) {
   return Math.min(upper, Math.max(lower, Number.isFinite(value) ? value : lower));
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function asText(value: unknown, fallback = "") {
+  return typeof value === "string" ? value : fallback;
+}
+
+function asNumber(value: unknown, fallback: number) {
+  return typeof value === "number" && Number.isFinite(value) ? value : fallback;
+}
+
+function ratioFromAspectRatio(value: unknown) {
+  const target = asNumber(value, 3 / 4);
+  return ratios.reduce((closest, ratio) => {
+    const [width, height] = ratio.split(":").map(Number);
+    const [closestWidth, closestHeight] = closest.split(":").map(Number);
+    return Math.abs(width / height - target) < Math.abs(closestWidth / closestHeight - target) ? ratio : closest;
+  }, "3:4");
+}
+
 function getRenderedImageFrame(stageWidth: number, stageHeight: number, imageWidth: number, imageHeight: number, zoom: number, pan: { x: number; y: number }) {
   const imageAspect = imageWidth / imageHeight;
   const stageAspect = stageWidth / stageHeight;
@@ -71,11 +92,13 @@ export default function AuthoringStudio() {
   const [beats, setBeats] = useState<Beat[]>(initialBeats);
   const [activeIndex, setActiveIndex] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [loadState, setLoadState] = useState<"idle" | "loaded" | "error">("idle");
   const [accentPickerOpen, setAccentPickerOpen] = useState(false);
   const [previewPan, setPreviewPan] = useState({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const storyFileInputRef = useRef<HTMLInputElement | null>(null);
   const stageRef = useRef<HTMLButtonElement | null>(null);
   const panStartRef = useRef({ pointerX: 0, pointerY: 0, panX: 0, panY: 0, moved: false });
   const panningRef = useRef(false);
@@ -221,14 +244,63 @@ export default function AuthoringStudio() {
     }
   };
 
-  const downloadJson = () => {
+  const saveStory = () => {
     const blob = new Blob([jsonText], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = `${slugify(storyId, "koreo-story")}.json`;
+    anchor.download = `${slugify(storyId, "koreo-story")}.koreo.json`;
     anchor.click();
     URL.revokeObjectURL(url);
+  };
+
+  const loadStory = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    if (!file.name.toLowerCase().endsWith(".json")) {
+      setLoadState("error");
+      return;
+    }
+    try {
+      const saved = JSON.parse(await file.text()) as unknown;
+      if (!isRecord(saved) || !isRecord(saved.image) || !isRecord(saved.viewport) || !Array.isArray(saved.steps) || saved.steps.length === 0) throw new Error("Invalid story");
+      const loadedBeats: Beat[] = saved.steps.map((step, index) => {
+        if (!isRecord(step) || !isRecord(step.caption) || !isRecord(step.camera)) throw new Error("Invalid step");
+        const region = isRecord(step.region) ? step.region : { type: "none" };
+        const highlight = isRecord(step.highlight) ? step.highlight : undefined;
+        const regionType = asText(region.type, "none");
+        const shape: Beat["shape"] = regionType === "circle" ? "circle" : regionType === "rect" ? "square" : "none";
+        const size = shape === "circle" ? asNumber(region.diameter, 0.16) * 100 : shape === "square" ? asNumber(region.width, 0.16) * 100 : 16;
+        return {
+          id: asText(step.id, `beat-${index + 1}`),
+          label: asText(step.caption.eyebrow, `beat ${index + 1}`),
+          title: asText(step.caption.title, `Beat ${index + 1}`),
+          body: asText(step.caption.body, "Add a caption."),
+          x: clamp(asNumber(step.camera.x, 0.5) * 100, 0, 100),
+          y: clamp(asNumber(step.camera.y, 0.5) * 100, 0, 100),
+          zoom: clamp(asNumber(step.camera.zoom, 1), 1, 3),
+          shape,
+          size: clamp(size, 1, 100),
+          accent: asText(highlight?.color, "#b4513d"),
+        };
+      });
+      setStoryId(asText(saved.id, "untitled-photo-story"));
+      setStoryTitle(asText(saved.title, "Untitled photo story"));
+      setImageSource(asText(saved.image.src, ""));
+      setPreviewSource(asText(saved.image.src, DEFAULT_IMAGE) || DEFAULT_IMAGE);
+      setImageAlt(asText(saved.image.alt, "Source photograph"));
+      setImageSize({ width: Math.max(1, asNumber(saved.image.intrinsicWidth, DEFAULT_SIZE.width)), height: Math.max(1, asNumber(saved.image.intrinsicHeight, DEFAULT_SIZE.height)) });
+      setWindowRatio(ratioFromAspectRatio(saved.viewport.aspectRatio));
+      setBeats(loadedBeats);
+      setActiveIndex(0);
+      setPreviewPan({ x: 0, y: 0 });
+      setLoadState("loaded");
+      window.setTimeout(() => setLoadState("idle"), 1600);
+    } catch {
+      setLoadState("error");
+      window.setTimeout(() => setLoadState("idle"), 2600);
+    }
   };
 
   if (!activeBeat) return null;
@@ -237,7 +309,7 @@ export default function AuthoringStudio() {
     <div className="author-shell">
       <main className="author-workbench">
         <aside className="author-panel author-setup-panel">
-          <div className="author-branding"><a className="author-back" href="/"><ArrowLeft size={15} /> koreo demo</a><div className="author-title"><div className="author-identity"><span className="author-focus-mark" aria-hidden="true"><i /><i /></span><span className="author-wordmark">koreo</span></div><small>Authoring Studio / json v1</small></div></div>
+          <div className="author-branding"><a className="author-back" href="/"><ArrowLeft size={15} /> koreo demo</a><div className="author-title"><div className="author-identity"><span className="author-focus-mark" aria-hidden="true"><i /><i /></span><span className="author-wordmark">koreo</span></div><small>Authoring Studio / story files</small></div></div>
           <div className="author-panel-head"><span className="author-kicker">01 / source</span><FileImage size={17} /></div>
           <h1><span>Mark the point.</span><span>Set the frame.</span></h1>
           <p className="author-intro">Load a photograph, add intentional reading beats, then take the finished story document with you.</p>
@@ -264,7 +336,7 @@ export default function AuthoringStudio() {
         </section>
 
         <aside className="author-panel author-beats-panel">
-          <div className="author-panel-head"><span className="author-kicker">02 / beats</span><div className="author-panel-actions"><span className="author-beat-count">{String(beats.length).padStart(2, "0")}</span><div className="author-actions"><button type="button" onClick={copyJson}>{copied ? <Check size={15} /> : <Clipboard size={15} />}{copied ? "Copied" : "Copy JSON"}</button><button className="author-download" type="button" onClick={downloadJson}><Download size={15} /> Download</button></div></div></div>
+          <div className="author-panel-head"><span className="author-kicker">02 / beats</span><div className="author-panel-actions"><span className="author-beat-count">{String(beats.length).padStart(2, "0")}</span><div className="author-actions"><button type="button" onClick={copyJson}>{copied ? <Check size={15} /> : <Clipboard size={15} />}{copied ? "Copied" : "Copy"}</button><button type="button" onClick={() => storyFileInputRef.current?.click()}>{loadState === "loaded" ? <Check size={15} /> : <FolderOpen size={15} />}{loadState === "loaded" ? "Loaded" : loadState === "error" ? "Try again" : "Load"}</button><button className="author-download" type="button" onClick={saveStory}><Save size={15} /> Save</button><input ref={storyFileInputRef} type="file" accept="application/json,.json" onChange={loadStory} hidden /></div></div></div>
           <div className="author-beat-list">{beats.map((beat, index) => <button key={beat.id} type="button" onClick={() => setActiveIndex(index)} className={index === activeIndex ? "author-beat-item active" : "author-beat-item"}><span>{String(index + 1).padStart(2, "0")}</span><strong>{beat.label || "unnamed beat"}</strong><i style={{ background: beat.accent }} /></button>)}</div>
           <div className="author-list-actions"><button type="button" onClick={addBeat}><Plus size={14} /> Add beat</button><button type="button" onClick={removeBeat} disabled={beats.length <= 1}><Minus size={14} /> Remove</button></div>
           <div className="author-editor">

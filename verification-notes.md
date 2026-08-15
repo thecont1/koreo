@@ -89,3 +89,7 @@ The stage previously received the invalid CSS value `3:4`, which browsers ignore
 ## 2026-08-15 — Cursor-Centred Focus Geometry
 
 The Studio now maps each region from the transformed image frame rather than the reader-window percentage box. A deliberate 16:9 click produced a target at 742 × 582 and a white focus-dot centre at the same 742 × 582 coordinate. Focus choices are now None, Circle, and Square only. In 16:9, the active circle measured 92 × 92 with a 1.000 rendered ratio; the square measured 92 × 92 at landscape and 184 × 184 at portrait, both with a zero-radius corner. Type checking and production build pass.
+
+## 2026-08-15 — Save and Load Story Files
+
+The Studio now places Copy, Load, and Save together in the beats panel. The visible interface refers only to story files. Save created `untitled-photo-story.koreo.json`; loading that file restored its source metadata, two beats, reader-window ratio, focus settings, and accent values, then provided a transient “Loaded” confirmation. The import path validates the document structure before applying changes, and type checking plus production build pass.

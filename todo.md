@@ -130,3 +130,5 @@
 - [x] Make stage clicks place the active focus centre exactly beneath the cursor in normalized image coordinates.
 - [x] Restrict focus regions to true Circle and Square options, with equal rendered dimensions across all stage ratios.
 - [x] Verify click placement and geometry at landscape, square, and portrait ratios before publishing the refinement.
+- [x] Add Save and Load actions beside Copy for the Studio’s story documents without exposing technical format terminology in the interface.
+- [x] Validate loaded story documents, restore source, beats, focus settings, and reader-window ratio, then verify a save-load round trip before publishing.
