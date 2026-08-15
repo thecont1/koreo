@@ -188,9 +188,8 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
         if (settledBeat === null) return;
         activeIndexRef.current = settledBeat;
         setActiveIndex((currentIndex) => (currentIndex === settledBeat ? currentIndex : settledBeat));
-        // Continue only after another complete dwell if the reader remains
-        // beyond a subsequent authored caption.
-        window.requestAnimationFrame(syncFromScroll);
+        // A later transition requires a later reader scroll. This prevents a
+        // stopped rail from racing through queued beats on its own.
       }, SCROLL_BEAT_DWELL_MS);
     };
 
@@ -200,11 +199,14 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
       const scrollSurface = scroller.scrollHeight > scroller.clientHeight + 4 ? scroller : readerBody;
       const atStart = scrollSurface.scrollTop <= 4;
       const atEnd = scrollSurface.scrollTop + scrollSurface.clientHeight >= scrollSurface.scrollHeight - 4;
-      const readingLine = scrollSurface.getBoundingClientRect().top + scrollSurface.clientHeight * 0.34;
+      // The reading cue is the vertical centre of the caption rail. First and
+      // last beats retain explicit boundaries so neither is lost to overflow.
+      const readingLine = scrollSurface.getBoundingClientRect().top + scrollSurface.clientHeight * 0.5;
       let candidate = atStart ? 0 : atEnd ? steps.length - 1 : 0;
       if (!atStart && !atEnd) {
         stepRefs.current.forEach((node, index) => {
-          if (node && node.getBoundingClientRect().top <= readingLine) candidate = index;
+          const nodeCenter = node ? node.getBoundingClientRect().top + node.getBoundingClientRect().height * 0.5 : Number.POSITIVE_INFINITY;
+          if (nodeCenter <= readingLine) candidate = index;
         });
       }
       activateScrollBeat(candidate);

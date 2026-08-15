@@ -67,3 +67,9 @@ Continued scrolling now queues the next authored beat rather than interrupting t
 ## 2026-08-15 — Koreo Authoring Helper
 
 The `/author` helper now provides source metadata, image-file loading, reader window ratio selection, click-to-place normalized coordinates, per-beat caption/focus/camera controls, add/remove beats, JSON preview, clipboard copy, and JSON download. Browser verification placed an overview coordinate at 0.5 / 0.5, added a third beat, copied the generated document, and parsed its JSON successfully with schema version 1.0 and three unique step identifiers.
+
+## 2026-08-15 — Centred Reader and Refined Authoring Controls
+
+The koreo caption rail now considers a middle beat eligible only when the centre of that caption reaches the vertical centre of the scroll rail. Explicit top and bottom checks preserve the first and final beats. The outer dashed focus ring was removed; the focus treatment is now its single solid boundary.
+
+The authoring helper now supports 16:9, 4:3, 3:2, 1:1, 3:4, and 2:3 stage ratios. The camera zoom range visibly scales the preview and writes the same value to JSON; a 2.00× preview showed the expected enlarged camera frame. The stage supports drag panning at zoom, confirmed by a transform change from `translate3d(0px, 0px, 0px) scale(2)` to `translate3d(42px, 26px, 0px) scale(2)`. The new 5×5 palette includes a custom hex field, verified at `#0f6b78`.

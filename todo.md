@@ -111,3 +111,10 @@
 - [x] Commit the caption styling refinement to the `welcome` branch.
 - [x] Add a koreo authoring helper for defining image focus beats and exporting a JSON document.
 - [x] Verify the helper’s JSON preview and download workflow.
+- [x] Activate scroll-driven beats at the caption rail’s vertical centre, except at explicit first and last boundaries.
+- [x] Remove the dotted outer border from the viewer focus treatment.
+- [x] Add 16:9, 2:3, and 3:2 authoring window ratios with live stage resizing.
+- [x] Add image pan and visibly functional zoom controls to the authoring preview.
+- [x] Reduce the authoring helper headline to two lines.
+- [x] Replace the accent picker with a 5×5 differentiated palette plus hexadecimal override.
+- [x] Verify the centered scroll cadence and refined authoring workflow.
