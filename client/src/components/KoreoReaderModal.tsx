@@ -2,7 +2,7 @@
  * koreo editorial direction: the reader is a dark field-kit overlay where
  * a fixed camera stage and a semantic caption rail move as one editorial unit.
  */
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowLeft, ArrowRight, Maximize2, Minimize2, Moon, Sun, X } from "lucide-react";
 
 const VIEWER_PREFERENCES_KEY = "koreo.viewer-preferences.v1";
@@ -136,6 +136,21 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
     };
   }, [open]);
 
+  const goToStep = useCallback((index: number) => {
+    const nextIndex = Math.max(0, Math.min(index, steps.length - 1));
+    if (beatSettleTimerRef.current) window.clearTimeout(beatSettleTimerRef.current);
+    beatSettleTimerRef.current = null;
+    pendingBeatRef.current = null;
+    manualNavigationLockUntilRef.current = Math.max(manualNavigationLockUntilRef.current, Date.now() + MANUAL_NAVIGATION_LOCK_MS);
+    activeIndexRef.current = nextIndex;
+    setActiveIndex(nextIndex);
+    stepRefs.current[nextIndex]?.scrollIntoView({
+      behavior: reducedMotion ? "auto" : "smooth",
+      block: "center",
+      inline: "center",
+    });
+  }, [steps.length, reducedMotion]);
+
   useEffect(() => {
     if (!open) return;
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -162,7 +177,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  });
+  }, [open, imageMode, onClose, goToStep, steps.length]);
 
   useEffect(() => {
     if (!open || imageMode) return;
@@ -258,21 +273,6 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, win
       scrollRafRef.current = null;
     };
   }, [open, reducedMotion, steps.length, imageMode, windowFit]);
-
-  function goToStep(index: number) {
-    const nextIndex = Math.max(0, Math.min(index, steps.length - 1));
-    if (beatSettleTimerRef.current) window.clearTimeout(beatSettleTimerRef.current);
-    beatSettleTimerRef.current = null;
-    pendingBeatRef.current = null;
-    manualNavigationLockUntilRef.current = Math.max(manualNavigationLockUntilRef.current, Date.now() + MANUAL_NAVIGATION_LOCK_MS);
-    activeIndexRef.current = nextIndex;
-    setActiveIndex(nextIndex);
-    stepRefs.current[nextIndex]?.scrollIntoView({
-      behavior: reducedMotion ? "auto" : "smooth",
-      block: "center",
-      inline: "center",
-    });
-  }
 
   function toggleImageMode() {
     setViewerPreferences((current) => ({ ...current, imageMode: !current.imageMode }));
