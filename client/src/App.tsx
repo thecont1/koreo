@@ -14,7 +14,8 @@ import Humahuaca from "./pages/Humahuaca";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Home} />
+      <Route path="/" component={Humahuaca} />
+      <Route path="/field" component={Home} />
       <Route path="/humahuaca" component={Humahuaca} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />

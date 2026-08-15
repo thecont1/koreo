@@ -277,6 +277,8 @@ body.koreo-reader-open { overflow: hidden; }
 .koreo-reader-body { min-height: 0; flex: 1; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(18rem, .85fr); gap: 1.2rem; padding: 1.2rem; }
 .koreo-reader-stage-column { min-width: 0; display: flex; flex-direction: column; justify-content: center; }
 .koreo-reader-stage { min-height: 0; height: 100%; max-height: 34rem; position: relative; overflow: hidden; background: #272c27; border: 1px solid rgba(243,239,230,.2); }
+.koreo-reader-stage-column-portrait { align-items: center; }
+.koreo-reader-stage-column-portrait .koreo-reader-stage { width: min(100%, 25rem); height: auto; aspect-ratio: 3 / 4; max-height: calc(100vh - 11rem); }
 .reader-camera-plane { position: absolute; inset: 0; transform-origin: 0 0; transition: transform .68s var(--ease-in-out); will-change: transform; }
 .reader-camera-plane img { width: 100%; height: 100%; display: block; object-fit: cover; }
 .reader-highlight { position: absolute; transform: translate(-50%, -50%); border: 1px solid; box-shadow: 0 0 0 999px rgba(12,15,12,.26); transition: left .68s var(--ease-in-out), top .68s var(--ease-in-out), width .68s var(--ease-in-out), height .68s var(--ease-in-out), border-color .3s ease, border-radius .3s ease, opacity .3s ease; }
@@ -347,6 +349,11 @@ body.koreo-reader-open { overflow: hidden; }
 .article-image-action { position: absolute; right: .9rem; bottom: .9rem; z-index: 2; display: inline-flex; align-items: center; gap: .45rem; padding: .65rem .75rem; background: rgba(255,255,255,.93); color: #191a18; font: .58rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .1em; box-shadow: 0 5px 16px rgba(0,0,0,.13); transition: background .2s ease, color .2s ease, transform .2s var(--ease-out); }
 .article-image-trigger:hover .article-image-action, .article-image-trigger:focus-visible .article-image-action { background: var(--oxide); color: #fff; transform: translateY(-2px); }
 .article-figure figcaption { justify-content: space-between; gap: 1rem; padding-top: .75rem; color: #7a7e76; font: .55rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .08em; }
+.article-preimage, .article-prose p { color: #353833; font: 1.18rem/1.7 "Fraunces", serif; }
+.article-preimage { max-width: 43rem; margin: 2.4rem 0 0; }
+.article-prose { margin-top: 2.8rem; }
+.article-prose .article-lede { margin: 0; }
+.article-prose p + p { margin-top: 2.3rem; }
 .article-lede { font: 1.28rem/1.6 "Fraunces", serif; margin: 3.6rem 0 0; color: #262823; }
 .article-story { position: relative; height: calc(6 * 72vh); margin: 4.6rem 0 0; }
 .article-story-sticky { position: sticky; top: 4rem; z-index: 2; display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(16rem, .75fr); gap: 2.6rem; align-items: center; min-height: min(70vh, 44rem); padding: 1.2rem 0 2rem; background: #fff; }
@@ -431,6 +438,8 @@ body.koreo-reader-open { overflow: hidden; }
   .koreo-reader-body { display: block; overflow-y: auto; overscroll-behavior: contain; padding: .8rem; }
   .koreo-reader-stage-column { height: 15rem; min-height: 0; }
   .koreo-reader-stage { height: 100%; max-height: none; }
+  .koreo-reader-stage-column-portrait { height: min(57vh, 26rem); align-items: center; }
+  .koreo-reader-stage-column-portrait .koreo-reader-stage { width: min(100%, 22rem); height: 100%; aspect-ratio: 3 / 4; }
   .koreo-reader-copy { flex: 1; padding: .1rem 0 0; }
   .reader-caption-scroller { overflow: visible; padding: .1rem 0 .8rem; }
   .reader-caption-step { min-height: auto; padding: 1.25rem 0; }
@@ -468,6 +477,10 @@ body.koreo-reader-open { overflow: hidden; }
   .article-dek { font-size: 1.08rem; }
   .article-figure { margin-top: 2.8rem; }
   .article-figure figcaption { align-items: flex-start; flex-direction: column; gap: .35rem; font-size: .49rem; }
+  .article-preimage, .article-prose p { font-size: 1.06rem; line-height: 1.65; }
+  .article-preimage { margin-top: 1.75rem; }
+  .article-prose { margin-top: 2rem; }
+  .article-prose p + p { margin-top: 1.65rem; }
   .article-lede { font-size: 1.1rem; margin-top: 2.5rem; }
   .article-story { height: calc(6 * 68vh); margin-top: 3.2rem; }
   .article-story-sticky { position: sticky; top: 1.25rem; display: block; min-height: 0; padding: 0 0 1.6rem; }

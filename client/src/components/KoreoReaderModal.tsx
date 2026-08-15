@@ -23,9 +23,10 @@ type KoreoReaderModalProps = {
   imageAlt: string;
   steps: KoreoReaderStep[];
   onClose: () => void;
+  stageVariant?: "default" | "portrait";
 };
 
-export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose }: KoreoReaderModalProps) {
+export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose, stageVariant = "default" }: KoreoReaderModalProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
   const readerBodyRef = useRef<HTMLDivElement | null>(null);
@@ -151,7 +152,7 @@ export function KoreoReaderModal({ open, imageSrc, imageAlt, steps, onClose }: K
         </header>
 
         <div className="koreo-reader-body" ref={readerBodyRef}>
-          <div className="koreo-reader-stage-column">
+          <div className={stageVariant === "portrait" ? "koreo-reader-stage-column koreo-reader-stage-column-portrait" : "koreo-reader-stage-column"}>
             <div className="koreo-reader-stage" aria-label="koreo camera stage">
               <div className="reader-camera-plane" style={cameraStyle}>
                 <img src={imageSrc} alt={imageAlt} />

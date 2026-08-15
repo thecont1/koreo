@@ -28,3 +28,8 @@
 - [x] Preserve keyboard and reduced-motion access while removing the multi-caption list from the article surface.
 - [x] Delay the Humahuaca scrolly activation until the image reaches a healthy top-of-viewport margin.
 - [x] Keep the sticky stage aligned to that margin on desktop and mobile, then verify the first transition timing.
+- [x] Route the Humahuaca article to `/` and move the koreo Field Manual to `/field`.
+- [x] Restore the article image to its original horizontal 4:3 form and keep only the supplied intro text immediately beneath it.
+- [x] Place the supplied pre-image and post-image paragraphs verbatim, without editorial changes.
+- [x] Keep the vertical crop, focus region, and side-caption treatment inside the koreo reader only.
+- [x] Verify root and `/field` routing, desktop/mobile article flow, and reader-specific crop behavior.
