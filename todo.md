@@ -147,3 +147,7 @@
 - [x] Present wide-image captions as a horizontal row beneath the image in the reader.
 - [x] Align viewer focus rendering with Studio data: coordinates map faithfully and regions are true Circles or Squares only.
 - [x] Verify the corrected wide-image reader interaction, caption arrangement, and geometry before publishing.
+- [x] Rename, resize, and optimize the three supplied screenshots as repository documentation assets.
+- [x] Create a visual, user-friendly README.md explaining koreo’s purpose, reader experience, Studio workflow, and feature set.
+- [x] Create TECH-SPEC.md documenting koreo’s data contract, viewer architecture, coordinate transforms, interaction model, and accessibility behavior.
+- [x] Validate documentation links and image assets, then commit documentation work in logical batches.
